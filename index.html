@@ -1,0 +1,1161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Poker Tutorial</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Barlow:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  /* ── THEMES ── */
+  :root {
+    --bg:         #f2f2f7;
+    --surface:    #ffffff;
+    --border:     #dde0ea;
+    --text:       #0f0f1a;
+    --muted:      #8888a0;
+    --accent:     #cc0000;
+    --gold:       #b58900;
+    --gold-bg:    #fdf6dc;
+    --gold-br:    rgba(181,137,0,0.25);
+    --win:        #1a7a40;
+    --win-bg:     #e8f5ee;
+    --blue:       #1e6ab0;
+    --shadow:     0 2px 12px rgba(0,0,0,0.08);
+    --shadow-card:0 1px 4px rgba(0,0,0,0.15);
+  }
+
+  [data-theme="dark"] {
+    --bg:         #0a0a0f;
+    --surface:    #13131a;
+    --border:     #1e1e2e;
+    --text:       #e8e8f0;
+    --muted:      #6b6b80;
+    --accent:     #cc0000;
+    --gold:       #e8b800;
+    --gold-bg:    #2a2200;
+    --gold-br:    rgba(232,184,0,0.22);
+    --win:        #3ecf7a;
+    --win-bg:     #0f2a1a;
+    --blue:       #3a8fd4;
+    --shadow:     0 2px 16px rgba(0,0,0,0.5);
+    --shadow-card:0 2px 8px rgba(0,0,0,0.6);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Barlow', sans-serif;
+    min-height: 100vh;
+    transition: background 0.25s, color 0.25s;
+  }
+
+  /* ── HEADER ── */
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+    padding: 12px 16px 0;
+    transition: background 0.25s, border-color 0.25s;
+  }
+
+  .header-top {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+
+  .suit-icon { font-size: 20px; color: var(--accent); }
+
+  .header-top h1 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 20px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text);
+  }
+
+  .header-right { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+
+  .tag {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    background: var(--accent);
+    color: #fff;
+    padding: 3px 8px;
+    border-radius: 2px;
+  }
+
+  .theme-btn {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 10px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background: var(--surface);
+    color: var(--muted);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .theme-btn:hover { border-color: var(--accent); color: var(--text); }
+  .theme-btn .icon { font-size: 14px; }
+
+  /* ── NAV TABS ── */
+  nav {
+    display: flex;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  nav::-webkit-scrollbar { display: none; }
+
+  nav button {
+    flex-shrink: 0;
+    padding: 9px 16px;
+    border: none;
+    background: transparent;
+    color: var(--muted);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.18s;
+    white-space: nowrap;
+  }
+
+  nav button:hover { color: var(--text); }
+  nav button.active { color: var(--text); border-bottom-color: var(--accent); }
+
+  /* ── SECTIONS ── */
+  .section { display: none; padding: 24px 16px 48px; max-width: 680px; margin: 0 auto; }
+  .section.active { display: block; }
+
+  .section-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-label::after { content:''; flex:1; height:1px; background:var(--border); }
+
+  /* ── SWIPER ── */
+  .swiper { overflow: hidden; border-radius: 8px; }
+  .slides { display: flex; transition: transform 0.32s cubic-bezier(0.4,0,0.2,1); }
+
+  .slide {
+    min-width: 100%;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 28px 20px 22px;
+    text-align: center;
+    transition: background 0.25s, border-color 0.25s;
+  }
+
+  .hand-rank {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+
+  .hand-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 28px;
+    font-weight: 900;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--text);
+    margin-bottom: 5px;
+  }
+
+  .hand-desc { font-size: 14px; color: var(--muted); margin-bottom: 20px; line-height: 1.5; }
+
+  .cards { display: flex; justify-content: center; gap: 5px; flex-wrap: wrap; margin-bottom: 18px; }
+
+  .card {
+    width: 48px; height: 66px;
+    background: #fff;
+    border-radius: 6px;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    box-shadow: var(--shadow-card);
+    color: #111;
+    line-height: 1.1;
+    border: 1px solid #e0e0e0;
+  }
+  .card.red { color: #cc2222; }
+  .card .rank { font-size: 14px; font-weight: 900; }
+  .card .suit { font-size: 16px; }
+
+  .hand-tip {
+    display: inline-block;
+    font-size: 13px;
+    color: var(--gold);
+    background: var(--gold-bg);
+    border: 1px solid var(--gold-br);
+    border-radius: 4px;
+    padding: 7px 14px;
+  }
+
+  .swiper-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 14px;
+  }
+
+  .swiper-btn {
+    width: 34px; height: 34px;
+    border-radius: 4px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text);
+    font-size: 15px;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.15s;
+  }
+  .swiper-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .swiper-btn:disabled { opacity: 0.3; cursor: default; }
+  .swiper-btn:disabled:hover { border-color: var(--border); color: var(--text); }
+
+  .dots { display: flex; gap: 5px; }
+  .dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--border); cursor: pointer; transition: background 0.2s;
+  }
+  .dot.active { background: var(--accent); }
+
+  /* ── POSITIONS TABLE ── */
+  .table-wrap { display: flex; justify-content: center; margin-bottom: 18px; }
+
+  .poker-table {
+    position: relative;
+    width: 340px;
+    height: 200px;
+    background: #1a5c35;
+    border-radius: 100px;
+    border: 6px solid #7a4f2a;
+    box-shadow: 0 0 0 3px #5a3820, 0 4px 24px rgba(0,0,0,0.35), inset 0 0 32px rgba(0,0,0,0.3);
+    flex-shrink: 0;
+  }
+
+  [data-theme="dark"] .poker-table {
+    background: #0e2a18;
+    border-color: #1e1e2e;
+    box-shadow: 0 0 0 3px #0a0a0f, 0 4px 24px rgba(0,0,0,0.6), inset 0 0 32px rgba(0,0,0,0.5);
+  }
+
+  .table-label {
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 10px; font-weight: 700; letter-spacing: 0.14em;
+    color: rgba(255,255,255,0.12);
+    text-transform: uppercase;
+    pointer-events: none;
+    white-space: nowrap;
+  }
+
+  /* Dealer button — small pill next to BTN */
+  .d-btn {
+    position: absolute;
+    top: 78px; left: 252px;
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    background: #f0f0f0;
+    border: 1px solid #ccc;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 8px; font-weight: 900;
+    color: #222;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.4);
+    pointer-events: none;
+  }
+
+  /* Position chips — direct top/left, no chained transforms */
+  .pc {
+    position: absolute;
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 9px; font-weight: 700;
+    letter-spacing: 0.02em;
+    line-height: 1.15;
+    text-align: center;
+    cursor: pointer;
+    border: 2px solid rgba(255,255,255,0.15);
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+  }
+
+  .pc .pa { font-size: 11px; font-weight: 900; display: block; }
+
+  .pc:hover { transform: scale(1.18); z-index: 10; }
+  .pc.sel   { transform: scale(1.18); z-index: 10; }
+
+  /* Positions (center 170,100 | ellipse a=118, b=60) — angles from 12-o'clock clockwise */
+  /* CO  30°  */ .pc.co  { top:33px;  left:212px; background:#3ecf7a; color:#0a0a0f; }
+  /* BTN 100° */ .pc.btn { top:92px;  left:268px; background:#e8b800; color:#0a0a0f; }
+  /* SB  145° */ .pc.sb  { top:130px; left:221px; background:#3a8fd4; color:#fff;    }
+  /* BB  215° */ .pc.bb  { top:130px; left:82px;  background:#cc0000; color:#fff;    }
+  /* UTG 260° */ .pc.utg { top:74px;  left:34px;  background:#444455; color:#e8e8f0; border-color:rgba(255,255,255,0.08); }
+  /* MP  330° */ .pc.mp  { top:33px;  left:94px;  background:#5a3a6e; color:#e8e8f0; }
+
+  .pc.co.sel  { box-shadow: 0 0 0 3px rgba(62,207,122,0.45); }
+  .pc.btn.sel { box-shadow: 0 0 0 3px rgba(232,184,0,0.45); }
+  .pc.sb.sel  { box-shadow: 0 0 0 3px rgba(58,143,212,0.45); }
+  .pc.bb.sel  { box-shadow: 0 0 0 3px rgba(204,0,0,0.45); }
+  .pc.utg.sel { box-shadow: 0 0 0 3px rgba(200,200,220,0.25); }
+  .pc.mp.sel  { box-shadow: 0 0 0 3px rgba(150,100,200,0.4); }
+
+  .pos-info {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 18px 20px;
+    min-height: 116px;
+    transition: background 0.25s, border-color 0.25s;
+  }
+
+  .pos-info .pi-badge {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 10px; font-weight: 700;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 2px 8px; border-radius: 2px;
+    display: inline-block; margin-bottom: 7px;
+  }
+
+  .pos-info h3 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 19px; font-weight: 900;
+    letter-spacing: 0.04em; text-transform: uppercase;
+    color: var(--text); margin-bottom: 7px;
+  }
+
+  .pos-info p { font-size: 13px; color: var(--muted); line-height: 1.65; }
+  .pos-info .pi-empty { text-align:center; padding: 18px 0; }
+
+  /* ── STREETS ── */
+  .streets-list { display: flex; flex-direction: column; gap: 8px; }
+
+  .street-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: border-color 0.18s, background 0.25s;
+  }
+  .street-card:hover, .street-card.open { border-color: #b0b0c8; }
+  [data-theme="dark"] .street-card:hover,
+  [data-theme="dark"] .street-card.open { border-color: #2e2e44; }
+
+  .street-hd {
+    display: flex; align-items: center; gap: 12px;
+    padding: 14px 16px;
+  }
+
+  .street-num {
+    width: 32px; height: 32px; border-radius: 4px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900; font-size: 15px; flex-shrink: 0;
+  }
+
+  .street-hd h3 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 16px; font-weight: 700;
+    letter-spacing: 0.04em; text-transform: uppercase;
+    color: var(--text);
+  }
+  .street-sub { font-size: 11px; color: var(--muted); margin-top: 1px; }
+  .chev { margin-left: auto; color: var(--muted); font-size: 12px; transition: transform 0.22s; }
+  .street-card.open .chev { transform: rotate(180deg); }
+
+  .street-bd {
+    display: none;
+    padding: 0 16px 16px;
+    border-top: 1px solid var(--border);
+  }
+  .street-card.open .street-bd { display: block; }
+  .street-bd p { font-size: 13px; color: var(--muted); line-height: 1.7; margin-top: 13px; }
+
+  .comm {
+    display: flex; gap: 5px; margin-top: 13px; flex-wrap: wrap;
+  }
+  .cc {
+    width: 40px; height: 56px; border-radius: 5px;
+    background: #fff; border: 1px solid #ddd;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    box-shadow: var(--shadow-card);
+  }
+  .cc .r { font-size: 12px; font-weight: 900; color: #111; }
+  .cc .s { font-size: 13px; }
+  .cc.red .r, .cc.red .s { color: #cc2222; }
+  .cc.blank {
+    background: transparent; border: 1px dashed var(--border);
+    box-shadow: none;
+  }
+  .cc.blank .r { color: var(--border); font-size: 10px; }
+
+  .acs { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 10px; }
+  .ac {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px; font-weight: 700;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    padding: 3px 9px; border-radius: 3px; border: 1px solid;
+  }
+  .ac.check { border-color: var(--blue);   color: var(--blue);   background: rgba(58,143,212,0.07); }
+  .ac.bet   { border-color: var(--gold);   color: var(--gold);   background: var(--gold-bg); }
+  .ac.call  { border-color: var(--win);    color: var(--win);    background: var(--win-bg); }
+  .ac.raise { border-color: #e07b30;       color: #e07b30;       background: rgba(224,123,48,0.07); }
+  .ac.fold  { border-color: var(--accent); color: var(--accent); background: rgba(204,0,0,0.07); }
+
+  .hint {
+    background: var(--gold-bg);
+    border-left: 2px solid var(--gold);
+    padding: 9px 13px;
+    border-radius: 0 4px 4px 0;
+    margin-top: 11px;
+    font-size: 12px; color: var(--gold); line-height: 1.55;
+  }
+
+  /* ── TERMINOLOGIES ── */
+  .search-wrap { position: relative; margin-bottom: 12px; }
+
+  .search-input {
+    width: 100%;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 9px 13px 9px 36px;
+    color: var(--text);
+    font-family: 'Barlow', sans-serif;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.18s, background 0.25s;
+  }
+  .search-input:focus { border-color: var(--accent); }
+  .search-input::placeholder { color: var(--muted); }
+
+  .search-icon {
+    position: absolute; left: 11px; top: 50%;
+    transform: translateY(-50%);
+    color: var(--muted); font-size: 14px; pointer-events: none;
+  }
+
+  .filters {
+    display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 16px;
+  }
+
+  .fb {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px; font-weight: 700;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    padding: 4px 11px; border-radius: 3px;
+    border: 1px solid var(--border);
+    background: transparent; color: var(--muted);
+    cursor: pointer; transition: all 0.15s;
+  }
+  .fb:hover { color: var(--text); border-color: var(--muted); }
+  .fb.on { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+  .term-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+    gap: 8px;
+  }
+
+  .tc {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 13px 14px;
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.25s;
+  }
+  .tc:hover { border-color: var(--muted); }
+  .tc.open  { border-color: var(--accent); }
+
+  .tc-top {
+    display: flex; align-items: flex-start;
+    justify-content: space-between; gap: 8px;
+  }
+
+  .tc-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 15px; font-weight: 700;
+    letter-spacing: 0.03em; text-transform: uppercase;
+    color: var(--text);
+  }
+
+  .tc-short { font-size: 11px; color: var(--muted); margin-top: 3px; line-height: 1.3; }
+
+  .tc-cat {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 9px; font-weight: 700;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 2px 6px; border-radius: 2px; flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .cat-hand    { background: rgba(181,137,0,0.12);  color: var(--gold);   }
+  .cat-action  { background: rgba(26,122,64,0.1);   color: var(--win);    }
+  .cat-concept { background: rgba(30,106,176,0.1);  color: var(--blue);   }
+  .cat-player  { background: rgba(204,0,0,0.08);    color: var(--accent); }
+
+  [data-theme="dark"] .cat-hand    { background: rgba(232,184,0,0.12); }
+  [data-theme="dark"] .cat-action  { background: rgba(62,207,122,0.1); }
+  [data-theme="dark"] .cat-concept { background: rgba(58,143,212,0.1); }
+  [data-theme="dark"] .cat-player  { background: rgba(204,0,0,0.1);    }
+
+  .tc-body {
+    display: none;
+    margin-top: 11px; padding-top: 11px;
+    border-top: 1px solid var(--border);
+    font-size: 12px; color: var(--muted); line-height: 1.65;
+  }
+  .tc.open .tc-body { display: block; }
+
+  .mini-cards { display: flex; gap: 4px; margin-top: 9px; }
+  .mc {
+    width: 30px; height: 42px;
+    background: #fff; border: 1px solid #ddd;
+    border-radius: 4px;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+  }
+  .mc .r { font-size: 10px; font-weight: 900; color: #111; }
+  .mc .s { font-size: 11px; color: #111; }
+  .mc.red .r, .mc.red .s { color: #cc2222; }
+
+  .no-res {
+    text-align: center; color: var(--muted);
+    font-size: 14px; padding: 40px 0; display: none;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-top">
+    <span class="suit-icon">&#9824;</span>
+    <h1>Poker Tutorial</h1>
+    <div class="header-right">
+      <button class="theme-btn" id="themeBtn" onclick="toggleTheme()">
+        <span class="icon" id="themeIcon">&#9790;</span>
+        <span id="themeLabel">Dark</span>
+      </button>
+      <span class="tag">Learn</span>
+    </div>
+  </div>
+  <nav>
+    <button class="active" onclick="show('hands',this)">Hands &amp; Rankings</button>
+    <button onclick="show('positions',this)">Positions</button>
+    <button onclick="show('streets',this)">Betting Streets</button>
+    <button onclick="show('terms',this)">Terminologies</button>
+  </nav>
+</header>
+
+<!-- ══════════════ HANDS ══════════════ -->
+<div id="hands" class="section active">
+  <div class="section-label">Hand Rankings — Best to Worst</div>
+  <div class="swiper">
+    <div class="slides" id="slides">
+
+      <div class="slide">
+        <div class="hand-rank">#1 &mdash; Best Hand</div>
+        <div class="hand-name">Royal Flush</div>
+        <div class="hand-desc">A, K, Q, J, 10 all of the same suit — the absolute pinnacle</div>
+        <div class="cards">
+          <div class="card red"><div class="rank">A</div><div class="suit">&#9829;</div></div>
+          <div class="card red"><div class="rank">K</div><div class="suit">&#9829;</div></div>
+          <div class="card red"><div class="rank">Q</div><div class="suit">&#9829;</div></div>
+          <div class="card red"><div class="rank">J</div><div class="suit">&#9829;</div></div>
+          <div class="card red"><div class="rank">10</div><div class="suit">&#9829;</div></div>
+        </div>
+        <div class="hand-tip">Unbeatable &mdash; occurs roughly once every 650,000 hands</div>
+      </div>
+
+      <div class="slide">
+        <div class="hand-rank">#2</div>
+        <div class="hand-name">Straight Flush</div>
+        <div class="hand-desc">Five consecutive cards of the same suit</div>
+        <div class="cards">
+          <div class="card"><div class="rank">9</div><div class="suit">&#9824;</div></div>
+          <div class="card"><div class="rank">8</div><div class="suit">&#9824;</div></div>
+          <div class="card"><div class="rank">7</div><div class="suit">&#9824;</div></div>
+          <div class="card"><div class="rank">6</div><div class="suit">&#9824;</div></div>
+          <div class="card"><div class="rank">5</div><div class="suit">&#9824;</div></div>
+        </div>
+        <div class="hand-tip">Higher top card wins between two straight flushes</div>
+      </div>
+
+      <div class="slide">
+        <div class="hand-rank">#3</div>
+        <div class="hand-name">Four of a Kind</div>
+        <div class="hand-desc">Four cards of the same rank &mdash; also called "quads"</div>
+        <div class="cards">
+          <div class="card"><div class="rank">K</div><div class="suit">&#9824;</div></div>
+          <div class="card red"><div class="rank">K</div><div class="suit">&#9829;</div></div>
+          <div class="card red"><div class="rank">K</div><div class="suit">&#9830;</div></div>
+          <div class="card"><div class="rank">K</div><div class="suit">&#9827;</div></div>
+          <div class="card"><div class="rank">7</div><div class="suit">&#9824;</div></div>
+        </div>
+        <div class="hand-tip">The 5th card (kicker) breaks ties between identical quads</div>
+      </div>
+
+      <div class="slide">
+        <div class="hand-rank">#4</div>
+        <div class="hand-name">Full House</div>
+        <div class="hand-desc">Three of a kind combined with a pair</div>
+        <div class="cards">
+          <div class="card"><div class="rank">J</div><div class="suit">&#9824;</div></div>
+          <div class="card red"><div class="rank">J</div><div class="suit">&#9829;</div></div>
+          <div class="card red"><div class="rank">J</div><div class="suit">&#9830;</div></div>
+          <div class="card"><div class="rank">4</div><div class="suit">&#9824;</div></div>
+          <div class="card red"><div class="rank">4</div><div class="suit">&#9830;</div></div>
+        </div>
+        <div class="hand-tip">"Jacks full of Fours" &mdash; the three-of-a-kind rank counts first</div>
+      </div>
+
+      <div class="slide">
+        <div class="hand-rank">#5</div>
+        <div class="hand-name">Flush</div>
+        <div class="hand-desc">Any five cards of the same suit, not in sequence</div>
+        <div class="cards">
+          <div class="card red"><div class="rank">A</div><div class="suit">&#9830;</div></div>
+          <div class="card red"><div class="rank">J</div><div class="suit">&#9830;</div></div>
+          <div class="card red"><div class="rank">8</div><div class="suit">&#9830;</div></div>
+          <div class="card red"><div class="rank">5</div><div class="suit">&#9830;</div></div>
+          <div class="card red"><div class="rank">2</div><div class="suit">&#9830;</div></div>
+        </div>
+        <div class="hand-tip">The highest card in the flush determines the winner</div>
+      </div>
+
+      <div class="slide">
+        <div class="hand-rank">#6</div>
+        <div class="hand-name">Straight</div>
+        <div class="hand-desc">Five consecutive cards of mixed suits</div>
+        <div class="cards">
+          <div class="card"><div class="rank">9</div><div class="suit">&#9824;</div></div>
+          <div class="card red"><div class="rank">8</div><div class="suit">&#9829;</div></div>
+          <div class="card red"><div class="rank">7</div><div class="suit">&#9830;</div></div>
+          <div class="card"><div class="rank">6</div><div class="suit">&#9827;</div></div>
+          <div class="card"><div class="rank">5</div><div class="suit">&#9824;</div></div>
+        </div>
+        <div class="hand-tip">Ace can be low (A-2-3-4-5 "the wheel") or high (10-J-Q-K-A)</div>
+      </div>
+
+      <div class="slide">
+        <div class="hand-rank">#7</div>
+        <div class="hand-name">Three of a Kind</div>
+        <div class="hand-desc">Three cards of the same rank</div>
+        <div class="cards">
+          <div class="card red"><div class="rank">8</div><div class="suit">&#9829;</div></div>
+          <div class="card"><div class="rank">8</div><div class="suit">&#9824;</div></div>
+          <div class="card red"><div class="rank">8</div><div class="suit">&#9830;</div></div>
+          <div class="card"><div class="rank">K</div><div class="suit">&#9824;</div></div>
+          <div class="card red"><div class="rank">3</div><div class="suit">&#9830;</div></div>
+        </div>
+        <div class="hand-tip">Pocket pair + matching board card = "set". Board pair + hole card = "trips"</div>
+      </div>
+
+      <div class="slide">
+        <div class="hand-rank">#8</div>
+        <div class="hand-name">Two Pair</div>
+        <div class="hand-desc">Two different pairs in the same hand</div>
+        <div class="cards">
+          <div class="card"><div class="rank">A</div><div class="suit">&#9824;</div></div>
+          <div class="card red"><div class="rank">A</div><div class="suit">&#9829;</div></div>
+          <div class="card"><div class="rank">6</div><div class="suit">&#9827;</div></div>
+          <div class="card red"><div class="rank">6</div><div class="suit">&#9830;</div></div>
+          <div class="card"><div class="rank">Q</div><div class="suit">&#9824;</div></div>
+        </div>
+        <div class="hand-tip">Top pair ranks first &mdash; Aces &amp; Sixes beats Kings &amp; Queens</div>
+      </div>
+
+      <div class="slide">
+        <div class="hand-rank">#9</div>
+        <div class="hand-name">One Pair</div>
+        <div class="hand-desc">Two cards of the same rank</div>
+        <div class="cards">
+          <div class="card red"><div class="rank">Q</div><div class="suit">&#9829;</div></div>
+          <div class="card"><div class="rank">Q</div><div class="suit">&#9824;</div></div>
+          <div class="card"><div class="rank">9</div><div class="suit">&#9827;</div></div>
+          <div class="card red"><div class="rank">5</div><div class="suit">&#9830;</div></div>
+          <div class="card"><div class="rank">2</div><div class="suit">&#9824;</div></div>
+        </div>
+        <div class="hand-tip">Most common winning hand at showdown &mdash; kickers break ties</div>
+      </div>
+
+      <div class="slide">
+        <div class="hand-rank">#10 &mdash; Weakest</div>
+        <div class="hand-name">High Card</div>
+        <div class="hand-desc">No combination &mdash; your highest card plays</div>
+        <div class="cards">
+          <div class="card"><div class="rank">A</div><div class="suit">&#9824;</div></div>
+          <div class="card red"><div class="rank">J</div><div class="suit">&#9830;</div></div>
+          <div class="card red"><div class="rank">8</div><div class="suit">&#9829;</div></div>
+          <div class="card"><div class="rank">5</div><div class="suit">&#9827;</div></div>
+          <div class="card"><div class="rank">2</div><div class="suit">&#9824;</div></div>
+        </div>
+        <div class="hand-tip">Win only if all opponents also miss &mdash; compare card by card</div>
+      </div>
+
+    </div>
+  </div>
+  <div class="swiper-controls">
+    <button class="swiper-btn" id="prevBtn" onclick="swipe(-1)" disabled>&#8592;</button>
+    <div class="dots" id="dots"></div>
+    <button class="swiper-btn" id="nextBtn" onclick="swipe(1)">&#8594;</button>
+  </div>
+</div>
+
+<!-- ══════════════ POSITIONS ══════════════ -->
+<div id="positions" class="section">
+  <div class="section-label">Seat Positions &mdash; 6-Max Table</div>
+
+  <div class="table-wrap">
+    <div class="poker-table">
+      <div class="table-label">Texas Hold&apos;em</div>
+      <div class="d-btn">D</div>
+
+      <!-- chips: top/left from ellipse (center 170,100 | a=118,b=60) -->
+      <div class="pc co"  onclick="selPos('co')"> <span class="pa">CO</span>Cutoff</div>
+      <div class="pc btn" onclick="selPos('btn')"><span class="pa">BTN</span>Button</div>
+      <div class="pc sb"  onclick="selPos('sb')"> <span class="pa">SB</span>Small</div>
+      <div class="pc bb"  onclick="selPos('bb')"> <span class="pa">BB</span>Big</div>
+      <div class="pc utg" onclick="selPos('utg')"><span class="pa">UTG</span>Early</div>
+      <div class="pc mp"  onclick="selPos('mp')"> <span class="pa">MP</span>Mid</div>
+    </div>
+  </div>
+
+  <div class="pos-info" id="posInfo">
+    <p class="pi-empty" style="color:var(--muted);">Tap a seat on the table to learn about that position</p>
+  </div>
+</div>
+
+<!-- ══════════════ STREETS ══════════════ -->
+<div id="streets" class="section">
+  <div class="section-label">Betting Streets &mdash; Pre-Flop to Showdown</div>
+  <div class="streets-list">
+
+    <div class="street-card open" onclick="toggleSt(this)">
+      <div class="street-hd">
+        <div class="street-num" style="background:rgba(100,100,200,0.12);color:#8888cc;">1</div>
+        <div><h3>Pre-Flop</h3><div class="street-sub">Hole cards dealt &mdash; first betting round</div></div>
+        <div class="chev">&#9660;</div>
+      </div>
+      <div class="street-bd">
+        <div class="comm">
+          <div class="cc blank"><div class="r">?</div></div>
+          <div class="cc blank"><div class="r">?</div></div>
+          <div class="cc blank"><div class="r">?</div></div>
+          <div class="cc blank"><div class="r">?</div></div>
+          <div class="cc blank"><div class="r">?</div></div>
+        </div>
+        <p>Each player receives <strong>2 private hole cards</strong>. The SB and BB post forced bets. Action starts left of the BB moving clockwise &mdash; fold, call, or raise.</p>
+        <div class="acs">
+          <span class="ac fold">Fold</span>
+          <span class="ac call">Call</span>
+          <span class="ac raise">Raise</span>
+        </div>
+        <div class="hint">Position matters most pre-flop. Play tight from early positions, wider from the Button.</div>
+      </div>
+    </div>
+
+    <div class="street-card" onclick="toggleSt(this)">
+      <div class="street-hd">
+        <div class="street-num" style="background:var(--win-bg);color:var(--win);">2</div>
+        <div><h3>The Flop</h3><div class="street-sub">3 community cards revealed</div></div>
+        <div class="chev">&#9660;</div>
+      </div>
+      <div class="street-bd">
+        <div class="comm">
+          <div class="cc red"><div class="r">K</div><div class="s">&#9829;</div></div>
+          <div class="cc"><div class="r">7</div><div class="s">&#9824;</div></div>
+          <div class="cc red"><div class="r">2</div><div class="s">&#9830;</div></div>
+          <div class="cc blank"><div class="r">?</div></div>
+          <div class="cc blank"><div class="r">?</div></div>
+        </div>
+        <p>Three cards dealt face-up and <strong>shared by all players</strong>. Betting starts with the first active player left of the button. No pre-flop bet? You can now check.</p>
+        <div class="acs">
+          <span class="ac check">Check</span>
+          <span class="ac bet">Bet</span>
+          <span class="ac call">Call</span>
+          <span class="ac raise">Raise</span>
+          <span class="ac fold">Fold</span>
+        </div>
+        <div class="hint">The flop defines your hand. Did you connect? Do you have a draw? Think about equity before betting.</div>
+      </div>
+    </div>
+
+    <div class="street-card" onclick="toggleSt(this)">
+      <div class="street-hd">
+        <div class="street-num" style="background:rgba(224,123,48,0.12);color:#e07b30;">3</div>
+        <div><h3>The Turn</h3><div class="street-sub">4th community card &mdash; stakes rise</div></div>
+        <div class="chev">&#9660;</div>
+      </div>
+      <div class="street-bd">
+        <div class="comm">
+          <div class="cc red"><div class="r">K</div><div class="s">&#9829;</div></div>
+          <div class="cc"><div class="r">7</div><div class="s">&#9824;</div></div>
+          <div class="cc red"><div class="r">2</div><div class="s">&#9830;</div></div>
+          <div class="cc"><div class="r">J</div><div class="s">&#9827;</div></div>
+          <div class="cc blank"><div class="r">?</div></div>
+        </div>
+        <p>A 4th community card is dealt. In limit games, bets double here. The pot is larger &mdash; every decision carries more weight. Marginal draws become costly to chase.</p>
+        <div class="acs">
+          <span class="ac check">Check</span>
+          <span class="ac bet">Bet</span>
+          <span class="ac call">Call</span>
+          <span class="ac raise">Raise</span>
+          <span class="ac fold">Fold</span>
+        </div>
+        <div class="hint">If you have a draw, count your outs. With 1 card left, each out is ~2% chance to hit.</div>
+      </div>
+    </div>
+
+    <div class="street-card" onclick="toggleSt(this)">
+      <div class="street-hd">
+        <div class="street-num" style="background:rgba(204,0,0,0.1);color:var(--accent);">4</div>
+        <div><h3>The River</h3><div class="street-sub">5th and final community card</div></div>
+        <div class="chev">&#9660;</div>
+      </div>
+      <div class="street-bd">
+        <div class="comm">
+          <div class="cc red"><div class="r">K</div><div class="s">&#9829;</div></div>
+          <div class="cc"><div class="r">7</div><div class="s">&#9824;</div></div>
+          <div class="cc red"><div class="r">2</div><div class="s">&#9830;</div></div>
+          <div class="cc"><div class="r">J</div><div class="s">&#9827;</div></div>
+          <div class="cc red"><div class="r">9</div><div class="s">&#9829;</div></div>
+        </div>
+        <p>The final card is dealt. No more cards to come &mdash; your hand is made. Last betting round, then the <strong>showdown</strong> if more than one player remains.</p>
+        <div class="acs">
+          <span class="ac check">Check</span>
+          <span class="ac bet">Bet</span>
+          <span class="ac call">Call</span>
+          <span class="ac raise">Raise</span>
+          <span class="ac fold">Fold</span>
+        </div>
+        <div class="hint">River bluffs must be credible. Your betting story across all streets should make sense on this board.</div>
+      </div>
+    </div>
+
+    <div class="street-card" onclick="toggleSt(this)">
+      <div class="street-hd">
+        <div class="street-num" style="background:var(--gold-bg);color:var(--gold);">&#9733;</div>
+        <div><h3>Showdown</h3><div class="street-sub">Best 5-card hand wins the pot</div></div>
+        <div class="chev">&#9660;</div>
+      </div>
+      <div class="street-bd">
+        <p>Remaining players reveal their hole cards. Each player makes the best <strong>5-card hand</strong> from their 2 hole cards + 5 community cards. You can use both, one, or none of your hole cards &mdash; best 5 from 7 always wins.</p>
+        <div class="hint">Ties split the pot equally. Suits never break ties in Texas Hold&apos;em.</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════════ TERMINOLOGIES ══════════════ -->
+<div id="terms" class="section">
+  <div class="section-label">Poker Terminology</div>
+
+  <div class="search-wrap">
+    <span class="search-icon">&#9906;</span>
+    <input class="search-input" id="termQ" type="text" placeholder="Search terms..." oninput="filterT()">
+  </div>
+
+  <div class="filters">
+    <button class="fb on"  onclick="setF('all',this)">All</button>
+    <button class="fb"     onclick="setF('hand',this)">Hand Nicknames</button>
+    <button class="fb"     onclick="setF('action',this)">Actions</button>
+    <button class="fb"     onclick="setF('concept',this)">Concepts</button>
+    <button class="fb"     onclick="setF('player',this)">Player Types</button>
+  </div>
+
+  <div class="term-grid" id="termGrid"></div>
+  <div class="no-res" id="noRes">No terms match your search.</div>
+</div>
+
+<script>
+// ── THEME ──
+function toggleTheme() {
+  const dark = document.documentElement.dataset.theme === 'dark';
+  document.documentElement.dataset.theme = dark ? '' : 'dark';
+  document.getElementById('themeIcon').innerHTML  = dark ? '&#9790;' : '&#9728;';
+  document.getElementById('themeLabel').textContent = dark ? 'Dark' : 'Light';
+}
+
+// ── NAV ──
+function show(id, btn) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ── SWIPER ──
+let cur = 0;
+const total = document.querySelectorAll('.slide').length;
+const slidesEl = document.getElementById('slides');
+const dotsEl   = document.getElementById('dots');
+const prevBtn  = document.getElementById('prevBtn');
+const nextBtn  = document.getElementById('nextBtn');
+
+for (let i = 0; i < total; i++) {
+  const d = document.createElement('div');
+  d.className = 'dot' + (i === 0 ? ' active' : '');
+  d.onclick = () => goTo(i);
+  dotsEl.appendChild(d);
+}
+
+function goTo(n) {
+  cur = n;
+  slidesEl.style.transform = `translateX(-${cur * 100}%)`;
+  document.querySelectorAll('.dot').forEach((d,i) => d.classList.toggle('active', i === cur));
+  prevBtn.disabled = cur === 0;
+  nextBtn.disabled = cur === total - 1;
+}
+
+function swipe(dir) { goTo(Math.max(0, Math.min(total - 1, cur + dir))); }
+
+let tx = null;
+document.querySelector('.swiper').addEventListener('touchstart', e => tx = e.touches[0].clientX, {passive:true});
+document.querySelector('.swiper').addEventListener('touchend', e => {
+  if (tx === null) return;
+  const d = tx - e.changedTouches[0].clientX;
+  if (Math.abs(d) > 40) swipe(d > 0 ? 1 : -1);
+  tx = null;
+});
+
+// ── POSITIONS ──
+const posDB = {
+  btn: { badge:'Best Position', bc:'#e8b800', bb:'rgba(232,184,0,0.12)', name:'Button (BTN)',
+    desc:'Acts last on every post-flop street — the most powerful seat at the table. You see everyone else act before you, can steal blinds, widen your range, and apply maximum pressure. Always fight to defend the button.' },
+  sb:  { badge:'Forced Bet',    bc:'#3a8fd4', bb:'rgba(58,143,212,0.12)', name:'Small Blind (SB)',
+    desc:'Posts half the big blind before cards are dealt. Acts second-to-last pre-flop but first on all post-flop streets. First-to-act post-flop is a big disadvantage — play the SB cautiously and avoid over-defending.' },
+  bb:  { badge:'Forced Bet',    bc:'#cc0000', bb:'rgba(204,0,0,0.1)', name:'Big Blind (BB)',
+    desc:'Posts the full blind. Acts last pre-flop (giving you a chance to defend or squeeze), but acts second post-flop. Already having 1BB invested gives you better pot odds to defend against blind steals.' },
+  utg: { badge:'Early Position',bc:'#888',    bb:'rgba(128,128,128,0.1)', name:'Under the Gun (UTG)',
+    desc:'Acts first pre-flop — the hardest seat. You have no information about anyone else. Only play strong hands: AA–JJ, AK, AQs. Every player still behind you can 3-bet or squeeze, so play tight.' },
+  mp:  { badge:'Mid Position',  bc:'#9060b0', bb:'rgba(144,96,176,0.1)', name:'Middle Position (MP)',
+    desc:'Slightly more info than UTG, but several players still left to act. Widen your range a little — add TT–99, AJs, KQs — but stay disciplined against early-position raises.' },
+  co:  { badge:'Late Position', bc:'#1a7a40', bb:'rgba(26,122,64,0.1)', name:'Cutoff (CO)',
+    desc:'One seat right of the Button — second best position at the table. Steal the blinds aggressively when action folds to you. When the BTN folds, you effectively become last to act on post-flop streets.' }
+};
+
+function selPos(key) {
+  document.querySelectorAll('.pc').forEach(c => c.classList.remove('sel'));
+  document.querySelector('.pc.' + key).classList.add('sel');
+  const p = posDB[key];
+  document.getElementById('posInfo').innerHTML = `
+    <span class="pi-badge" style="color:${p.bc};background:${p.bb};border:1px solid ${p.bc}33;">${p.badge}</span>
+    <h3>${p.name}</h3>
+    <p>${p.desc}</p>
+  `;
+}
+
+// ── STREETS ──
+function toggleSt(el) { el.classList.toggle('open'); }
+
+// ── TERMINOLOGIES ──
+const terms = [
+  // Hand Nicknames
+  { name:'Rockets',         short:'Pocket Aces (AA)',       cat:'hand',
+    desc:'The best starting hand. Two Aces in the hole. Also called "bullets" or "pocket rockets". Despite being the strongest hand pre-flop, they can still be cracked by sets, straights, and flushes on dangerous boards.',
+    cards:[{r:'A',s:'&#9824;'},{r:'A',s:'&#9829;',red:true}] },
+  { name:'Cowboys',         short:'Pocket Kings (KK)',       cat:'hand',
+    desc:'Second-best starting hand. Dominated only by Aces pre-flop. Many players lose big pots by overcommitting when an Ace flops — learn to let go when the board and action suggest you\'re beaten.',
+    cards:[{r:'K',s:'&#9824;'},{r:'K',s:'&#9829;',red:true}] },
+  { name:'Ladies',          short:'Pocket Queens (QQ)',      cat:'hand',
+    desc:'Third-best starting hand. Strong pre-flop but vulnerable to Kings and Aces. A notoriously tricky hand when overcards land on the board — many players call off their stacks mistakenly.',
+    cards:[{r:'Q',s:'&#9829;',red:true},{r:'Q',s:'&#9824;'}] },
+  { name:'Fishhooks',       short:'Pocket Jacks (JJ)',       cat:'hand',
+    desc:'One of poker\'s most infamous "trouble hands". Strong pre-flop but often beaten post-flop by overcards (Q, K, A). "What do you do with Jacks?" is a classic poker debate — context is everything.',
+    cards:[{r:'J',s:'&#9824;'},{r:'J',s:'&#9830;',red:true}] },
+  { name:'Big Slick',       short:'Ace-King (AK)',           cat:'hand',
+    desc:'A powerful drawing hand that dominates most other hands pre-flop but needs to connect on the board. Sometimes called "Anna Kournikova" — looks great, doesn\'t always win. Best played aggressively in raised pots.',
+    cards:[{r:'A',s:'&#9824;'},{r:'K',s:'&#9829;',red:true}] },
+  { name:'Big Chick',       short:'Ace-Queen (AQ)',          cat:'hand',
+    desc:'Strong hand that crushes KQ and lower Ax combinations, but is dominated by AK and loses to AA and QQ. Best played as a 3-bet or as a call in the right spots.',
+    cards:[{r:'A',s:'&#9824;'},{r:'Q',s:'&#9829;',red:true}] },
+  { name:'The Wheel',       short:'A-2-3-4-5 Straight',     cat:'hand',
+    desc:'The lowest possible straight, also called "the bicycle". The Ace acts as a 1. In hi-lo games this hand scoops the low half automatically. It\'s the nut low in Omaha hi-lo.',
+    cards:[{r:'A',s:'&#9824;'},{r:'2',s:'&#9830;',red:true},{r:'3',s:'&#9827;'},{r:'4',s:'&#9829;',red:true},{r:'5',s:'&#9824;'}] },
+  { name:'The Nuts',        short:'Best possible hand on the board', cat:'hand',
+    desc:'The absolute best hand possible given the community cards at any point in the hand. "I have the nuts" means you cannot be beaten. The nuts can change from flop to turn to river.',
+    cards:[] },
+  { name:'Suited Connectors', short:'e.g. 7&#9829; 8&#9829; same suit', cat:'hand',
+    desc:'Two consecutive-rank cards of the same suit (e.g. 7-8 of hearts). They can make straights and flushes, offering strong drawing potential. Best played cheaply and in position.',
+    cards:[{r:'7',s:'&#9829;',red:true},{r:'8',s:'&#9829;',red:true}] },
+  { name:'Pocket Pair',     short:'Matching hole cards',     cat:'hand',
+    desc:'Any pair dealt as your two hole cards (e.g. 66, JJ, AA). Small pairs (22–55) are often played to "set mine" — hit three-of-a-kind cheaply and win a big pot. Sets are very profitable but hit only ~12% of the time.',
+    cards:[{r:'6',s:'&#9827;'},{r:'6',s:'&#9830;',red:true}] },
+
+  // Actions
+  { name:'C-Bet',           short:'Continuation Bet',        cat:'action',
+    desc:'A bet made on the flop (or later streets) by the pre-flop aggressor, whether or not the board helped them. You raised pre-flop, so you "continue" representing a strong hand. A cornerstone of modern poker.',
+    cards:[] },
+  { name:'Check-Raise',     short:'Check then raise opponent\'s bet', cat:'action',
+    desc:'Checking to your opponent, letting them bet, then re-raising. Highly deceptive — used to build pots with strong hands or as a bluff to deny equity. A strong weapon in any player\'s arsenal.',
+    cards:[] },
+  { name:'3-Bet',           short:'Re-raise a pre-flop open', cat:'action',
+    desc:'The third bet in the pre-flop sequence. Blinds = 1st bet, open raise = 2nd, your re-raise = 3-bet. Used to build pots, isolate opponents, or apply pressure. A 4-bet is the re-raise of a 3-bet.',
+    cards:[] },
+  { name:'Donk Bet',        short:'Bet into the pre-flop raiser', cat:'action',
+    desc:'Leading into the player who had initiative (raised last street). Generally considered suboptimal because it gives up deceptive value. Advanced players use targeted "donk leads" as a strategic tool in specific spots.',
+    cards:[] },
+  { name:'Squeeze',         short:'3-bet over raiser + callers', cat:'action',
+    desc:'A 3-bet when there\'s been an open raise and one or more flat callers. Extremely powerful — the callers are "squeezed" between you and the raiser, making it hard for them to continue without a premium hand.',
+    cards:[] },
+  { name:'Limp',            short:'Call the big blind pre-flop', cat:'action',
+    desc:'Entering the pot by calling the minimum (the BB) rather than raising. Generally passive and weak — you give up initiative and let the BB see a cheap flop. Open-limping is discouraged in most strategies.',
+    cards:[] },
+  { name:'Slow Play',       short:'Underplay a strong hand',  cat:'action',
+    desc:'Checking or just calling with a very strong hand to disguise its strength and trap opponents into building the pot. Risky — it can give opponents free cards to outdraw you. Best used selectively.',
+    cards:[] },
+  { name:'Float',           short:'Call now, bluff later',    cat:'action',
+    desc:'Calling a bet with a weak hand, planning to take the pot away with a bluff on a later street when the opponent checks. Requires position, reads, and discipline. A key weapon against frequent c-bettors.',
+    cards:[] },
+
+  // Concepts
+  { name:'Pot Odds',        short:'Cost to call vs pot size', cat:'concept',
+    desc:'The ratio of the current pot to the cost of a call. $100 pot, $25 to call = 4:1 odds = you need to win 20% of the time to break even. Compare this to your hand equity to decide whether to call.',
+    cards:[] },
+  { name:'Implied Odds',    short:'Future money you expect to win', cat:'concept',
+    desc:'The potential future winnings you expect to gain if you hit your draw — beyond what\'s already in the pot. Sets and disguised straights have high implied odds; flush draws are more obvious to observant opponents.',
+    cards:[] },
+  { name:'Equity',          short:'Your % chance of winning', cat:'concept',
+    desc:'The share of the pot you mathematically "own" based on your probability of winning from the current point in the hand. E.g. a flush draw on the flop has roughly 35% equity vs. a made top pair.',
+    cards:[] },
+  { name:'GTO',             short:'Game Theory Optimal',      cat:'concept',
+    desc:'A mathematically balanced strategy that cannot be exploited in the long run. A GTO player bluffs and value-bets at precise frequencies to make opponents indifferent to their decisions. The gold standard in modern poker theory.',
+    cards:[] },
+  { name:'Range',           short:'All hands a player might hold', cat:'concept',
+    desc:'The complete set of hands your opponent could hold given their actions. Good players think in ranges, not single hands. Ask "what hands would they play this way?" rather than guessing one specific holding.',
+    cards:[] },
+  { name:'Cooler',          short:'Two big hands collide',    cat:'concept',
+    desc:'A situation where two very strong hands meet and losing is essentially unavoidable — e.g. flopping top set against a flopped straight. Money going in was inevitable; neither player made a mistake.',
+    cards:[] },
+  { name:'Bad Beat',        short:'Strong hand loses to underdog', cat:'concept',
+    desc:'When a heavily favoured hand loses to a significant underdog, usually on the turn or river. E.g. AA all-in vs. 72 pre-flop and losing. A fundamental aspect of poker variance — unavoidable in the short run.',
+    cards:[] },
+  { name:'Drawing Dead',    short:'No outs left to win',      cat:'concept',
+    desc:'When no possible remaining card can save your hand. E.g. you have a flush draw but your opponent already has a full house. You\'re mathematically eliminated even before the hand is over.',
+    cards:[] },
+  { name:'Tilt',            short:'Playing poorly due to emotion', cat:'concept',
+    desc:'Emotional frustration causing poor decisions — usually triggered by bad beats or losing streaks. Playing on tilt is one of the biggest leaks in poker. Recognise it early, take a break, and reset.',
+    cards:[] },
+  { name:'Backdoor Draw',   short:'Needs both turn + river', cat:'concept',
+    desc:'A draw that requires both the turn and river to complete it (e.g. needing two more hearts for a flush when you only have two on the flop). Has ~4% equity but adds value to combined draws.',
+    cards:[] },
+
+  // Player Types
+  { name:'Fish',            short:'Weak, losing player',      cat:'player',
+    desc:'A recreational player making fundamental mistakes — calling too often, playing too many hands, not folding to pressure. Spot the fish at your table and get into pots with them as often as possible.',
+    cards:[] },
+  { name:'Shark',           short:'Strong, winning player',   cat:'player',
+    desc:'A skilled, experienced player who profits consistently. Sharks study the game, exploit weaker players aggressively, and constantly adapt. The goal of every serious poker player.',
+    cards:[] },
+  { name:'Nit',             short:'Extremely tight, passive', cat:'player',
+    desc:'A player who folds too much and only plays premium hands. Easy to bluff — they telegraph strength when they bet. Steal their blinds relentlessly; they\'ll rarely push back without a monster.',
+    cards:[] },
+  { name:'LAG',             short:'Loose Aggressive',         cat:'player',
+    desc:'Plays many hands and bets / raises frequently. Good LAGs are the toughest opponents at any table. Bad LAGs (maniacs) spew chips by bluffing too wildly. A balanced LAG style is highly profitable when controlled.',
+    cards:[] },
+  { name:'TAG',             short:'Tight Aggressive',         cat:'player',
+    desc:'Plays a selective range of hands but bets and raises them hard. The foundational winning style and the best place to start. TAGs don\'t bleed chips on marginal spots and have a clear, defensible range.',
+    cards:[] },
+  { name:'Calling Station', short:'Calls too much, rarely folds', cat:'player',
+    desc:'A player who calls down regardless of board texture or bet sizing. Don\'t bluff them — they can\'t fold. Value bet big and relentlessly; they will pay off with the weakest holdings.',
+    cards:[] }
+];
+
+let activeF = 'all';
+
+function renderTerms(list) {
+  const grid = document.getElementById('termGrid');
+  const noRes = document.getElementById('noRes');
+  grid.innerHTML = '';
+  noRes.style.display = list.length === 0 ? 'block' : 'none';
+
+  list.forEach(t => {
+    const div = document.createElement('div');
+    div.className = 'tc';
+    div.onclick = () => div.classList.toggle('open');
+
+    const catLabel = {hand:'Hand',action:'Action',concept:'Concept',player:'Player'}[t.cat];
+    const cardsHtml = t.cards && t.cards.length
+      ? `<div class="mini-cards">${t.cards.map(c=>`<div class="mc${c.red?' red':''}"><div class="r">${c.r}</div><div class="s">${c.s}</div></div>`).join('')}</div>`
+      : '';
+
+    div.innerHTML = `
+      <div class="tc-top">
+        <div>
+          <div class="tc-name">${t.name}</div>
+          <div class="tc-short">${t.short}</div>
+        </div>
+        <span class="tc-cat cat-${t.cat}">${catLabel}</span>
+      </div>
+      <div class="tc-body">${t.desc}${cardsHtml}</div>
+    `;
+    grid.appendChild(div);
+  });
+}
+
+function filterT() {
+  const q = document.getElementById('termQ').value.toLowerCase().trim();
+  let list = activeF === 'all' ? terms : terms.filter(t => t.cat === activeF);
+  if (q) list = list.filter(t =>
+    t.name.toLowerCase().includes(q) ||
+    t.short.toLowerCase().includes(q) ||
+    t.desc.toLowerCase().includes(q)
+  );
+  renderTerms(list);
+}
+
+function setF(cat, btn) {
+  activeF = cat;
+  document.querySelectorAll('.fb').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  filterT();
+}
+
+renderTerms(terms);
+</script>
+</body>
+</html>

@@ -163,125 +163,133 @@
 
   /* ── HOLE CARDS EQUITY ── */
   .eq-group { margin-bottom:28px; }
-  .eq-group-hd {
-    display:flex; align-items:center; gap:10px; margin-bottom:12px;
-  }
-  .eq-badge {
-    font-family:'Barlow Condensed',sans-serif;
-    font-size:10px; font-weight:700; letter-spacing:.12em; text-transform:uppercase;
-    padding:3px 10px; border-radius:2px;
-  }
+  .eq-group-hd { display:flex; align-items:center; gap:10px; margin-bottom:12px; }
+  .eq-badge { font-family:'Barlow Condensed',sans-serif; font-size:10px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; padding:3px 10px; border-radius:2px; }
   .eq-group-desc { font-size:12px; color:var(--muted); }
-
-  .eq-grid {
-    display:grid;
-    grid-template-columns:repeat(auto-fill,minmax(130px,1fr));
-    gap:8px;
-  }
-
-  .eq-card {
-    background:var(--surface);
-    border:1px solid var(--border);
-    border-radius:8px;
-    padding:12px 12px 10px;
-    transition:background .25s,border-color .25s;
-  }
-
+  .eq-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(130px,1fr)); gap:8px; }
+  .eq-card { background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:12px 12px 10px; transition:background .25s,border-color .25s; }
   .eq-hand { display:flex; gap:4px; margin-bottom:8px; }
-
-  .hc {
-    width:34px; height:48px;
-    background:#fff; border:1px solid #e0e0e0;
-    border-radius:5px;
-    display:flex; flex-direction:column;
-    align-items:center; justify-content:center;
-    box-shadow:0 1px 4px rgba(0,0,0,.15);
-    line-height:1.1;
-  }
+  .hc { width:34px; height:48px; background:#fff; border:1px solid #e0e0e0; border-radius:5px; display:flex; flex-direction:column; align-items:center; justify-content:center; box-shadow:0 1px 4px rgba(0,0,0,.15); line-height:1.1; }
   .hc .r { font-size:12px; font-weight:900; color:#111; }
   .hc .s { font-size:13px; color:#111; }
   .hc.red .r,.hc.red .s { color:#cc2222; }
-
   .eq-info { display:flex; align-items:center; justify-content:space-between; margin-bottom:5px; }
   .eq-label { font-family:'Barlow Condensed',sans-serif; font-size:13px; font-weight:700; color:var(--text); }
   .eq-pct { font-family:'Barlow Condensed',sans-serif; font-size:14px; font-weight:900; }
-
-  .eq-bar-bg {
-    height:4px; border-radius:2px;
-    background:var(--border); overflow:hidden;
-  }
+  .eq-bar-bg { height:4px; border-radius:2px; background:var(--border); overflow:hidden; }
   .eq-bar { height:100%; border-radius:2px; transition:width .4s; }
-
   .eq-note { font-size:10px; color:var(--muted); margin-top:5px; line-height:1.4; }
 
   /* ── STRATEGY ── */
-  .strat-intro {
-    background:var(--surface); border:1px solid var(--border);
-    border-radius:8px; padding:16px 18px; margin-bottom:16px;
-    font-size:13px; color:var(--muted); line-height:1.65;
-  }
+  .strat-intro { background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:16px 18px; margin-bottom:16px; font-size:13px; color:var(--muted); line-height:1.65; }
   .strat-intro strong { color:var(--text); }
-
-  .strat-card {
-    background:var(--surface); border:1px solid var(--border);
-    border-radius:8px; overflow:hidden; cursor:pointer;
-    transition:border-color .18s,background .25s; margin-bottom:8px;
-  }
+  .strat-card { background:var(--surface); border:1px solid var(--border); border-radius:8px; overflow:hidden; cursor:pointer; transition:border-color .18s,background .25s; margin-bottom:8px; }
   .strat-card:hover,.strat-card.open { border-color:#b0b0c8; }
   [data-theme="dark"] .strat-card:hover,[data-theme="dark"] .strat-card.open { border-color:#2e2e44; }
-
   .strat-hd { display:flex; align-items:center; gap:12px; padding:14px 16px; }
-
-  .strat-icon {
-    width:36px; height:36px; border-radius:6px;
-    display:flex; align-items:center; justify-content:center;
-    font-size:16px; flex-shrink:0;
-  }
-
+  .strat-icon { width:36px; height:36px; border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:16px; flex-shrink:0; }
   .strat-hd-text { flex:1; min-width:0; }
   .strat-hd h3 { font-family:'Barlow Condensed',sans-serif; font-size:16px; font-weight:700; letter-spacing:.04em; text-transform:uppercase; color:var(--text); }
   .strat-hd .strat-sub { font-size:11px; color:var(--muted); margin-top:1px; }
-
   .strat-bd { display:none; padding:0 16px 16px; border-top:1px solid var(--border); }
   .strat-card.open .strat-bd { display:block; }
-
-  .strat-section-title {
-    font-family:'Barlow Condensed',sans-serif;
-    font-size:10px; font-weight:700; letter-spacing:.14em; text-transform:uppercase;
-    color:var(--muted); margin:14px 0 6px;
-  }
-
+  .strat-section-title { font-family:'Barlow Condensed',sans-serif; font-size:10px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); margin:14px 0 6px; }
   .strat-bd p { font-size:13px; color:var(--muted); line-height:1.7; margin-top:12px; }
-
   .do-dont { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:12px; }
-  .do-box,.dont-box {
-    border-radius:6px; padding:10px 12px;
-    font-size:12px; line-height:1.6;
-  }
+  .do-box,.dont-box { border-radius:6px; padding:10px 12px; font-size:12px; line-height:1.6; }
   .do-box { background:var(--win-bg); border:1px solid rgba(26,122,64,.25); color:var(--win); }
   .dont-box { background:rgba(204,0,0,.06); border:1px solid rgba(204,0,0,.2); color:var(--accent); }
   [data-theme="dark"] .do-box { background:var(--win-bg); border-color:rgba(62,207,122,.2); }
   [data-theme="dark"] .dont-box { background:rgba(204,0,0,.08); border-color:rgba(204,0,0,.2); }
   .do-box strong,.dont-box strong { font-family:'Barlow Condensed',sans-serif; font-size:11px; letter-spacing:.1em; text-transform:uppercase; display:block; margin-bottom:5px; }
-
   .spots { display:flex; flex-direction:column; gap:6px; margin-top:12px; }
-  .spot {
-    display:flex; align-items:flex-start; gap:10px;
-    background:var(--bg); border:1px solid var(--border);
-    border-radius:6px; padding:10px 12px; font-size:12px;
-  }
+  .spot { display:flex; align-items:flex-start; gap:10px; background:var(--bg); border:1px solid var(--border); border-radius:6px; padding:10px 12px; font-size:12px; }
   .spot-situation { color:var(--text); font-weight:600; min-width:0; flex:1; line-height:1.5; }
-  .spot-action {
-    font-family:'Barlow Condensed',sans-serif; font-size:11px; font-weight:700;
-    letter-spacing:.06em; text-transform:uppercase;
-    padding:2px 8px; border-radius:3px; border:1px solid; white-space:nowrap; flex-shrink:0;
-  }
+  .spot-action { font-family:'Barlow Condensed',sans-serif; font-size:11px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; padding:2px 8px; border-radius:3px; border:1px solid; white-space:nowrap; flex-shrink:0; }
   .spot-action.raise { border-color:#e07b30; color:#e07b30; background:rgba(224,123,48,.08); }
   .spot-action.fold  { border-color:var(--accent); color:var(--accent); background:rgba(204,0,0,.07); }
   .spot-action.call  { border-color:var(--win);    color:var(--win);    background:var(--win-bg); }
   .spot-action.bet   { border-color:var(--gold);   color:var(--gold);   background:var(--gold-bg); }
   .spot-action.check { border-color:var(--blue);   color:var(--blue);   background:rgba(58,143,212,.07); }
   .spot-action.fold_or_raise { border-color:#9060b0; color:#9060b0; background:rgba(144,96,176,.08); }
+
+  /* ── PRACTICE ── */
+  .prac-setup { background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:20px; margin-bottom:16px; }
+  .prac-deal-btn { width:100%; padding:13px; background:var(--accent); color:#fff; border:none; border-radius:6px; font-family:'Barlow Condensed',sans-serif; font-size:16px; font-weight:900; letter-spacing:.1em; text-transform:uppercase; cursor:pointer; transition:opacity .2s; }
+  .prac-deal-btn:hover { opacity:.88; }
+  .prac-scenario { display:none; }
+  .prac-scenario.show { display:block; }
+  .prac-cards-row { display:flex; align-items:center; gap:16px; flex-wrap:wrap; margin-bottom:20px; }
+  .prac-label { font-family:'Barlow Condensed',sans-serif; font-size:11px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); margin-bottom:6px; }
+  .prac-hole { display:flex; gap:6px; }
+  .prac-card { width:52px; height:72px; background:#fff; border-radius:7px; display:flex; flex-direction:column; align-items:center; justify-content:center; box-shadow:var(--shadow-c); border:1px solid #e0e0e0; line-height:1.1; }
+  .prac-card .r { font-size:16px; font-weight:900; color:#111; }
+  .prac-card .s { font-size:18px; color:#111; }
+  .prac-card.red .r,.prac-card.red .s { color:#cc2222; }
+  .prac-meta { display:flex; gap:10px; flex-wrap:wrap; margin-bottom:20px; }
+  .prac-chip { background:var(--bg); border:1px solid var(--border); border-radius:6px; padding:8px 14px; }
+  .prac-chip .pv { font-family:'Barlow Condensed',sans-serif; font-size:20px; font-weight:900; color:var(--text); }
+  .prac-chip .pl { font-family:'Barlow Condensed',sans-serif; font-size:9px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); margin-top:1px; }
+  .prac-table-mini { display:flex; justify-content:center; margin-bottom:20px; }
+  .pmt { position:relative; width:320px; height:185px; background:#1a5c35; border-radius:100px; border:5px solid #7a4f2a; box-shadow:0 0 0 2px #5a3820,inset 0 0 28px rgba(0,0,0,.3); }
+  [data-theme="dark"] .pmt { background:#0e2a18; border-color:#1e1e2e; box-shadow:0 0 0 2px #0a0a0f,inset 0 0 28px rgba(0,0,0,.5); }
+  .pmt-seat { position:absolute; width:36px; height:36px; border-radius:50%; display:flex; flex-direction:column; align-items:center; justify-content:center; font-family:'Barlow Condensed',sans-serif; font-size:8px; font-weight:700; letter-spacing:.02em; line-height:1.2; text-align:center; border:2px solid rgba(255,255,255,.2); }
+  .pmt-seat.hero { border-color:#e8ff00; box-shadow:0 0 0 3px rgba(232,255,0,.35); background-color: inherit; }
+  .pmt-seat span { font-size:10px; font-weight:900; display:block; }
+  .pmt-dl { position:absolute; width:16px; height:16px; border-radius:50%; background:#f0f0f0; border:1px solid #ccc; font-family:'Barlow Condensed',sans-serif; font-size:7px; font-weight:900; color:#222; display:flex; align-items:center; justify-content:center; }
+  .prac-form { background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:18px; margin-bottom:14px; }
+  .prac-q { margin-bottom:18px; }
+  .prac-q:last-child { margin-bottom:0; }
+  .prac-q label { font-family:'Barlow Condensed',sans-serif; font-size:12px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:8px; }
+  .opt-row { display:flex; flex-wrap:wrap; gap:6px; }
+  .opt-btn { font-family:'Barlow Condensed',sans-serif; font-size:12px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; padding:7px 14px; border-radius:4px; border:1px solid var(--border); background:transparent; color:var(--muted); cursor:pointer; transition:all .15s; }
+  .opt-btn:hover { border-color:var(--muted); color:var(--text); }
+  .opt-btn.sel { border-color:var(--accent); color:var(--accent); background:rgba(204,0,0,.07); }
+  .prac-slider-wrap { display:flex; align-items:center; gap:12px; }
+  .prac-slider { flex:1; accent-color:var(--accent); }
+  .prac-slider-val { font-family:'Barlow Condensed',sans-serif; font-size:18px; font-weight:900; color:var(--text); min-width:42px; }
+  .prac-submit { width:100%; padding:13px; background:transparent; color:var(--text); border:1px solid var(--border); border-radius:6px; font-family:'Barlow Condensed',sans-serif; font-size:15px; font-weight:900; letter-spacing:.1em; text-transform:uppercase; cursor:pointer; transition:all .2s; margin-bottom:14px; }
+  .prac-submit:hover { border-color:var(--accent); color:var(--accent); }
+  .prac-result { display:none; border-radius:8px; overflow:hidden; }
+  .prac-result.show { display:block; }
+  .prac-result-hd { padding:16px 18px 12px; display:flex; align-items:center; gap:12px; }
+  .prac-result-icon { font-size:22px; }
+  .prac-result-title { font-family:'Barlow Condensed',sans-serif; font-size:20px; font-weight:900; letter-spacing:.04em; text-transform:uppercase; }
+  .prac-result-body { padding:0 18px 18px; }
+  .prac-result-body p { font-size:13px; line-height:1.7; }
+  .prac-result.pass { background:var(--win-bg); border:1px solid rgba(26,122,64,.3); }
+  .prac-result.pass .prac-result-title { color:var(--win); }
+  .prac-result.fail { background:rgba(204,0,0,.06); border:1px solid rgba(204,0,0,.25); }
+  .prac-result.fail .prac-result-title { color:var(--accent); }
+  .prac-result.partial { background:var(--gold-bg); border:1px solid var(--gold-br); }
+  .prac-result.partial .prac-result-title { color:var(--gold); }
+  .prac-breakdown { margin-top:14px; display:flex; flex-direction:column; gap:7px; }
+  .prac-row { display:flex; align-items:flex-start; gap:10px; font-size:12px; padding:8px 10px; border-radius:5px; background:rgba(0,0,0,.04); }
+  [data-theme="dark"] .prac-row { background:rgba(255,255,255,.04); }
+  .prac-row .icon { font-size:14px; flex-shrink:0; margin-top:1px; }
+  .prac-row .txt { color:var(--muted); line-height:1.5; }
+  .prac-row .txt strong { color:var(--text); }
+  .prac-next { margin-top:14px; width:100%; padding:11px; background:var(--accent); color:#fff; border:none; border-radius:6px; font-family:'Barlow Condensed',sans-serif; font-size:14px; font-weight:900; letter-spacing:.1em; text-transform:uppercase; cursor:pointer; transition:opacity .2s; }
+  .prac-next:hover { opacity:.88; }
+  .prac-score-strip { display:flex; gap:6px; margin-bottom:16px; flex-wrap:wrap; }
+  .prac-score-chip { font-family:'Barlow Condensed',sans-serif; font-size:11px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; padding:4px 10px; border-radius:3px; border:1px solid var(--border); color:var(--muted); }
+  .prac-score-chip.pos  { border-color:rgba(26,122,64,.4);  color:var(--win);    background:var(--win-bg); }
+  .prac-score-chip.neg  { border-color:rgba(204,0,0,.3);    color:var(--accent); background:rgba(204,0,0,.05); }
+
+  /* ── HELP HINTS ── */
+  .q-label-row { display:flex; align-items:center; justify-content:space-between; margin-bottom:8px; }
+  .q-label-row label { margin-bottom:0; }
+  .help-btn { width:20px; height:20px; border-radius:50%; border:1px solid var(--border); background:transparent; color:var(--muted); font-family:'Barlow Condensed',sans-serif; font-size:11px; font-weight:900; cursor:pointer; display:flex; align-items:center; justify-content:center; flex-shrink:0; transition:all .15s; line-height:1; padding:0; }
+  .help-btn:hover { border-color:var(--blue); color:var(--blue); }
+  .help-btn.open { border-color:var(--blue); color:#fff; background:var(--blue); }
+  .help-panel { display:none; margin-bottom:10px; background:rgba(30,106,176,.07); border:1px solid rgba(30,106,176,.2); border-radius:6px; padding:11px 13px; }
+  .help-panel.show { display:block; }
+  .help-panel .hp-title { font-family:'Barlow Condensed',sans-serif; font-size:10px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--blue); margin-bottom:7px; }
+  .help-panel .hp-body { font-size:12px; color:var(--muted); line-height:1.65; }
+  .help-panel .hp-body strong { color:var(--text); }
+  .help-panel .hp-steps { margin-top:8px; display:flex; flex-direction:column; gap:5px; }
+  .help-panel .hp-step { display:flex; gap:8px; font-size:12px; color:var(--muted); line-height:1.5; }
+  .help-panel .hp-step .sn { font-family:'Barlow Condensed',sans-serif; font-size:11px; font-weight:900; color:var(--blue); min-width:16px; flex-shrink:0; }
 </style>
 </head>
 <body>
@@ -304,6 +312,7 @@
     <button onclick="show('streets',this)">Streets</button>
     <button onclick="show('equity',this)">Hole Cards</button>
     <button onclick="show('strategy',this)">Strategy</button>
+    <button onclick="show('practice',this)">Practice</button>
     <button onclick="show('terms',this)">Terminology</button>
   </nav>
 </header>
@@ -565,8 +574,6 @@
 <!-- ════════════════ HOLE CARDS EQUITY ════════════════ -->
 <div id="equity" class="section">
   <div class="sec-label">Hole Cards &amp; Pre-Flop Equity vs Random Hand</div>
-
-  <!-- Monsters -->
   <div class="eq-group">
     <div class="eq-group-hd">
       <span class="eq-badge" style="background:rgba(204,0,0,.1);color:var(--accent);border:1px solid rgba(204,0,0,.2);">Monsters</span>
@@ -574,8 +581,6 @@
     </div>
     <div class="eq-grid" id="eq-monsters"></div>
   </div>
-
-  <!-- Strong -->
   <div class="eq-group">
     <div class="eq-group-hd">
       <span class="eq-badge" style="background:var(--gold-bg);color:var(--gold);border:1px solid var(--gold-br);">Strong</span>
@@ -583,8 +588,6 @@
     </div>
     <div class="eq-grid" id="eq-strong"></div>
   </div>
-
-  <!-- Playable -->
   <div class="eq-group">
     <div class="eq-group-hd">
       <span class="eq-badge" style="background:var(--win-bg);color:var(--win);border:1px solid rgba(26,122,64,.25);">Playable</span>
@@ -592,8 +595,6 @@
     </div>
     <div class="eq-grid" id="eq-playable"></div>
   </div>
-
-  <!-- Speculative -->
   <div class="eq-group">
     <div class="eq-group-hd">
       <span class="eq-badge" style="background:rgba(30,106,176,.1);color:var(--blue);border:1px solid rgba(30,106,176,.25);">Speculative</span>
@@ -601,8 +602,6 @@
     </div>
     <div class="eq-grid" id="eq-spec"></div>
   </div>
-
-  <!-- Trash -->
   <div class="eq-group">
     <div class="eq-group-hd">
       <span class="eq-badge" style="background:rgba(107,107,128,.1);color:var(--muted);border:1px solid rgba(107,107,128,.2);">Trash</span>
@@ -615,19 +614,13 @@
 <!-- ════════════════ STRATEGY ════════════════ -->
 <div id="strategy" class="section">
   <div class="sec-label">Common Spots &amp; Strategy</div>
-
   <div class="strat-intro">
     Poker strategy isn't about memorising plays — it's about understanding <strong>why</strong> each decision is correct. These are the most common situations you'll face and the fundamental approach to each one.
   </div>
-
-  <!-- 1. Blind Stealing -->
   <div class="strat-card open" onclick="togS(this)">
     <div class="strat-hd">
       <div class="strat-icon" style="background:var(--gold-bg);">&#128081;</div>
-      <div class="strat-hd-text">
-        <h3>Stealing the Blinds</h3>
-        <div class="strat-sub">CO / BTN open-raise when folded to you</div>
-      </div>
+      <div class="strat-hd-text"><h3>Stealing the Blinds</h3><div class="strat-sub">CO / BTN open-raise when folded to you</div></div>
       <div class="chev">&#9660;</div>
     </div>
     <div class="strat-bd">
@@ -646,15 +639,10 @@
       </div>
     </div>
   </div>
-
-  <!-- 2. Defending the Big Blind -->
   <div class="strat-card" onclick="togS(this)">
     <div class="strat-hd">
       <div class="strat-icon" style="background:rgba(204,0,0,.1);">&#128737;</div>
-      <div class="strat-hd-text">
-        <h3>Defending the Big Blind</h3>
-        <div class="strat-sub">How to respond to pre-flop raises</div>
-      </div>
+      <div class="strat-hd-text"><h3>Defending the Big Blind</h3><div class="strat-sub">How to respond to pre-flop raises</div></div>
       <div class="chev">&#9660;</div>
     </div>
     <div class="strat-bd">
@@ -673,15 +661,10 @@
       </div>
     </div>
   </div>
-
-  <!-- 3. Continuation Betting -->
   <div class="strat-card" onclick="togS(this)">
     <div class="strat-hd">
       <div class="strat-icon" style="background:var(--win-bg);">&#9654;</div>
-      <div class="strat-hd-text">
-        <h3>Continuation Betting (C-Bet)</h3>
-        <div class="strat-sub">Betting the flop after raising pre-flop</div>
-      </div>
+      <div class="strat-hd-text"><h3>Continuation Betting (C-Bet)</h3><div class="strat-sub">Betting the flop after raising pre-flop</div></div>
       <div class="chev">&#9660;</div>
     </div>
     <div class="strat-bd">
@@ -699,15 +682,10 @@
       </div>
     </div>
   </div>
-
-  <!-- 4. Facing a 3-Bet -->
   <div class="strat-card" onclick="togS(this)">
     <div class="strat-hd">
       <div class="strat-icon" style="background:rgba(144,96,176,.1);">&#8679;</div>
-      <div class="strat-hd-text">
-        <h3>Facing a 3-Bet</h3>
-        <div class="strat-sub">Someone re-raises your open — what now?</div>
-      </div>
+      <div class="strat-hd-text"><h3>Facing a 3-Bet</h3><div class="strat-sub">Someone re-raises your open — what now?</div></div>
       <div class="chev">&#9660;</div>
     </div>
     <div class="strat-bd">
@@ -726,15 +704,10 @@
       </div>
     </div>
   </div>
-
-  <!-- 5. Value Betting -->
   <div class="strat-card" onclick="togS(this)">
     <div class="strat-hd">
       <div class="strat-icon" style="background:var(--gold-bg);">&#9776;</div>
-      <div class="strat-hd-text">
-        <h3>Value Betting</h3>
-        <div class="strat-sub">Extracting maximum chips from strong hands</div>
-      </div>
+      <div class="strat-hd-text"><h3>Value Betting</h3><div class="strat-sub">Extracting maximum chips from strong hands</div></div>
       <div class="chev">&#9660;</div>
     </div>
     <div class="strat-bd">
@@ -752,15 +725,10 @@
       </div>
     </div>
   </div>
-
-  <!-- 6. Set Mining -->
   <div class="strat-card" onclick="togS(this)">
     <div class="strat-hd">
       <div class="strat-icon" style="background:rgba(30,106,176,.1);">&#9670;</div>
-      <div class="strat-hd-text">
-        <h3>Set Mining</h3>
-        <div class="strat-sub">Calling pre-flop with small pocket pairs</div>
-      </div>
+      <div class="strat-hd-text"><h3>Set Mining</h3><div class="strat-sub">Calling pre-flop with small pocket pairs</div></div>
       <div class="chev">&#9660;</div>
     </div>
     <div class="strat-bd">
@@ -778,15 +746,10 @@
       </div>
     </div>
   </div>
-
-  <!-- 7. Playing Draws -->
   <div class="strat-card" onclick="togS(this)">
     <div class="strat-hd">
       <div class="strat-icon" style="background:rgba(58,143,212,.1);">&#8764;</div>
-      <div class="strat-hd-text">
-        <h3>Playing Draws</h3>
-        <div class="strat-sub">Flush draws, straight draws — call or semi-bluff?</div>
-      </div>
+      <div class="strat-hd-text"><h3>Playing Draws</h3><div class="strat-sub">Flush draws, straight draws — call or semi-bluff?</div></div>
       <div class="chev">&#9660;</div>
     </div>
     <div class="strat-bd">
@@ -805,15 +768,10 @@
       </div>
     </div>
   </div>
-
-  <!-- 8. Positional Awareness -->
   <div class="strat-card" onclick="togS(this)">
     <div class="strat-hd">
       <div class="strat-icon" style="background:rgba(62,207,122,.1);">&#9654;</div>
-      <div class="strat-hd-text">
-        <h3>Positional Awareness</h3>
-        <div class="strat-sub">Adjusting your game based on where you sit</div>
-      </div>
+      <div class="strat-hd-text"><h3>Positional Awareness</h3><div class="strat-sub">Adjusting your game based on where you sit</div></div>
       <div class="chev">&#9660;</div>
     </div>
     <div class="strat-bd">
@@ -831,7 +789,192 @@
       </div>
     </div>
   </div>
+</div>
 
+<!-- ════════════════ PRACTICE ════════════════ -->
+<div id="practice" class="section">
+  <div class="sec-label">GTO Pre-Flop Practice &mdash; Train Your Awareness</div>
+
+  <div class="prac-setup">
+    <p style="font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:14px;">
+      You'll be dealt random hole cards and placed in a random seat. Identify your position, stack depth, equity estimate, and the GTO-correct action. Instant feedback after each hand.
+    </p>
+    <button class="prac-deal-btn" onclick="dealScenario()">&#9824; Deal Me In</button>
+  </div>
+
+  <div class="prac-scenario" id="pracScenario">
+
+    <div class="prac-cards-row">
+      <div>
+        <div class="prac-label">Your Hole Cards</div>
+        <div class="prac-hole" id="pracHole"></div>
+      </div>
+    </div>
+
+    <div class="prac-meta" id="pracMeta"></div>
+
+    <div class="prac-table-mini">
+      <div class="pmt" id="pmtEl"></div>
+    </div>
+
+    <div class="prac-form">
+
+      <div class="prac-q">
+        <div class="q-label-row">
+          <label>1 &mdash; What is Hero&apos;s position?</label>
+          <button class="help-btn" onclick="toggleHelp('h1',this)" title="How to think about this">?</button>
+        </div>
+        <div class="help-panel" id="h1">
+          <div class="hp-title">How to read position</div>
+          <div class="hp-body">
+            The <strong>Dealer button (D)</strong> is your anchor. Count the seats clockwise from it.
+            <div class="hp-steps">
+              <div class="hp-step"><span class="sn">1</span>The seat ON the button = <strong>BTN</strong></div>
+              <div class="hp-step"><span class="sn">2</span>Next clockwise = <strong>SB</strong> (Small Blind)</div>
+              <div class="hp-step"><span class="sn">3</span>Next = <strong>BB</strong> (Big Blind)</div>
+              <div class="hp-step"><span class="sn">4</span>Next = <strong>UTG</strong> (Under the Gun — first to act pre-flop)</div>
+              <div class="hp-step"><span class="sn">5</span>Next = <strong>MP</strong> (Middle Position)</div>
+              <div class="hp-step"><span class="sn">6</span>Next = <strong>CO</strong> (Cutoff — one before the button)</div>
+            </div>
+            Find the <strong style="color:#e8ff00;">yellow-ringed seat</strong> marked YOU on the table above — that's Hero.
+          </div>
+        </div>
+        <div class="opt-row" id="q1opts">
+          <button class="opt-btn" onclick="selOpt('q1','UTG')">UTG</button>
+          <button class="opt-btn" onclick="selOpt('q1','MP')">MP</button>
+          <button class="opt-btn" onclick="selOpt('q1','CO')">CO</button>
+          <button class="opt-btn" onclick="selOpt('q1','BTN')">BTN</button>
+          <button class="opt-btn" onclick="selOpt('q1','SB')">SB</button>
+          <button class="opt-btn" onclick="selOpt('q1','BB')">BB</button>
+        </div>
+      </div>
+
+      <div class="prac-q">
+        <div class="q-label-row">
+          <label>2 &mdash; How deep is Hero&apos;s stack in big blinds?</label>
+          <button class="help-btn" onclick="toggleHelp('h2',this)" title="How to calculate this">?</button>
+        </div>
+        <div class="help-panel" id="h2">
+          <div class="hp-title">How to calculate stack depth</div>
+          <div class="hp-body">
+            <strong>BB depth = Chip Stack ÷ Big Blind amount.</strong> Look at the two numbers shown above the table.
+            <div class="hp-steps">
+              <div class="hp-step"><span class="sn">1</span>Find <strong>Chip Stack</strong> and <strong>Big Blind</strong> in the info strip</div>
+              <div class="hp-step"><span class="sn">2</span>Divide: e.g. 4,000 chips ÷ $50 BB = <strong>80 BB</strong></div>
+              <div class="hp-step"><span class="sn">3</span>Or just read the <strong>Eff. Stack</strong> chip directly — it shows the pre-calculated value</div>
+            </div>
+            Ranges: <strong>&lt;20BB</strong> = push/fold only · <strong>20–40BB</strong> = limited post-flop · <strong>40–80BB</strong> = standard · <strong>&gt;80BB</strong> = full GTO applies
+          </div>
+        </div>
+        <div class="opt-row" id="q2opts">
+          <button class="opt-btn" onclick="selOpt('q2','&lt;20 BB')">&lt;20 BB Short</button>
+          <button class="opt-btn" onclick="selOpt('q2','20–40 BB')">20–40 BB</button>
+          <button class="opt-btn" onclick="selOpt('q2','40–80 BB')">40–80 BB</button>
+          <button class="opt-btn" onclick="selOpt('q2','&gt;80 BB')">&gt;80 BB Deep</button>
+        </div>
+      </div>
+
+      <div class="prac-q">
+        <div class="q-label-row">
+          <label>3 &mdash; Estimate Hero&apos;s pre-flop equity vs a random hand (%)</label>
+          <button class="help-btn" onclick="toggleHelp('h3',this)" title="How to estimate equity">?</button>
+        </div>
+        <div class="help-panel" id="h3">
+          <div class="hp-title">How to estimate pre-flop equity</div>
+          <div class="hp-body">
+            Equity = your % chance of winning at showdown vs a random 2-card hand. Use these mental anchors:
+            <div class="hp-steps">
+              <div class="hp-step"><span class="sn">▲</span><strong>Premium pairs (AA–QQ):</strong> 80–85% — massive favourite</div>
+              <div class="hp-step"><span class="sn">▲</span><strong>Medium pairs (99–JJ):</strong> 72–77%</div>
+              <div class="hp-step"><span class="sn">▲</span><strong>Strong broadways (AK, AQ):</strong> 64–67%</div>
+              <div class="hp-step"><span class="sn">▲</span><strong>Medium suited hands (KQs, JTs):</strong> 57–63%</div>
+              <div class="hp-step"><span class="sn">▲</span><strong>Small pairs (22–55):</strong> 51–60%</div>
+              <div class="hp-step"><span class="sn">▼</span><strong>Trash offsuit hands:</strong> 32–47% — slight underdog</div>
+            </div>
+            Any hand is a 50/50 vs random at baseline. <strong>Pairs, high cards, and suitedness all add equity above 50%.</strong>
+          </div>
+        </div>
+        <div class="prac-slider-wrap">
+          <input type="range" class="prac-slider" id="equitySlider" min="30" max="90" value="55" step="1" oninput="document.getElementById('equityVal').textContent=this.value+'%'">
+          <span class="prac-slider-val" id="equityVal">55%</span>
+        </div>
+      </div>
+
+      <div class="prac-q">
+        <div class="q-label-row">
+          <label>4 &mdash; GTO action if folded to Hero pre-flop?</label>
+          <button class="help-btn" onclick="toggleHelp('h4',this)" title="How to decide the GTO action">?</button>
+        </div>
+        <div class="help-panel" id="h4">
+          <div class="hp-title">How to decide the GTO action</div>
+          <div class="hp-body">
+            GTO says: raise a certain % of hands from each position, fold the rest. <strong>Limp is almost never correct.</strong>
+            <div class="hp-steps">
+              <div class="hp-step"><span class="sn">1</span>Ask: <strong>is this hand strong enough for this position?</strong> Early positions require tighter ranges.</div>
+              <div class="hp-step"><span class="sn">2</span>Position thresholds (approx % of all hands to open-raise):<br><strong>UTG ~15% · MP ~20% · CO ~27% · BTN ~45% · SB ~40%</strong></div>
+              <div class="hp-step"><span class="sn">3</span>Sizing: use <strong>3x from UTG/MP</strong> (early position, build pot, fewer callers) · <strong>2.5x from CO/BTN/blinds</strong> (in position, smaller open)</div>
+              <div class="hp-step"><span class="sn">4</span>If the hand is in range → raise the correct size. If not → fold. Never limp open.</div>
+            </div>
+          </div>
+        </div>
+        <div class="opt-row" id="q4opts">
+          <button class="opt-btn" onclick="selOpt('q4','Fold')">Fold</button>
+          <button class="opt-btn" onclick="selOpt('q4','Limp')">Limp</button>
+          <button class="opt-btn" onclick="selOpt('q4','Raise 2.5x')">Raise 2.5x</button>
+          <button class="opt-btn" onclick="selOpt('q4','Raise 3x')">Raise 3x</button>
+        </div>
+      </div>
+
+      <div class="prac-q">
+        <div class="q-label-row">
+          <label>5 &mdash; If raising, what is the correct bet size in chips?</label>
+          <button class="help-btn" onclick="toggleHelp('h5',this)" title="How to calculate bet size">?</button>
+        </div>
+        <div class="help-panel" id="h5">
+          <div class="hp-title">How to calculate the open-raise size</div>
+          <div class="hp-body">
+            The raise multiplier (2.5x or 3x) applies to the <strong>big blind amount</strong> — not your stack.
+            <div class="hp-steps">
+              <div class="hp-step"><span class="sn">1</span>Find the <strong>Big Blind</strong> value in the info strip above the table</div>
+              <div class="hp-step"><span class="sn">2</span>Multiply by your raise size: <strong>BB × 2.5</strong> or <strong>BB × 3</strong></div>
+              <div class="hp-step"><span class="sn">3</span>Example: BB = $50, raise 2.5x → open to <strong>$125</strong></div>
+              <div class="hp-step"><span class="sn">4</span>Example: BB = $100, raise 3x → open to <strong>$300</strong></div>
+              <div class="hp-step"><span class="sn">5</span>If the correct GTO action is <strong>Fold</strong>, select "N/A — Folding"</div>
+            </div>
+            This is the total amount you put in, not a raise on top of an existing bet. Pre-flop open = your chips go in from zero.
+          </div>
+        </div>
+        <div class="opt-row" id="q5opts">
+          <button class="opt-btn" onclick="selOpt('q5','na')">N/A — Folding</button>
+          <button class="opt-btn" onclick="selOpt('q5','2bb')">BB × 2</button>
+          <button class="opt-btn" onclick="selOpt('q5','2.5bb')">BB × 2.5</button>
+          <button class="opt-btn" onclick="selOpt('q5','3bb')">BB × 3</button>
+          <button class="opt-btn" onclick="selOpt('q5','4bb')">BB × 4+</button>
+        </div>
+        <div id="q5calc" style="margin-top:10px;display:none;">
+          <div style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:5px;">Calculated raise amount</div>
+          <div id="q5calcVal" style="font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:900;color:var(--text);"></div>
+        </div>
+      </div>
+
+    </div>
+
+    <button class="prac-submit" onclick="submitPrac()">&#9654; Submit Answers</button>
+
+    <div class="prac-result" id="pracResult">
+      <div class="prac-result-hd">
+        <span class="prac-result-icon" id="resIcon"></span>
+        <span class="prac-result-title" id="resTitle"></span>
+      </div>
+      <div class="prac-result-body">
+        <div class="prac-breakdown" id="resBreakdown"></div>
+      </div>
+      <div style="padding:0 18px 18px;">
+        <button class="prac-next" onclick="dealScenario()">&#9654; Next Hand</button>
+      </div>
+    </div>
+
+  </div>
 </div>
 
 <!-- ════════════════ TERMINOLOGIES ════════════════ -->
@@ -928,86 +1071,51 @@ function tog(el)  { el.classList.toggle('open'); }
 function togS(el) { el.classList.toggle('open'); }
 
 // ── HOLE CARDS EQUITY ──
-// Equity vs random hand (2 cards, pre-flop, heads up)
 const eqGroups = {
   monsters: [
-    { label:'AA', pct:85, note:'Rockets — raise/4-bet always',
-      cards:[{r:'A',s:'&#9824;'},{r:'A',s:'&#9829;',red:true}] },
-    { label:'KK', pct:82, note:'Cowboys — raise/4-bet always',
-      cards:[{r:'K',s:'&#9824;'},{r:'K',s:'&#9829;',red:true}] },
-    { label:'QQ', pct:80, note:'Ladies — beware single Ace board',
-      cards:[{r:'Q',s:'&#9829;',red:true},{r:'Q',s:'&#9824;'}] },
-    { label:'JJ', pct:77, note:'Fishhooks — tough when overcards flop',
-      cards:[{r:'J',s:'&#9824;'},{r:'J',s:'&#9830;',red:true}] },
+    { label:'AA', pct:85, note:'Rockets — raise/4-bet always', cards:[{r:'A',s:'&#9824;'},{r:'A',s:'&#9829;',red:true}] },
+    { label:'KK', pct:82, note:'Cowboys — raise/4-bet always', cards:[{r:'K',s:'&#9824;'},{r:'K',s:'&#9829;',red:true}] },
+    { label:'QQ', pct:80, note:'Ladies — beware single Ace board', cards:[{r:'Q',s:'&#9829;',red:true},{r:'Q',s:'&#9824;'}] },
+    { label:'JJ', pct:77, note:'Fishhooks — tough when overcards flop', cards:[{r:'J',s:'&#9824;'},{r:'J',s:'&#9830;',red:true}] },
   ],
   strong: [
-    { label:'TT', pct:75, note:'Strong pair, play fast',
-      cards:[{r:'T',s:'&#9824;'},{r:'T',s:'&#9829;',red:true}] },
-    { label:'99', pct:72, note:'Raise/call 3-bets in position',
-      cards:[{r:'9',s:'&#9827;'},{r:'9',s:'&#9830;',red:true}] },
-    { label:'AKs', pct:67, note:'Big Slick suited — premium draw',
-      cards:[{r:'A',s:'&#9829;',red:true},{r:'K',s:'&#9829;',red:true}] },
-    { label:'AKo', pct:65, note:'Big Slick — raise/4-bet for value',
-      cards:[{r:'A',s:'&#9824;'},{r:'K',s:'&#9829;',red:true}] },
-    { label:'AQs', pct:66, note:'Raise, 3-bet vs BTN steals',
-      cards:[{r:'A',s:'&#9827;'},{r:'Q',s:'&#9827;'}] },
-    { label:'AQo', pct:64, note:'Raise, fold to UTG 4-bets',
-      cards:[{r:'A',s:'&#9824;'},{r:'Q',s:'&#9829;',red:true}] },
+    { label:'TT', pct:75, note:'Strong pair, play fast', cards:[{r:'T',s:'&#9824;'},{r:'T',s:'&#9829;',red:true}] },
+    { label:'99', pct:72, note:'Raise/call 3-bets in position', cards:[{r:'9',s:'&#9827;'},{r:'9',s:'&#9830;',red:true}] },
+    { label:'AKs', pct:67, note:'Big Slick suited — premium draw', cards:[{r:'A',s:'&#9829;',red:true},{r:'K',s:'&#9829;',red:true}] },
+    { label:'AKo', pct:65, note:'Big Slick — raise/4-bet for value', cards:[{r:'A',s:'&#9824;'},{r:'K',s:'&#9829;',red:true}] },
+    { label:'AQs', pct:66, note:'Raise, 3-bet vs BTN steals', cards:[{r:'A',s:'&#9827;'},{r:'Q',s:'&#9827;'}] },
+    { label:'AQo', pct:64, note:'Raise, fold to UTG 4-bets', cards:[{r:'A',s:'&#9824;'},{r:'Q',s:'&#9829;',red:true}] },
   ],
   playable: [
-    { label:'88', pct:69, note:'Set mine or raise in position',
-      cards:[{r:'8',s:'&#9829;',red:true},{r:'8',s:'&#9824;'}] },
-    { label:'77', pct:66, note:'Position dependent — fold to 3-bets OOP',
-      cards:[{r:'7',s:'&#9827;'},{r:'7',s:'&#9830;',red:true}] },
-    { label:'AJs', pct:65, note:'Raise CO/BTN, fold to UTG 3-bets',
-      cards:[{r:'A',s:'&#9830;',red:true},{r:'J',s:'&#9830;',red:true}] },
-    { label:'ATs', pct:64, note:'Suited — strong in position',
-      cards:[{r:'A',s:'&#9827;'},{r:'T',s:'&#9827;'}] },
-    { label:'KQs', pct:63, note:'Strong broadway, great multi-way',
-      cards:[{r:'K',s:'&#9829;',red:true},{r:'Q',s:'&#9829;',red:true}] },
-    { label:'KJs', pct:62, note:'Raise BTN/CO, fold UTG',
-      cards:[{r:'K',s:'&#9830;',red:true},{r:'J',s:'&#9830;',red:true}] },
-    { label:'QJs', pct:60, note:'Good draws, play in position',
-      cards:[{r:'Q',s:'&#9824;'},{r:'J',s:'&#9824;'}] },
-    { label:'JTs', pct:57, note:'Excellent drawing hand — position key',
-      cards:[{r:'J',s:'&#9829;',red:true},{r:'T',s:'&#9829;',red:true}] },
+    { label:'88', pct:69, note:'Set mine or raise in position', cards:[{r:'8',s:'&#9829;',red:true},{r:'8',s:'&#9824;'}] },
+    { label:'77', pct:66, note:'Position dependent — fold to 3-bets OOP', cards:[{r:'7',s:'&#9827;'},{r:'7',s:'&#9830;',red:true}] },
+    { label:'AJs', pct:65, note:'Raise CO/BTN, fold to UTG 3-bets', cards:[{r:'A',s:'&#9830;',red:true},{r:'J',s:'&#9830;',red:true}] },
+    { label:'ATs', pct:64, note:'Suited — strong in position', cards:[{r:'A',s:'&#9827;'},{r:'T',s:'&#9827;'}] },
+    { label:'KQs', pct:63, note:'Strong broadway, great multi-way', cards:[{r:'K',s:'&#9829;',red:true},{r:'Q',s:'&#9829;',red:true}] },
+    { label:'KJs', pct:62, note:'Raise BTN/CO, fold UTG', cards:[{r:'K',s:'&#9830;',red:true},{r:'J',s:'&#9830;',red:true}] },
+    { label:'QJs', pct:60, note:'Good draws, play in position', cards:[{r:'Q',s:'&#9824;'},{r:'J',s:'&#9824;'}] },
+    { label:'JTs', pct:57, note:'Excellent drawing hand — position key', cards:[{r:'J',s:'&#9829;',red:true},{r:'T',s:'&#9829;',red:true}] },
   ],
   spec: [
-    { label:'66', pct:63, note:'Set mine vs tight, fold vs aggression',
-      cards:[{r:'6',s:'&#9827;'},{r:'6',s:'&#9830;',red:true}] },
-    { label:'55', pct:60, note:'Pure set mining hand',
-      cards:[{r:'5',s:'&#9829;',red:true},{r:'5',s:'&#9824;'}] },
-    { label:'44', pct:57, note:'Only play to flop cheaply',
-      cards:[{r:'4',s:'&#9830;',red:true},{r:'4',s:'&#9827;'}] },
-    { label:'33', pct:54, note:'Need deep stacks for implied odds',
-      cards:[{r:'3',s:'&#9824;'},{r:'3',s:'&#9829;',red:true}] },
-    { label:'22', pct:51, note:'Lowest pair — set mine only',
-      cards:[{r:'2',s:'&#9827;'},{r:'2',s:'&#9830;',red:true}] },
-    { label:'T9s', pct:55, note:'Straight + flush draws',
-      cards:[{r:'T',s:'&#9824;'},{r:'9',s:'&#9824;'}] },
-    { label:'98s', pct:54, note:'Connected, good multi-way',
-      cards:[{r:'9',s:'&#9829;',red:true},{r:'8',s:'&#9829;',red:true}] },
-    { label:'87s', pct:53, note:'Position dependent — fold early',
-      cards:[{r:'8',s:'&#9830;',red:true},{r:'7',s:'&#9830;',red:true}] },
-    { label:'76s', pct:52, note:'Speculative — need position + deep stacks',
-      cards:[{r:'7',s:'&#9827;'},{r:'6',s:'&#9827;'}] },
-    { label:'A5s', pct:62, note:'Nut flush draw + nut low straight draw',
-      cards:[{r:'A',s:'&#9830;',red:true},{r:'5',s:'&#9830;',red:true}] },
+    { label:'66', pct:63, note:'Set mine vs tight, fold vs aggression', cards:[{r:'6',s:'&#9827;'},{r:'6',s:'&#9830;',red:true}] },
+    { label:'55', pct:60, note:'Pure set mining hand', cards:[{r:'5',s:'&#9829;',red:true},{r:'5',s:'&#9824;'}] },
+    { label:'44', pct:57, note:'Only play to flop cheaply', cards:[{r:'4',s:'&#9830;',red:true},{r:'4',s:'&#9827;'}] },
+    { label:'33', pct:54, note:'Need deep stacks for implied odds', cards:[{r:'3',s:'&#9824;'},{r:'3',s:'&#9829;',red:true}] },
+    { label:'22', pct:51, note:'Lowest pair — set mine only', cards:[{r:'2',s:'&#9827;'},{r:'2',s:'&#9830;',red:true}] },
+    { label:'T9s', pct:55, note:'Straight + flush draws', cards:[{r:'T',s:'&#9824;'},{r:'9',s:'&#9824;'}] },
+    { label:'98s', pct:54, note:'Connected, good multi-way', cards:[{r:'9',s:'&#9829;',red:true},{r:'8',s:'&#9829;',red:true}] },
+    { label:'87s', pct:53, note:'Position dependent — fold early', cards:[{r:'8',s:'&#9830;',red:true},{r:'7',s:'&#9830;',red:true}] },
+    { label:'76s', pct:52, note:'Speculative — need position + deep stacks', cards:[{r:'7',s:'&#9827;'},{r:'6',s:'&#9827;'}] },
+    { label:'A5s', pct:62, note:'Nut flush draw + nut low straight draw', cards:[{r:'A',s:'&#9830;',red:true},{r:'5',s:'&#9830;',red:true}] },
   ],
   trash: [
-    { label:'K7o', pct:47, note:'Dominated by better Kx hands',
-      cards:[{r:'K',s:'&#9824;'},{r:'7',s:'&#9829;',red:true}] },
-    { label:'Q8o', pct:45, note:'Weak, easily dominated',
-      cards:[{r:'Q',s:'&#9827;'},{r:'8',s:'&#9830;',red:true}] },
-    { label:'J6o', pct:42, note:'Fold almost always',
-      cards:[{r:'J',s:'&#9829;',red:true},{r:'6',s:'&#9824;'}] },
-    { label:'83o', pct:36, note:'Classic trash hand',
-      cards:[{r:'8',s:'&#9824;'},{r:'3',s:'&#9829;',red:true}] },
-    { label:'72o', pct:32, note:'The worst starting hand — fold always',
-      cards:[{r:'7',s:'&#9827;'},{r:'2',s:'&#9830;',red:true}] },
+    { label:'K7o', pct:47, note:'Dominated by better Kx hands', cards:[{r:'K',s:'&#9824;'},{r:'7',s:'&#9829;',red:true}] },
+    { label:'Q8o', pct:45, note:'Weak, easily dominated', cards:[{r:'Q',s:'&#9827;'},{r:'8',s:'&#9830;',red:true}] },
+    { label:'J6o', pct:42, note:'Fold almost always', cards:[{r:'J',s:'&#9829;',red:true},{r:'6',s:'&#9824;'}] },
+    { label:'83o', pct:36, note:'Classic trash hand', cards:[{r:'8',s:'&#9824;'},{r:'3',s:'&#9829;',red:true}] },
+    { label:'72o', pct:32, note:'The worst starting hand — fold always', cards:[{r:'7',s:'&#9827;'},{r:'2',s:'&#9830;',red:true}] },
   ]
 };
-
 function eqColor(pct) {
   if (pct >= 75) return '#cc0000';
   if (pct >= 65) return '#e8b800';
@@ -1015,7 +1123,6 @@ function eqColor(pct) {
   if (pct >= 45) return '#1e6ab0';
   return '#6b6b80';
 }
-
 function buildEqGroup(groupId, hands) {
   const el = document.getElementById('eq-' + groupId);
   if (!el) return;
@@ -1024,102 +1131,349 @@ function buildEqGroup(groupId, hands) {
     const cardsHtml = h.cards.map(c =>
       `<div class="hc${c.red?' red':''}"><div class="r">${c.r}</div><div class="s">${c.s}</div></div>`
     ).join('');
-    return `
-      <div class="eq-card">
-        <div class="eq-hand">${cardsHtml}</div>
-        <div class="eq-info">
-          <span class="eq-label">${h.label}</span>
-          <span class="eq-pct" style="color:${col};">${h.pct}%</span>
-        </div>
-        <div class="eq-bar-bg">
-          <div class="eq-bar" style="width:${h.pct}%;background:${col};"></div>
-        </div>
-        <div class="eq-note">${h.note}</div>
-      </div>`;
+    return `<div class="eq-card">
+      <div class="eq-hand">${cardsHtml}</div>
+      <div class="eq-info"><span class="eq-label">${h.label}</span><span class="eq-pct" style="color:${col};">${h.pct}%</span></div>
+      <div class="eq-bar-bg"><div class="eq-bar" style="width:${h.pct}%;background:${col};"></div></div>
+      <div class="eq-note">${h.note}</div>
+    </div>`;
   }).join('');
 }
-
 buildEqGroup('monsters', eqGroups.monsters);
 buildEqGroup('strong',   eqGroups.strong);
 buildEqGroup('playable', eqGroups.playable);
 buildEqGroup('spec',     eqGroups.spec);
 buildEqGroup('trash',    eqGroups.trash);
 
+// ══════════════════════════════════════════════
+// PRACTICE MODULE
+// ══════════════════════════════════════════════
+const HAND_DB = [
+  {label:'AA',  eq:85, tier:1, gto:{UTG:'Raise 3x',  MP:'Raise 3x',  CO:'Raise 2.5x',BTN:'Raise 2.5x',SB:'Raise 2.5x',BB:'Raise 3x'}},
+  {label:'KK',  eq:82, tier:1, gto:{UTG:'Raise 3x',  MP:'Raise 3x',  CO:'Raise 2.5x',BTN:'Raise 2.5x',SB:'Raise 2.5x',BB:'Raise 3x'}},
+  {label:'QQ',  eq:80, tier:1, gto:{UTG:'Raise 3x',  MP:'Raise 3x',  CO:'Raise 2.5x',BTN:'Raise 2.5x',SB:'Raise 2.5x',BB:'Raise 3x'}},
+  {label:'JJ',  eq:77, tier:1, gto:{UTG:'Raise 3x',  MP:'Raise 3x',  CO:'Raise 2.5x',BTN:'Raise 2.5x',SB:'Raise 2.5x',BB:'Raise 3x'}},
+  {label:'TT',  eq:75, tier:2, gto:{UTG:'Raise 3x',  MP:'Raise 3x',  CO:'Raise 2.5x',BTN:'Raise 2.5x',SB:'Raise 2.5x',BB:'Raise 3x'}},
+  {label:'99',  eq:72, tier:2, gto:{UTG:'Raise 3x',  MP:'Raise 2.5x',CO:'Raise 2.5x',BTN:'Raise 2.5x',SB:'Raise 2.5x',BB:'Raise 2.5x'}},
+  {label:'AKs', eq:67, tier:2, gto:{UTG:'Raise 3x',  MP:'Raise 3x',  CO:'Raise 2.5x',BTN:'Raise 2.5x',SB:'Raise 2.5x',BB:'Raise 3x'}},
+  {label:'AKo', eq:65, tier:2, gto:{UTG:'Raise 3x',  MP:'Raise 3x',  CO:'Raise 2.5x',BTN:'Raise 2.5x',SB:'Raise 2.5x',BB:'Raise 3x'}},
+  {label:'AQs', eq:66, tier:2, gto:{UTG:'Raise 3x',  MP:'Raise 2.5x',CO:'Raise 2.5x',BTN:'Raise 2.5x',SB:'Raise 2.5x',BB:'Raise 2.5x'}},
+  {label:'AQo', eq:64, tier:2, gto:{UTG:'Raise 3x',  MP:'Raise 2.5x',CO:'Raise 2.5x',BTN:'Raise 2.5x',SB:'Raise 2.5x',BB:'Raise 2.5x'}},
+  {label:'AJs', eq:65, tier:3, gto:{UTG:'Fold',      MP:'Raise 2.5x',CO:'Raise 2.5x',BTN:'Raise 2.5x',SB:'Raise 2.5x',BB:'Raise 2.5x'}},
+  {label:'ATs', eq:64, tier:3, gto:{UTG:'Fold',      MP:'Raise 2.5x',CO:'Raise 2.5x',BTN:'Raise 2.5x',SB:'Raise 2.5x',BB:'Raise 2.5x'}},
+  {label:'88',  eq:69, tier:3, gto:{UTG:'Raise 3x',  MP:'Raise 2.5x',CO:'Raise 2.5x',BTN:'Raise 2.5x',SB:'Raise 2.5x',BB:'Raise 2.5x'}},
+  {label:'77',  eq:66, tier:3, gto:{UTG:'Fold',      MP:'Raise 2.5x',CO:'Raise 2.5x',BTN:'Raise 2.5x',SB:'Raise 2.5x',BB:'Raise 2.5x'}},
+  {label:'KQs', eq:63, tier:3, gto:{UTG:'Fold',      MP:'Raise 2.5x',CO:'Raise 2.5x',BTN:'Raise 2.5x',SB:'Raise 2.5x',BB:'Raise 2.5x'}},
+  {label:'KJs', eq:62, tier:3, gto:{UTG:'Fold',      MP:'Fold',       CO:'Raise 2.5x',BTN:'Raise 2.5x',SB:'Raise 2.5x',BB:'Raise 2.5x'}},
+  {label:'QJs', eq:60, tier:3, gto:{UTG:'Fold',      MP:'Fold',       CO:'Raise 2.5x',BTN:'Raise 2.5x',SB:'Raise 2.5x',BB:'Raise 2.5x'}},
+  {label:'JTs', eq:57, tier:3, gto:{UTG:'Fold',      MP:'Fold',       CO:'Raise 2.5x',BTN:'Raise 2.5x',SB:'Raise 2.5x',BB:'Raise 2.5x'}},
+  {label:'66',  eq:63, tier:4, gto:{UTG:'Fold',      MP:'Fold',       CO:'Raise 2.5x',BTN:'Raise 2.5x',SB:'Raise 2.5x',BB:'Raise 2.5x'}},
+  {label:'55',  eq:60, tier:4, gto:{UTG:'Fold',      MP:'Fold',       CO:'Fold',       BTN:'Raise 2.5x',SB:'Raise 2.5x',BB:'Raise 2.5x'}},
+  {label:'44',  eq:57, tier:4, gto:{UTG:'Fold',      MP:'Fold',       CO:'Fold',       BTN:'Raise 2.5x',SB:'Fold',       BB:'Fold'}},
+  {label:'33',  eq:54, tier:4, gto:{UTG:'Fold',      MP:'Fold',       CO:'Fold',       BTN:'Raise 2.5x',SB:'Fold',       BB:'Fold'}},
+  {label:'22',  eq:51, tier:4, gto:{UTG:'Fold',      MP:'Fold',       CO:'Fold',       BTN:'Raise 2.5x',SB:'Fold',       BB:'Fold'}},
+  {label:'T9s', eq:55, tier:4, gto:{UTG:'Fold',      MP:'Fold',       CO:'Raise 2.5x',BTN:'Raise 2.5x',SB:'Raise 2.5x',BB:'Raise 2.5x'}},
+  {label:'98s', eq:54, tier:4, gto:{UTG:'Fold',      MP:'Fold',       CO:'Fold',       BTN:'Raise 2.5x',SB:'Raise 2.5x',BB:'Fold'}},
+  {label:'87s', eq:53, tier:4, gto:{UTG:'Fold',      MP:'Fold',       CO:'Fold',       BTN:'Raise 2.5x',SB:'Fold',       BB:'Fold'}},
+  {label:'A5s', eq:62, tier:4, gto:{UTG:'Fold',      MP:'Fold',       CO:'Raise 2.5x',BTN:'Raise 2.5x',SB:'Raise 2.5x',BB:'Raise 2.5x'}},
+  {label:'K7o', eq:47, tier:5, gto:{UTG:'Fold',      MP:'Fold',       CO:'Fold',       BTN:'Fold',       SB:'Fold',       BB:'Fold'}},
+  {label:'Q8o', eq:45, tier:5, gto:{UTG:'Fold',      MP:'Fold',       CO:'Fold',       BTN:'Fold',       SB:'Fold',       BB:'Fold'}},
+  {label:'J6o', eq:42, tier:5, gto:{UTG:'Fold',      MP:'Fold',       CO:'Fold',       BTN:'Fold',       SB:'Fold',       BB:'Fold'}},
+  {label:'83o', eq:36, tier:5, gto:{UTG:'Fold',      MP:'Fold',       CO:'Fold',       BTN:'Fold',       SB:'Fold',       BB:'Fold'}},
+  {label:'72o', eq:32, tier:5, gto:{UTG:'Fold',      MP:'Fold',       CO:'Fold',       BTN:'Fold',       SB:'Fold',       BB:'Fold'}},
+];
+
+const POS_LIST = ['UTG','MP','CO','BTN','SB','BB'];
+const POS_COORDS = {
+  UTG:{top:68, left:28}, MP:{top:28,left:88}, CO:{top:28,left:196},
+  BTN:{top:68,left:252}, SB:{top:120,left:210}, BB:{top:120,left:74}
+};
+const POS_COLORS = {UTG:'#444455',MP:'#5a3a6e',CO:'#1a7a40',BTN:'#b58900',SB:'#1e6ab0',BB:'#cc0000'};
+const POS_TEXT   = {UTG:'#e8e8f0',MP:'#e8e8f0',CO:'#fff',BTN:'#0a0a0f',SB:'#fff',BB:'#fff'};
+const POS_DEALER = {
+  UTG:{top:56,left:196}, MP:{top:26,left:160}, CO:{top:26,left:210},
+  BTN:{top:62,left:248}, SB:{top:112,left:236}, BB:{top:112,left:74}
+};
+
+function stackBucket(bb) {
+  if (bb < 20)  return '<20 BB';
+  if (bb < 40)  return '20–40 BB';
+  if (bb < 80)  return '40–80 BB';
+  return '>80 BB';
+}
+
+function parseHand(label) {
+  const suits = ['&#9824;','&#9829;','&#9830;','&#9827;'];
+  const reds  = [false,true,true,false];
+  const fmt = r => r==='T'?'10':r;
+  if (label.endsWith('s')) {
+    const si = Math.floor(Math.random()*4);
+    const r1 = fmt(label[0]), r2 = fmt(label[1]);
+    return [{r:r1,s:suits[si],red:reds[si]},{r:r2,s:suits[si],red:reds[si]}];
+  } else if (label.endsWith('o')) {
+    let s1=Math.floor(Math.random()*4), s2;
+    do { s2=Math.floor(Math.random()*4); } while(s2===s1);
+    return [{r:fmt(label[0]),s:suits[s1],red:reds[s1]},{r:fmt(label[1]),s:suits[s2],red:reds[s2]}];
+  } else {
+    // pair
+    let s1=Math.floor(Math.random()*4), s2;
+    do { s2=Math.floor(Math.random()*4); } while(s2===s1);
+    const r = fmt(label[0]);
+    return [{r,s:suits[s1],red:reds[s1]},{r,s:suits[s2],red:reds[s2]}];
+  }
+}
+
+let pracState = {};
+const pracAnswers = {q1:null, q2:null, q4:null, q5:null};
+
+function dealScenario() {
+  pracAnswers.q1=null; pracAnswers.q2=null; pracAnswers.q4=null; pracAnswers.q5=null;
+  document.querySelectorAll('.opt-btn').forEach(b=>b.classList.remove('sel'));
+  document.getElementById('pracResult').className='prac-result';
+  document.getElementById('equitySlider').value=55;
+  document.getElementById('equityVal').textContent='55%';
+  const calcEl = document.getElementById('q5calc');
+  if (calcEl) calcEl.style.display='none';
+
+  const hand = HAND_DB[Math.floor(Math.random()*HAND_DB.length)];
+  const pos  = POS_LIST[Math.floor(Math.random()*POS_LIST.length)];
+  const bb   = Math.floor(Math.random()*120)+15;
+  const bbAmt= (Math.floor(Math.random()*4)+1)*25;
+  const chips= bb * bbAmt;
+  pracState  = {hand, pos, bb, chips, bbAmt};
+
+  // Hole cards
+  const cardData = parseHand(hand.label);
+  document.getElementById('pracHole').innerHTML = cardData.map(c=>
+    `<div class="prac-card${c.red?' red':''}"><div class="r">${c.r}</div><div class="s">${c.s}</div></div>`
+  ).join('');
+
+  // Meta
+  document.getElementById('pracMeta').innerHTML = `
+    <div class="prac-chip"><div class="pv">${chips.toLocaleString()}</div><div class="pl">Chip Stack</div></div>
+    <div class="prac-chip"><div class="pv">$${bbAmt*2}</div><div class="pl">Big Blind</div></div>
+    <div class="prac-chip"><div class="pv">~${bb} BB</div><div class="pl">Eff. Stack</div></div>
+  `;
+
+  // Mini table — rebuild seats
+  const pmt = document.getElementById('pmtEl');
+  pmt.innerHTML = '';
+  // Dealer chip
+  const dc = POS_DEALER[pos];
+  const dlEl = document.createElement('div');
+  dlEl.className='pmt-dl'; dlEl.textContent='D';
+  dlEl.style.top=dc.top+'px'; dlEl.style.left=dc.left+'px';
+  pmt.appendChild(dlEl);
+  // Seats
+  POS_LIST.forEach(p=>{
+    const c=POS_COORDS[p], isHero=(p===pos);
+    const el=document.createElement('div');
+    el.className='pmt-seat'+(isHero?' hero':'');
+    el.style.top=c.top+'px'; el.style.left=c.left+'px';
+    el.style.background=POS_COLORS[p]; el.style.color=POS_TEXT[p];
+    el.innerHTML=`<span>${p}</span>${isHero?'YOU':''}`;
+    pmt.appendChild(el);
+  });
+
+  document.getElementById('pracScenario').classList.add('show');
+  document.getElementById('pracScenario').scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+function selOpt(q, val) {
+  pracAnswers[q]=val;
+  document.getElementById(q+'opts').querySelectorAll('.opt-btn').forEach(b=>{
+    b.classList.toggle('sel', b.textContent.trim()===val || (b.getAttribute('onclick')||'').includes(`'${val}'`));
+  });
+  // Live calc for Q5
+  if (q==='q5') {
+    const calcEl  = document.getElementById('q5calc');
+    const calcVal = document.getElementById('q5calcVal');
+    const bbAmt   = pracState.bbAmt || 0;
+    const multMap = {'2bb':2,'2.5bb':2.5,'3bb':3,'4bb':4};
+    if (val==='na') {
+      calcEl.style.display='block';
+      calcVal.innerHTML='<span style="color:var(--muted);">No raise — folding</span>';
+    } else if (multMap[val]) {
+      const mult   = multMap[val];
+      const amount = Math.round(bbAmt * 2 * mult); // bbAmt is half-BB, so *2 = full BB, then *mult
+      calcEl.style.display='block';
+      calcVal.innerHTML=`$${amount.toLocaleString()} <span style="font-size:13px;color:var(--muted);font-weight:400;">(${mult}× the $${bbAmt*2} BB)</span>`;
+    }
+  }
+}
+
+function submitPrac() {
+  if (!pracAnswers.q1||!pracAnswers.q2||!pracAnswers.q4||!pracAnswers.q5) {
+    alert('Please answer all 5 questions first.'); return;
+  }
+  const {hand,pos,bb,bbAmt} = pracState;
+  const fullBB        = bbAmt * 2;
+  const correctPos    = pos;
+  const correctBucket = stackBucket(bb);
+  const correctAction = hand.gto[pos];
+  const eqGuess       = parseInt(document.getElementById('equitySlider').value);
+  const eqDiff        = Math.abs(eqGuess - hand.eq);
+
+  const normBucket = s => s.replace(/&lt;/g,'<').replace(/&gt;/g,'>');
+  const userBucket = normBucket(pracAnswers.q2);
+  const stackOk    = userBucket === correctBucket;
+  const posOk      = pracAnswers.q1 === correctPos;
+  const equityOk   = eqDiff <= 8;
+  const actionOk   = pracAnswers.q4 === correctAction;
+
+  // Q5 correctness
+  const multMap = {'2bb':2,'2.5bb':2.5,'3bb':3,'4bb':4};
+  let correctQ5, correctQ5Label, correctChips;
+  if (correctAction==='Fold'||correctAction==='Limp') {
+    correctQ5='na'; correctQ5Label='N/A — Folding'; correctChips=null;
+  } else if (correctAction==='Raise 2.5x') {
+    correctQ5='2.5bb'; correctChips=Math.round(fullBB*2.5);
+    correctQ5Label=`BB × 2.5 = $${correctChips.toLocaleString()}`;
+  } else if (correctAction==='Raise 3x') {
+    correctQ5='3bb'; correctChips=Math.round(fullBB*3);
+    correctQ5Label=`BB × 3 = $${correctChips.toLocaleString()}`;
+  }
+  const betOk = pracAnswers.q5===correctQ5;
+  const userChips = pracAnswers.q5==='na' ? null : Math.round(fullBB*(multMap[pracAnswers.q5]||0));
+  const userQ5Label = pracAnswers.q5==='na'
+    ? 'N/A — Folding'
+    : `BB × ${multMap[pracAnswers.q5]} = $${(userChips||0).toLocaleString()}`;
+
+  const score = [posOk,stackOk,equityOk,actionOk,betOk].filter(Boolean).length;
+
+  const rows = [
+    { ok:posOk, label:'Position', user:pracAnswers.q1, correct:correctPos,
+      explain: posOk
+        ? 'Correct — you read the table accurately.'
+        : `Hero is in <strong>${correctPos}</strong>. The yellow neon ring marks your seat. Count clockwise from D: BTN → SB → BB → UTG → MP → CO.` },
+    { ok:stackOk, label:'Stack Depth', user:userBucket, correct:correctBucket,
+      explain: stackOk
+        ? `Right — ${bb} BB falls in the ${correctBucket} range.`
+        : `Stack is <strong>${bb} BB = ${correctBucket}</strong>. Divide chips by BB. Short (&lt;20BB) = push/fold; 20–40BB = limited; 40–80BB = standard; 80BB+ = full GTO.` },
+    { ok:equityOk, label:'Equity Estimate', user:eqGuess+'%', correct:hand.eq+'%',
+      explain: equityOk
+        ? `Good estimate — ${hand.label} is ~${hand.eq}% vs random. Off by only ${eqDiff}%.`
+        : `${hand.label} has <strong>~${hand.eq}%</strong> equity vs random (you said ${eqGuess}%, off by ${eqDiff}%). ${hand.tier<=2?'Premiums run 65–85%.':hand.tier===3?'Medium hands sit 57–66%.':'Spec/trash: 32–60%.'}` },
+    { ok:actionOk, label:'GTO Action', user:pracAnswers.q4, correct:correctAction,
+      explain: actionOk
+        ? `Correct from ${pos}. ${gtoReason(hand,pos,correctAction)}`
+        : `GTO says <strong>${correctAction}</strong> from ${pos} with ${hand.label}. ${gtoReason(hand,pos,correctAction)}` },
+    { ok:betOk, label:'Bet Sizing', user:userQ5Label, correct:correctQ5Label,
+      explain: betOk
+        ? (correctChips
+            ? `Correct — raise to <strong>$${correctChips.toLocaleString()}</strong>. That's ${correctAction.replace('Raise ','')} × the $${fullBB} BB.`
+            : `Correct — no chips in when folding.`)
+        : (correctChips
+            ? `Correct raise is <strong>$${correctChips.toLocaleString()}</strong> (${correctAction.replace('Raise ','')} × $${fullBB} BB). ${betSizeReason(correctAction,pos,fullBB,correctChips)}`
+            : `GTO action is ${correctAction} — no bet goes in.`) },
+  ];
+
+  let grade, icon, title;
+  if (score===5)      { grade='pass';    icon='✅'; title='Perfect — 5/5 Correct'; }
+  else if (score>=3)  { grade='partial'; icon='🟡'; title=`${score}/5 — Partial Credit`; }
+  else                { grade='fail';    icon='❌'; title=`${score}/5 — Study These Spots`; }
+
+  const resEl = document.getElementById('pracResult');
+  resEl.className=`prac-result show ${grade}`;
+  document.getElementById('resIcon').textContent=icon;
+  document.getElementById('resTitle').textContent=title;
+  document.getElementById('resBreakdown').innerHTML=rows.map(r=>`
+    <div class="prac-row">
+      <span class="icon">${r.ok?'✅':'❌'}</span>
+      <div class="txt">
+        <strong>${r.label}:</strong> You answered <em>${r.user}</em>${r.ok?'':` — correct: <strong>${r.correct}</strong>`}.<br>
+        ${r.explain}
+      </div>
+    </div>`).join('');
+  resEl.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function toggleHelp(id, btn) {
+  const panel = document.getElementById(id);
+  const isOpen = panel.classList.contains('show');
+  // Close all panels first
+  document.querySelectorAll('.help-panel').forEach(p=>p.classList.remove('show'));
+  document.querySelectorAll('.help-btn').forEach(b=>b.classList.remove('open'));
+  if (!isOpen) {
+    panel.classList.add('show');
+    btn.classList.add('open');
+  }
+}
+
+function gtoReason(hand,pos,action) {
+  if (action==='Fold') {
+    if (pos==='UTG'||pos==='MP')
+      return `From ${pos} you act before most of the table — players behind can 3-bet. ${hand.label} doesn't clear the tight opening threshold for early position.`;
+    return `Even from ${pos}, ${hand.label} is below the GTO opening threshold. Folding keeps you from leaking chips in marginal spots.`;
+  }
+  if (action==='Raise 3x')
+    return `3x sizing from ${pos} is standard for early-position opens — it builds a larger pot, deters multiway callers, and your hand (${hand.label}) is strong enough to play for value.`;
+  if (action==='Raise 2.5x')
+    return `2.5x is the standard late/mid-position open size. ${hand.label} is in the GTO raising range from ${pos} — smaller sizing exploits your positional advantage.`;
+  return '';
+}
+
+function betSizeReason(action, pos, fullBB, chips) {
+  const mult = action==='Raise 3x' ? 3 : 2.5;
+  const why  = mult===3
+    ? `3x from ${pos} (early position) builds a bigger pot and makes it expensive for players behind to call or 3-bet with speculative hands.`
+    : `2.5x from ${pos} is the GTO standard for in-position opens — small enough to keep the pot manageable, large enough to deny free looks.`;
+  return `Formula: $${fullBB} BB × ${mult} = <strong>$${chips.toLocaleString()}</strong>. ${why}`;
+}
+
 // ── TERMINOLOGIES ──
 const terms = [
-  { name:'Rockets',       short:'Pocket Aces (AA)',          cat:'hand',
+  { name:'Rockets',   short:'Pocket Aces (AA)', cat:'hand',
     desc:'The best starting hand. Two Aces in the hole. Also called "bullets" or "pocket rockets". Despite being the strongest hand pre-flop, they can still be cracked by sets, straights, and flushes.',
     cards:[{r:'A',s:'&#9824;'},{r:'A',s:'&#9829;',red:true}] },
-  { name:'Cowboys',       short:'Pocket Kings (KK)',          cat:'hand',
+  { name:'Cowboys',   short:'Pocket Kings (KK)', cat:'hand',
     desc:'Second-best starting hand. Dominated only by Aces pre-flop. Many players lose big pots by overcommitting when an Ace flops — learn to let go when board and action suggest you\'re beaten.',
     cards:[{r:'K',s:'&#9824;'},{r:'K',s:'&#9829;',red:true}] },
-  { name:'Ladies',        short:'Pocket Queens (QQ)',         cat:'hand',
+  { name:'Ladies',    short:'Pocket Queens (QQ)', cat:'hand',
     desc:'Third-best starting hand. Strong pre-flop but vulnerable to Kings and Aces. Notoriously tricky when overcards land on the board.',
     cards:[{r:'Q',s:'&#9829;',red:true},{r:'Q',s:'&#9824;'}] },
-  { name:'Fishhooks',     short:'Pocket Jacks (JJ)',          cat:'hand',
+  { name:'Fishhooks', short:'Pocket Jacks (JJ)', cat:'hand',
     desc:'One of poker\'s most infamous trouble hands. Strong pre-flop, often beaten post-flop by overcards (Q, K, A). Context is everything with Jacks.',
     cards:[{r:'J',s:'&#9824;'},{r:'J',s:'&#9830;',red:true}] },
-  { name:'Big Slick',     short:'Ace-King (AK)',              cat:'hand',
+  { name:'Big Slick', short:'Ace-King (AK)', cat:'hand',
     desc:'A powerful drawing hand. Sometimes called "Anna Kournikova" — looks great, doesn\'t always win. Best played aggressively in raised pots; needs to connect on the board.',
     cards:[{r:'A',s:'&#9824;'},{r:'K',s:'&#9829;',red:true}] },
-  { name:'The Nuts',      short:'Best possible hand on board', cat:'hand',
+  { name:'The Nuts',  short:'Best possible hand on board', cat:'hand',
     desc:'The absolute best hand possible given the community cards. "I have the nuts" means unbeatable. The nuts can change from flop to turn to river.',
     cards:[] },
-  { name:'Suited Connectors', short:'e.g. 7&#9829; 8&#9829;', cat:'hand',
+  { name:'Suited Connectors', short:'e.g. 7♥ 8♥', cat:'hand',
     desc:'Two consecutive-rank cards of the same suit. They can make both straights and flushes. Best played cheaply in position.',
     cards:[{r:'7',s:'&#9829;',red:true},{r:'8',s:'&#9829;',red:true}] },
-  { name:'Pocket Pair',   short:'Matching hole cards',        cat:'hand',
+  { name:'Pocket Pair', short:'Matching hole cards', cat:'hand',
     desc:'Any pair dealt as your two hole cards. Small pairs (22–55) are often played to "set mine" — hit three-of-a-kind and win a big pot. Sets hit ~12% of the time.',
     cards:[{r:'6',s:'&#9827;'},{r:'6',s:'&#9830;',red:true}] },
-  { name:'C-Bet',         short:'Continuation Bet',           cat:'action',
-    desc:'A bet made on the flop by the pre-flop aggressor, whether or not the board helped. You raised pre-flop, so you continue representing a strong hand. A cornerstone of modern poker.' ,cards:[]},
-  { name:'Check-Raise',   short:'Check then raise',           cat:'action',
-    desc:'Checking to your opponent, letting them bet, then re-raising. Highly deceptive — used to build pots with strong hands or as a bluff to deny equity.',cards:[]},
-  { name:'3-Bet',         short:'Re-raise a pre-flop open',   cat:'action',
-    desc:'The third bet in the pre-flop sequence. Used to build pots, isolate opponents, or apply pressure. A 4-bet is the re-raise of a 3-bet.',cards:[]},
-  { name:'Donk Bet',      short:'Bet into pre-flop raiser',   cat:'action',
-    desc:'Leading into the player who had initiative. Generally considered suboptimal but advanced players use targeted donk leads as a strategic tool in specific spots.',cards:[]},
-  { name:'Squeeze',       short:'3-bet vs raiser + callers',  cat:'action',
-    desc:'A 3-bet when there\'s been an open raise and one or more flat callers. Very powerful — callers are "squeezed" and rarely have strong enough hands to continue.',cards:[]},
-  { name:'Limp',          short:'Call the big blind',         cat:'action',
-    desc:'Entering the pot by calling the minimum rather than raising. Generally passive and weak. Open-limping is discouraged in most strategies.',cards:[]},
-  { name:'Float',         short:'Call now, bluff later',      cat:'action',
-    desc:'Calling a bet with a weak hand, planning to take the pot away on a later street. Requires position, reads, and discipline.',cards:[]},
-  { name:'Pot Odds',      short:'Cost to call vs pot size',   cat:'concept',
-    desc:'The ratio of the pot to the cost of a call. $100 pot, $25 to call = 4:1 = you need 20% equity to break even. Compare to your hand equity to decide whether to call.',cards:[]},
-  { name:'Implied Odds',  short:'Future money you expect',    cat:'concept',
-    desc:'Potential future winnings if you hit your draw — beyond what\'s in the pot now. Sets and disguised straights have high implied odds; obvious draws have lower ones.',cards:[]},
-  { name:'Equity',        short:'Your % chance of winning',   cat:'concept',
-    desc:'The share of the pot you mathematically own based on your probability of winning. A flush draw has roughly 35% equity vs. top pair on the flop.',cards:[]},
-  { name:'GTO',           short:'Game Theory Optimal',        cat:'concept',
-    desc:'A mathematically balanced strategy that cannot be exploited long-term. A GTO player bluffs and value-bets at precise frequencies. The gold standard in modern poker theory.',cards:[]},
-  { name:'Range',         short:'All hands a player might hold', cat:'concept',
-    desc:'The complete set of hands your opponent could be holding given their actions. Good players think in ranges — "what hands would they play this way?"',cards:[]},
-  { name:'Cooler',        short:'Two big hands collide',      cat:'concept',
-    desc:'A situation where two very strong hands meet and losing is essentially unavoidable — e.g. flopping top set vs. a flopped straight. Neither player made a mistake.',cards:[]},
-  { name:'Bad Beat',      short:'Strong hand loses to underdog', cat:'concept',
-    desc:'When a heavily favoured hand loses to a significant underdog, usually on the turn or river. A fundamental aspect of variance — unavoidable in the short run.',cards:[]},
-  { name:'Tilt',          short:'Playing poorly due to emotion', cat:'concept',
-    desc:'Emotional frustration causing poor decisions — usually triggered by bad beats. Recognise it early, take a break, and reset. One of the biggest leaks in poker.',cards:[]},
-  { name:'Drawing Dead',  short:'No outs left to win',        cat:'concept',
-    desc:'When no possible card can save your hand. You\'re mathematically eliminated even before the hand ends.',cards:[]},
-  { name:'Fish',          short:'Weak, losing player',        cat:'player',
-    desc:'A recreational player making fundamental mistakes — calling too much, playing too many hands, not folding. Spot the fish and get into pots with them.',cards:[]},
-  { name:'Shark',         short:'Strong, winning player',     cat:'player',
-    desc:'A skilled, profitable player who studies the game and exploits weaker opponents. The goal of every serious poker player.',cards:[]},
-  { name:'Nit',           short:'Extremely tight, passive',   cat:'player',
-    desc:'Folds too much, only plays premium hands. Easy to bluff — steal their blinds relentlessly. They won\'t push back without a monster.',cards:[]},
-  { name:'LAG',           short:'Loose Aggressive',           cat:'player',
-    desc:'Plays many hands and bets/raises frequently. Good LAGs are the toughest opponents. Bad LAGs (maniacs) spew chips wildly.',cards:[]},
-  { name:'TAG',           short:'Tight Aggressive',           cat:'player',
-    desc:'Plays a selective range of hands but bets and raises them hard. The foundational winning style. TAGs don\'t bleed chips on marginal spots.',cards:[]},
-  { name:'Calling Station', short:'Calls too much, rarely folds', cat:'player',
-    desc:'Can\'t fold regardless of action. Don\'t bluff them — value bet big and relentlessly. They will call down with the weakest holdings.',cards:[]},
+  { name:'C-Bet',         short:'Continuation Bet',         cat:'action', desc:'A bet made on the flop by the pre-flop aggressor, whether or not the board helped. You raised pre-flop, so you continue representing a strong hand. A cornerstone of modern poker.', cards:[]},
+  { name:'Check-Raise',   short:'Check then raise',          cat:'action', desc:'Checking to your opponent, letting them bet, then re-raising. Highly deceptive — used to build pots with strong hands or as a bluff to deny equity.',cards:[]},
+  { name:'3-Bet',         short:'Re-raise a pre-flop open',  cat:'action', desc:'The third bet in the pre-flop sequence. Used to build pots, isolate opponents, or apply pressure. A 4-bet is the re-raise of a 3-bet.',cards:[]},
+  { name:'Donk Bet',      short:'Bet into pre-flop raiser',  cat:'action', desc:'Leading into the player who had initiative. Generally considered suboptimal but advanced players use targeted donk leads as a strategic tool in specific spots.',cards:[]},
+  { name:'Squeeze',       short:'3-bet vs raiser + callers', cat:'action', desc:'A 3-bet when there\'s been an open raise and one or more flat callers. Very powerful — callers are "squeezed" and rarely have strong enough hands to continue.',cards:[]},
+  { name:'Limp',          short:'Call the big blind',        cat:'action', desc:'Entering the pot by calling the minimum rather than raising. Generally passive and weak. Open-limping is discouraged in most strategies.',cards:[]},
+  { name:'Float',         short:'Call now, bluff later',     cat:'action', desc:'Calling a bet with a weak hand, planning to take the pot away on a later street. Requires position, reads, and discipline.',cards:[]},
+  { name:'Pot Odds',      short:'Cost to call vs pot size',  cat:'concept', desc:'The ratio of the pot to the cost of a call. $100 pot, $25 to call = 4:1 = you need 20% equity to break even. Compare to your hand equity to decide whether to call.',cards:[]},
+  { name:'Implied Odds',  short:'Future money you expect',   cat:'concept', desc:'Potential future winnings if you hit your draw — beyond what\'s in the pot now. Sets and disguised straights have high implied odds; obvious draws have lower ones.',cards:[]},
+  { name:'Equity',        short:'Your % chance of winning',  cat:'concept', desc:'The share of the pot you mathematically own based on your probability of winning. A flush draw has roughly 35% equity vs. top pair on the flop.',cards:[]},
+  { name:'GTO',           short:'Game Theory Optimal',       cat:'concept', desc:'A mathematically balanced strategy that cannot be exploited long-term. A GTO player bluffs and value-bets at precise frequencies. The gold standard in modern poker theory.',cards:[]},
+  { name:'Range',         short:'All hands a player might hold', cat:'concept', desc:'The complete set of hands your opponent could be holding given their actions. Good players think in ranges — "what hands would they play this way?"',cards:[]},
+  { name:'Cooler',        short:'Two big hands collide',     cat:'concept', desc:'A situation where two very strong hands meet and losing is essentially unavoidable — e.g. flopping top set vs. a flopped straight. Neither player made a mistake.',cards:[]},
+  { name:'Bad Beat',      short:'Strong hand loses to underdog', cat:'concept', desc:'When a heavily favoured hand loses to a significant underdog, usually on the turn or river. A fundamental aspect of variance — unavoidable in the short run.',cards:[]},
+  { name:'Tilt',          short:'Playing poorly due to emotion', cat:'concept', desc:'Emotional frustration causing poor decisions — usually triggered by bad beats. Recognise it early, take a break, and reset. One of the biggest leaks in poker.',cards:[]},
+  { name:'Drawing Dead',  short:'No outs left to win',       cat:'concept', desc:'When no possible card can save your hand. You\'re mathematically eliminated even before the hand ends.',cards:[]},
+  { name:'Fish',          short:'Weak, losing player',       cat:'player', desc:'A recreational player making fundamental mistakes — calling too much, playing too many hands, not folding. Spot the fish and get into pots with them.',cards:[]},
+  { name:'Shark',         short:'Strong, winning player',    cat:'player', desc:'A skilled, profitable player who studies the game and exploits weaker opponents. The goal of every serious poker player.',cards:[]},
+  { name:'Nit',           short:'Extremely tight, passive',  cat:'player', desc:'Folds too much, only plays premium hands. Easy to bluff — steal their blinds relentlessly. They won\'t push back without a monster.',cards:[]},
+  { name:'LAG',           short:'Loose Aggressive',          cat:'player', desc:'Plays many hands and bets/raises frequently. Good LAGs are the toughest opponents. Bad LAGs (maniacs) spew chips wildly.',cards:[]},
+  { name:'TAG',           short:'Tight Aggressive',          cat:'player', desc:'Plays a selective range of hands but bets and raises them hard. The foundational winning style. TAGs don\'t bleed chips on marginal spots.',cards:[]},
+  { name:'Calling Station', short:'Calls too much, rarely folds', cat:'player', desc:'Can\'t fold regardless of action. Don\'t bluff them — value bet big and relentlessly. They will call down with the weakest holdings.',cards:[]},
 ];
 
 let activeF = 'all';
 function renderTerms(list) {
-  const grid = document.getElementById('termGrid');
+  const grid  = document.getElementById('termGrid');
   const noRes = document.getElementById('noRes');
   grid.innerHTML = '';
   noRes.style.display = list.length === 0 ? 'block' : 'none';
@@ -1141,13 +1495,13 @@ function renderTerms(list) {
 }
 function filterT() {
   const q = document.getElementById('termQ').value.toLowerCase().trim();
-  let list = activeF === 'all' ? terms : terms.filter(t => t.cat === activeF);
-  if (q) list = list.filter(t => t.name.toLowerCase().includes(q) || t.short.toLowerCase().includes(q) || t.desc.toLowerCase().includes(q));
+  let list = activeF==='all' ? terms : terms.filter(t=>t.cat===activeF);
+  if (q) list = list.filter(t=>t.name.toLowerCase().includes(q)||t.short.toLowerCase().includes(q)||t.desc.toLowerCase().includes(q));
   renderTerms(list);
 }
-function setF(cat, btn) {
+function setF(cat,btn) {
   activeF = cat;
-  document.querySelectorAll('.fb').forEach(b => b.classList.remove('on'));
+  document.querySelectorAll('.fb').forEach(b=>b.classList.remove('on'));
   btn.classList.add('on');
   filterT();
 }

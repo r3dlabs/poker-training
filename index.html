@@ -342,6 +342,10 @@
   .eq-pct-range { font-family:'Barlow Condensed',sans-serif; font-size:15px; font-weight:900; letter-spacing:.02em; line-height:1; color:inherit; }
   .eq-tier-name { font-family:'Barlow',sans-serif; font-size:10px; font-weight:400; letter-spacing:.01em; text-transform:none; color:var(--muted); line-height:1; }
   .eq-tier-btn.sel .eq-tier-name { color:var(--accent); opacity:.8; }
+  .two-line-btn { display:flex; flex-direction:column; align-items:center; gap:2px; padding:8px 12px; }
+  .btn-main { font-family:'Barlow Condensed',sans-serif; font-size:14px; font-weight:900; letter-spacing:.04em; line-height:1; color:inherit; text-transform:uppercase; }
+  .btn-sub  { font-family:'Barlow',sans-serif; font-size:10px; font-weight:400; letter-spacing:.01em; text-transform:none; color:var(--muted); line-height:1; }
+  .two-line-btn.sel .btn-sub { color:var(--accent); opacity:.8; }
   .prac-slider-wrap { display:flex; align-items:center; gap:12px; }
   .prac-slider { flex:1; accent-color:var(--accent); }
   .prac-slider-val { font-family:'Barlow Condensed',sans-serif; font-size:18px; font-weight:900; color:var(--text); min-width:42px; }
@@ -978,12 +982,30 @@
           </div>
         </div>
         <div class="opt-row" id="q1opts">
-          <button class="opt-btn" onclick="selOpt('q1','UTG')">UTG</button>
-          <button class="opt-btn" onclick="selOpt('q1','MP')">MP</button>
-          <button class="opt-btn" onclick="selOpt('q1','CO')">CO</button>
-          <button class="opt-btn" onclick="selOpt('q1','BTN')">BTN</button>
-          <button class="opt-btn" onclick="selOpt('q1','SB')">SB</button>
-          <button class="opt-btn" onclick="selOpt('q1','BB')">BB</button>
+          <button class="opt-btn two-line-btn" onclick="selOpt('q1','UTG')">
+            <span class="btn-main">UTG</span>
+            <span class="btn-sub">Under the Gun</span>
+          </button>
+          <button class="opt-btn two-line-btn" onclick="selOpt('q1','MP')">
+            <span class="btn-main">MP</span>
+            <span class="btn-sub">Middle Position</span>
+          </button>
+          <button class="opt-btn two-line-btn" onclick="selOpt('q1','CO')">
+            <span class="btn-main">CO</span>
+            <span class="btn-sub">Cutoff</span>
+          </button>
+          <button class="opt-btn two-line-btn" onclick="selOpt('q1','BTN')">
+            <span class="btn-main">BTN</span>
+            <span class="btn-sub">The Button</span>
+          </button>
+          <button class="opt-btn two-line-btn" onclick="selOpt('q1','SB')">
+            <span class="btn-main">SB</span>
+            <span class="btn-sub">Small Blind</span>
+          </button>
+          <button class="opt-btn two-line-btn" onclick="selOpt('q1','BB')">
+            <span class="btn-main">BB</span>
+            <span class="btn-sub">Big Blind</span>
+          </button>
         </div>
       </div>
 
@@ -1005,10 +1027,22 @@
           </div>
         </div>
         <div class="opt-row" id="q2opts">
-          <button class="opt-btn" onclick="selOpt('q2','&lt;20 BB')">&lt;20 BB Short</button>
-          <button class="opt-btn" onclick="selOpt('q2','20–40 BB')">20–40 BB</button>
-          <button class="opt-btn" onclick="selOpt('q2','40–80 BB')">40–80 BB</button>
-          <button class="opt-btn" onclick="selOpt('q2','&gt;80 BB')">&gt;80 BB Deep</button>
+          <button class="opt-btn two-line-btn" onclick="selOpt('q2','&lt;20 BB')">
+            <span class="btn-main">&lt;20 BB</span>
+            <span class="btn-sub">Push/fold only</span>
+          </button>
+          <button class="opt-btn two-line-btn" onclick="selOpt('q2','20–40 BB')">
+            <span class="btn-main">20–40 BB</span>
+            <span class="btn-sub">Short, limited play</span>
+          </button>
+          <button class="opt-btn two-line-btn" onclick="selOpt('q2','40–80 BB')">
+            <span class="btn-main">40–80 BB</span>
+            <span class="btn-sub">Standard depth</span>
+          </button>
+          <button class="opt-btn two-line-btn" onclick="selOpt('q2','&gt;80 BB')">
+            <span class="btn-main">&gt;80 BB</span>
+            <span class="btn-sub">Deep, full GTO</span>
+          </button>
         </div>
       </div>
 
@@ -1078,10 +1112,18 @@
           </div>
         </div>
         <div class="opt-row" id="q4opts">
-          <button class="opt-btn" onclick="selOpt('q4','Fold')">Fold</button>
-          <button class="opt-btn" onclick="selOpt('q4','Limp')">Limp</button>
-          <button class="opt-btn" onclick="selOpt('q4','Raise 2.5x')">Raise 2.5x</button>
-          <button class="opt-btn" onclick="selOpt('q4','Raise 3x')">Raise 3x</button>
+          <button class="opt-btn two-line-btn" onclick="selOpt('q4','Fold')">
+            <span class="btn-main">Fold</span>
+            <span class="btn-sub">Give up the hand</span>
+          </button>
+          <button class="opt-btn two-line-btn" onclick="selOpt('q4','Limp')">
+            <span class="btn-main">Limp</span>
+            <span class="btn-sub">Call the BB (weak)</span>
+          </button>
+          <button class="opt-btn two-line-btn" onclick="selOpt('q4','Raise')">
+            <span class="btn-main">Raise</span>
+            <span class="btn-sub">Open with aggression</span>
+          </button>
         </div>
       </div>
 
@@ -1641,7 +1683,10 @@ function submitPrac() {
   const userBucket = normBucket(pracAnswers.q2);
   const stackOk    = userBucket === correctBucket;
   const posOk      = pracAnswers.q1 === correctPos;
-  const actionOk   = pracAnswers.q4 === correctAction;
+
+  // Q4: correct answer is 'Raise' for any raise, 'Fold' for fold
+  const correctQ4  = correctAction.startsWith('Raise') ? 'Raise' : correctAction;
+  const actionOk   = pracAnswers.q4 === correctQ4;
 
   // Q3: equity bucket grading
   // Map each tier key to its [min,max] range
@@ -1662,10 +1707,10 @@ function submitPrac() {
   const correctQ3   = correctTier ? correctTier[0] : '51-60';
   const equityOk    = pracAnswers.q3 === correctQ3;
 
-  // Q5 correctness
+  // Q5 correctness — sizing still derived from full correctAction (Raise 2.5x / Raise 3x)
   const multMap = {'2bb':2,'2.5bb':2.5,'3bb':3,'4bb':4};
   let correctQ5, correctQ5Label, correctChips;
-  if (correctAction==='Fold'||correctAction==='Limp') {
+  if (!correctAction.startsWith('Raise')) {
     correctQ5='na'; correctQ5Label='N/A — Folding'; correctChips=null;
   } else if (correctAction==='Raise 2.5x') {
     correctQ5='2.5bb'; correctChips=Math.round(fullBB*2.5);
@@ -1695,10 +1740,10 @@ function submitPrac() {
       explain: equityOk
         ? `Correct — ${hand.label} is ~${hand.eq}% vs random, which falls in the ${TIER_LABELS[correctQ3]} tier.`
         : `${hand.label} has <strong>~${hand.eq}%</strong> equity vs random — that's the <strong>${TIER_LABELS[correctQ3]}</strong> tier. ${hand.eq>=72?'Pairs AA–TT and strong broadways (AK/AQ) are the top two tiers.':hand.eq>=57?'Medium suited connectors and broadway hands sit in the middle tiers.':'Small pairs and suited connectors are speculative; unconnected offsuit hands are trash.'}` },
-    { ok:actionOk, label:'GTO Action', user:pracAnswers.q4, correct:correctAction,
+    { ok:actionOk, label:'GTO Action', user:pracAnswers.q4, correct:correctQ4,
       explain: actionOk
-        ? `Correct from ${pos}. ${gtoReason(hand,pos,correctAction)}`
-        : `GTO says <strong>${correctAction}</strong> from ${pos} with ${hand.label}. ${gtoReason(hand,pos,correctAction)}` },
+        ? `Correct — ${correctQ4} is the right move from ${pos} with ${hand.label}. ${gtoReason(hand,pos,correctAction)}`
+        : `GTO says <strong>${correctQ4}</strong> from ${pos} with ${hand.label}. ${gtoReason(hand,pos,correctAction)}` },
     { ok:betOk, label:'Bet Sizing', user:userQ5Label, correct:correctQ5Label,
       explain: betOk
         ? (correctChips

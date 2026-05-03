@@ -135,6 +135,14 @@
   .chart-scen-btn { font-family:'Barlow Condensed',sans-serif; font-size:11px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; padding:5px 12px; border-radius:3px; border:1px solid var(--border); background:transparent; color:var(--muted); cursor:pointer; transition:all .15s; }
   .chart-scen-btn:hover { color:var(--text); }
   .chart-scen-btn.on { background:var(--accent); border-color:var(--accent); color:#fff; }
+  .scen-wrap { position:relative; display:inline-flex; align-items:center; gap:4px; }
+  .scen-tip-btn { width:16px; height:16px; border-radius:50%; border:1px solid var(--border); background:transparent; color:var(--muted); font-family:'Barlow Condensed',sans-serif; font-size:10px; font-weight:900; cursor:pointer; display:flex; align-items:center; justify-content:center; padding:0; line-height:1; transition:all .15s; flex-shrink:0; }
+  .scen-tip-btn:hover { border-color:var(--blue); color:var(--blue); }
+  .scen-tooltip { display:none; position:absolute; top:calc(100% + 8px); left:0; z-index:200; width:240px; background:var(--surface); border:1px solid var(--border); border-radius:7px; box-shadow:var(--shadow); padding:12px 13px; }
+  .scen-tooltip.show { display:block; }
+  .scen-tooltip .tt-title { font-family:'Barlow Condensed',sans-serif; font-size:11px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--blue); margin-bottom:6px; }
+  .scen-tooltip .tt-body { font-size:12px; color:var(--muted); line-height:1.6; }
+  .scen-tooltip .tt-body strong { color:var(--text); }
   .chart-legend { display:flex; gap:10px; flex-wrap:wrap; margin-bottom:14px; }
   .chart-leg-item { display:flex; align-items:center; gap:5px; font-family:'Barlow Condensed',sans-serif; font-size:11px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--muted); }
   .chart-leg-dot { width:10px; height:10px; border-radius:2px; flex-shrink:0; }
@@ -1337,7 +1345,6 @@ function dealScenario() {
   document.getElementById('pracMeta').innerHTML = `
     <div class="prac-chip"><div class="pv">${chips.toLocaleString()}</div><div class="pl">Chips</div></div>
     <div class="prac-chip"><div class="pv">$${bbAmt*2}</div><div class="pl">Big Blind</div></div>
-    <div class="prac-chip"><div class="pv">~${bb} BB</div><div class="pl">Stack</div></div>
   `;
 
   // Mini table — rebuild seats
@@ -1810,6 +1817,37 @@ const SCEN_NOTES = {
 
 let chartPos = 'BTN', chartScen = 'RFI';
 
+const SCEN_TIPS = {
+  'RFI': {
+    title: 'RFI — Raise First In',
+    body: 'You are the first player to enter the pot pre-flop. No one has raised yet — action has folded around to you. This chart shows which hands GTO says to <strong>open-raise</strong> vs <strong>fold</strong> from each position.'
+  },
+  'vs 3-Bet': {
+    title: 'vs 3-Bet — Facing a Re-Raise',
+    body: 'You opened the pot and an opponent re-raised (3-bet) you. This chart shows whether to <strong>4-bet</strong> (re-raise again), <strong>call</strong>, or <strong>fold</strong>. Ranges get much tighter here — most hands that were opens now become folds.'
+  },
+  'BB Defense': {
+    title: 'BB Defense — Defending the Big Blind',
+    body: 'You are in the Big Blind and someone has raised. You\'ve already invested 1BB so you get better pot odds than anyone else. This chart shows whether to <strong>3-bet</strong>, <strong>call</strong>, or <strong>fold</strong> based on who raised and from where.'
+  },
+};
+
+let openTip = null;
+function toggleScenTip(id, btn, e) {
+  e.stopPropagation();
+  const tip = document.getElementById(id);
+  if (!tip) return;
+  const isOpen = tip.classList.contains('show');
+  // Close all
+  document.querySelectorAll('.scen-tooltip').forEach(t=>t.classList.remove('show'));
+  openTip = null;
+  if (!isOpen) { tip.classList.add('show'); openTip = id; }
+}
+document.addEventListener('click', () => {
+  document.querySelectorAll('.scen-tooltip').forEach(t=>t.classList.remove('show'));
+  openTip = null;
+});
+
 function buildChartControls() {
   const posRow  = document.getElementById('chartPosRow');
   const scenRow = document.getElementById('chartScenRow');
@@ -1825,17 +1863,35 @@ function buildChartControls() {
     posRow.appendChild(b);
   });
 
-  SCENARIOS.forEach(s => {
-    // BB Defense only makes sense for non-BB positions as aggressor
+  SCENARIOS.forEach((s, si) => {
     if (s==='BB Defense' && chartPos==='BB') return;
+    const tipId = 'scen-tip-'+si;
+    const tip   = SCEN_TIPS[s];
+
+    const wrap = document.createElement('div');
+    wrap.className = 'scen-wrap';
+
     const b = document.createElement('button');
     b.className = 'chart-scen-btn' + (s===chartScen?' on':'');
     b.textContent = s;
     b.onclick = () => { chartScen=s; buildChartControls(); buildChart(); };
-    scenRow.appendChild(b);
+
+    const qb = document.createElement('button');
+    qb.className = 'scen-tip-btn';
+    qb.textContent = '?';
+    qb.onclick = (e) => toggleScenTip(tipId, qb, e);
+
+    const tipEl = document.createElement('div');
+    tipEl.className = 'scen-tooltip';
+    tipEl.id = tipId;
+    tipEl.innerHTML = `<div class="tt-title">${tip.title}</div><div class="tt-body">${tip.body}</div>`;
+
+    wrap.appendChild(b);
+    wrap.appendChild(qb);
+    wrap.appendChild(tipEl);
+    scenRow.appendChild(wrap);
   });
 
-  // Reset scenario if now invalid
   if (chartScen==='BB Defense' && chartPos==='BB') {
     chartScen='RFI';
     buildChartControls();

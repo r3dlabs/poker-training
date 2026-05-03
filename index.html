@@ -1055,40 +1055,40 @@
           <div class="hp-body">
             Equity = your % chance of winning at showdown vs a random 2-card hand. Use these tiers:
             <div class="hp-steps">
-              <div class="hp-step"><span class="sn">▲</span><strong>78–85% — Premium pairs:</strong> AA, KK, QQ</div>
-              <div class="hp-step"><span class="sn">▲</span><strong>68–77% — Strong pairs:</strong> JJ, TT, 99, 88</div>
-              <div class="hp-step"><span class="sn">▲</span><strong>60–67% — Broadways &amp; big Ax:</strong> AKs/o, AQs/o, AJs, KQs</div>
-              <div class="hp-step"><span class="sn">▲</span><strong>52–59% — Suited connectors:</strong> JTs, T9s, medium pairs (77–55)</div>
-              <div class="hp-step"><span class="sn">▼</span><strong>43–51% — Weak suited / small pairs:</strong> 87s, 76s, 22–44, weak Axs</div>
-              <div class="hp-step"><span class="sn">▼</span><strong>32–42% — Trash offsuit:</strong> unconnected offsuit rags</div>
+              <div class="hp-step"><span class="sn">▲</span><strong>78–85% Strong favourite:</strong> AA, KK, QQ</div>
+              <div class="hp-step"><span class="sn">▲</span><strong>68–77% Clear favourite:</strong> JJ, TT, 99, 88</div>
+              <div class="hp-step"><span class="sn">▲</span><strong>60–67% Moderate favourite:</strong> AKs/o, AQs/o, AJs, KQs</div>
+              <div class="hp-step"><span class="sn">▲</span><strong>52–59% Slight favourite:</strong> JTs, T9s, mid pairs 77–55, AJo, KJs</div>
+              <div class="hp-step"><span class="sn">▼</span><strong>43–51% Near even:</strong> 87s, 76s, 22–44, weak Axs, T6s</div>
+              <div class="hp-step"><span class="sn">▼</span><strong>32–42% Underdog:</strong> unconnected offsuit rags, 72o</div>
             </div>
-            <strong>Key anchors:</strong> AA=85%, AKs≈67%, JTs≈57%, 72o=32%.
+            <strong>Key anchors:</strong> AA=85%, AKs≈67%, AJo≈58%, JTs≈57%, T6s≈49%, 72o=32%.
           </div>
         </div>
         <div class="opt-row" id="q3opts">
           <button class="opt-btn eq-tier-btn" onclick="selOpt('q3','A')">
             <span class="eq-pct-range">78–85%</span>
-            <span class="eq-tier-name">Premium pairs</span>
+            <span class="eq-tier-name">Strong favourite</span>
           </button>
           <button class="opt-btn eq-tier-btn" onclick="selOpt('q3','B')">
             <span class="eq-pct-range">68–77%</span>
-            <span class="eq-tier-name">Strong pairs</span>
+            <span class="eq-tier-name">Clear favourite</span>
           </button>
           <button class="opt-btn eq-tier-btn" onclick="selOpt('q3','C')">
             <span class="eq-pct-range">60–67%</span>
-            <span class="eq-tier-name">Broadways &amp; big Ax</span>
+            <span class="eq-tier-name">Moderate favourite</span>
           </button>
           <button class="opt-btn eq-tier-btn" onclick="selOpt('q3','D')">
             <span class="eq-pct-range">52–59%</span>
-            <span class="eq-tier-name">Suited connectors</span>
+            <span class="eq-tier-name">Slight favourite</span>
           </button>
           <button class="opt-btn eq-tier-btn" onclick="selOpt('q3','E')">
             <span class="eq-pct-range">43–51%</span>
-            <span class="eq-tier-name">Weak suited / small pairs</span>
+            <span class="eq-tier-name">Near even</span>
           </button>
           <button class="opt-btn eq-tier-btn" onclick="selOpt('q3','F')">
             <span class="eq-pct-range">32–42%</span>
-            <span class="eq-tier-name">Trash offsuit</span>
+            <span class="eq-tier-name">Underdog</span>
           </button>
         </div>
       </div>
@@ -1729,12 +1729,12 @@ function submitPrac() {
     'A':[78,99], 'B':[68,77], 'C':[60,67], 'D':[52,59], 'E':[43,51], 'F':[0,42]
   };
   const TIER_LABELS = {
-    'A':'78–85% — Premium pairs',
-    'B':'68–77% — Strong pairs',
-    'C':'60–67% — Broadways & big Ax',
-    'D':'52–59% — Suited connectors',
-    'E':'43–51% — Weak suited / small pairs',
-    'F':'32–42% — Trash offsuit'
+    'A':'78–85% — Strong favourite',
+    'B':'68–77% — Clear favourite',
+    'C':'60–67% — Moderate favourite',
+    'D':'52–59% — Slight favourite',
+    'E':'43–51% — Near even / slight underdog',
+    'F':'32–42% — Underdog'
   };
   const correctQ3 = equityTier(hand.eq);
   const equityOk  = pracAnswers.q3 === correctQ3;
@@ -1753,7 +1753,7 @@ function submitPrac() {
     { ok:equityOk, label:'Equity Tier', user:TIER_LABELS[pracAnswers.q3]||pracAnswers.q3, correct:TIER_LABELS[correctQ3],
       explain: equityOk
         ? `Correct — ${hand.label} is ~${hand.eq}% vs random, which fits the ${TIER_LABELS[correctQ3]} tier.`
-        : `${hand.label} has <strong>~${hand.eq}%</strong> equity vs random — that puts it in the <strong>${TIER_LABELS[correctQ3]}</strong> tier. ${hand.eq>=68?'Premium/strong pairs dominate vs random hands.':hand.eq>=60?'Broadway hands and Ax suited have solid high-card equity.':hand.eq>=52?'Suited connectors and mid pairs have moderate equity with strong implied odds.':hand.eq>=43?'These hands are slight underdogs vs random — rely on playability, not raw equity.':'Unconnected offsuit trash — very low equity vs any hand.'}` },
+        : `${hand.label} has <strong>~${hand.eq}%</strong> equity vs random — that puts it in the <strong>${TIER_LABELS[correctQ3]}</strong> tier. Each tier covers a ~10% equity band regardless of hand type — a hand's equity depends on its rank, suitedness, and connectedness combined.` },
     { ok:actionOk, label:'GTO Action', user:pracAnswers.q4, correct:correctQ4,
       explain: q4Explain(actionOk) },
   ];

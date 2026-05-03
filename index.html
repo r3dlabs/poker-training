@@ -126,6 +126,40 @@
   .ac.fold  { border-color:var(--accent); color:var(--accent); background:rgba(204,0,0,.07); }
   .hint { background:var(--gold-bg); border-left:2px solid var(--gold); padding:9px 13px; border-radius:0 4px 4px 0; margin-top:11px; font-size:12px; color:var(--gold); line-height:1.55; }
 
+  /* ── GTO CHARTS ── */
+  .charts-controls { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:16px; }
+  .chart-pos-btn { font-family:'Barlow Condensed',sans-serif; font-size:12px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; padding:6px 14px; border-radius:4px; border:1px solid var(--border); background:transparent; color:var(--muted); cursor:pointer; transition:all .15s; }
+  .chart-pos-btn:hover { color:var(--text); border-color:var(--muted); }
+  .chart-pos-btn.on { color:#fff; border-color:transparent; }
+  .chart-scenario-row { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:20px; }
+  .chart-scen-btn { font-family:'Barlow Condensed',sans-serif; font-size:11px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; padding:5px 12px; border-radius:3px; border:1px solid var(--border); background:transparent; color:var(--muted); cursor:pointer; transition:all .15s; }
+  .chart-scen-btn:hover { color:var(--text); }
+  .chart-scen-btn.on { background:var(--accent); border-color:var(--accent); color:#fff; }
+  .chart-legend { display:flex; gap:10px; flex-wrap:wrap; margin-bottom:14px; }
+  .chart-leg-item { display:flex; align-items:center; gap:5px; font-family:'Barlow Condensed',sans-serif; font-size:11px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--muted); }
+  .chart-leg-dot { width:10px; height:10px; border-radius:2px; flex-shrink:0; }
+  .chart-wrap { overflow-x:auto; -webkit-overflow-scrolling:touch; }
+  .gto-grid { display:inline-grid; grid-template-columns:24px repeat(13,1fr); gap:2px; min-width:340px; width:100%; }
+  .gto-header { font-family:'Barlow Condensed',sans-serif; font-size:9px; font-weight:900; letter-spacing:.04em; text-align:center; color:var(--muted); padding:3px 0; }
+  .gto-row-label { font-family:'Barlow Condensed',sans-serif; font-size:9px; font-weight:900; letter-spacing:.04em; color:var(--muted); display:flex; align-items:center; justify-content:flex-end; padding-right:4px; }
+  .gto-cell { border-radius:3px; padding:2px 1px; text-align:center; font-family:'Barlow Condensed',sans-serif; font-size:8px; font-weight:700; letter-spacing:.02em; text-transform:uppercase; cursor:default; line-height:1.2; min-height:22px; display:flex; align-items:center; justify-content:center; transition:transform .1s; }
+  .gto-cell:hover { transform:scale(1.15); z-index:5; position:relative; }
+  .gto-cell.pair { border-radius:3px; }
+  .act-R  { background:rgba(26,122,64,.15);  color:var(--win);    border:1px solid rgba(26,122,64,.3); }
+  .act-R3 { background:rgba(26,122,64,.15);  color:var(--win);    border:1px solid rgba(26,122,64,.3); }
+  .act-F  { background:rgba(107,107,128,.08);color:var(--muted);  border:1px solid rgba(107,107,128,.18); }
+  .act-C  { background:rgba(30,106,176,.12); color:var(--blue);   border:1px solid rgba(30,106,176,.25); }
+  .act-4B { background:rgba(204,0,0,.1);     color:var(--accent); border:1px solid rgba(204,0,0,.25); }
+  .act-MX { background:rgba(232,184,0,.12);  color:var(--gold);   border:1px solid rgba(232,184,0,.3); }
+  [data-theme="dark"] .act-R  { background:rgba(62,207,122,.1);  border-color:rgba(62,207,122,.2); }
+  [data-theme="dark"] .act-R3 { background:rgba(62,207,122,.1);  border-color:rgba(62,207,122,.2); }
+  [data-theme="dark"] .act-F  { background:rgba(107,107,128,.1); border-color:rgba(107,107,128,.15); }
+  [data-theme="dark"] .act-C  { background:rgba(58,143,212,.1);  border-color:rgba(58,143,212,.2); }
+  [data-theme="dark"] .act-4B { background:rgba(204,0,0,.12);    border-color:rgba(204,0,0,.22); }
+  [data-theme="dark"] .act-MX { background:rgba(232,184,0,.1);   border-color:rgba(232,184,0,.2); }
+  .chart-note { font-size:12px; color:var(--muted); line-height:1.6; margin-top:14px; padding:10px 13px; background:var(--surface); border:1px solid var(--border); border-radius:6px; }
+  .chart-note strong { color:var(--text); }
+
   /* TERMINOLOGIES */
   .search-wrap { position:relative; margin-bottom:12px; }
   .search-input { width:100%; background:var(--surface); border:1px solid var(--border); border-radius:6px; padding:9px 13px 9px 36px; color:var(--text); font-family:'Barlow',sans-serif; font-size:14px; outline:none; transition:border-color .18s,background .25s; }
@@ -219,24 +253,49 @@
   .prac-deal-btn:hover { opacity:.88; }
   .prac-scenario { display:none; }
   .prac-scenario.show { display:block; }
+
+  /* Hero row — side by side on wide, stacked on narrow */
+  .prac-hero-row {
+    display:flex; gap:14px; align-items:flex-start;
+    margin-bottom:20px;
+  }
+  .prac-hero-left {
+    flex:0 0 25%; min-width:0;
+    display:flex; flex-direction:column; gap:10px;
+  }
+  .prac-hero-right {
+    flex:1; min-width:0;
+    display:flex; flex-direction:column;
+  }
+
+  /* Stack if viewport too narrow */
+  @media (max-width:520px) {
+    .prac-hero-row { flex-direction:column; }
+    .prac-hero-left { flex:none; width:100%; flex-direction:row; align-items:flex-start; gap:14px; }
+    .prac-hero-right { flex:none; width:100%; }
+    .pmt { width:100% !important; max-width:100% !important; }
+  }
+
   .prac-cards-row { display:flex; align-items:center; gap:16px; flex-wrap:wrap; margin-bottom:20px; }
   .prac-label { font-family:'Barlow Condensed',sans-serif; font-size:11px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); margin-bottom:6px; }
-  .prac-hole { display:flex; gap:6px; }
-  .prac-card { width:52px; height:72px; background:#fff; border-radius:7px; display:flex; flex-direction:column; align-items:center; justify-content:center; box-shadow:var(--shadow-c); border:1px solid #e0e0e0; line-height:1.1; }
-  .prac-card .r { font-size:16px; font-weight:900; color:#111; }
-  .prac-card .s { font-size:18px; color:#111; }
+  .prac-hole { display:flex; gap:8px; flex-wrap:wrap; }
+  .prac-card { width:64px; height:90px; background:#fff; border-radius:8px; display:flex; flex-direction:column; align-items:center; justify-content:center; box-shadow:var(--shadow-c); border:1px solid #e0e0e0; line-height:1.1; }
+  .prac-card .r { font-size:22px; font-weight:900; color:#111; }
+  .prac-card .s { font-size:24px; color:#111; }
   .prac-card.red .r,.prac-card.red .s { color:#cc2222; }
-  .prac-meta { display:flex; gap:10px; flex-wrap:wrap; margin-bottom:20px; }
-  .prac-chip { background:var(--bg); border:1px solid var(--border); border-radius:6px; padding:8px 14px; }
-  .prac-chip .pv { font-family:'Barlow Condensed',sans-serif; font-size:20px; font-weight:900; color:var(--text); }
+
+  .prac-meta { display:flex; flex-direction:column; gap:6px; }
+  .prac-chip { background:var(--bg); border:1px solid var(--border); border-radius:6px; padding:6px 10px; }
+  .prac-chip .pv { font-family:'Barlow Condensed',sans-serif; font-size:16px; font-weight:900; color:var(--text); }
   .prac-chip .pl { font-family:'Barlow Condensed',sans-serif; font-size:9px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); margin-top:1px; }
+
   .prac-table-mini { display:flex; justify-content:center; margin-bottom:20px; }
-  .pmt { position:relative; width:320px; height:185px; background:#1a5c35; border-radius:100px; border:5px solid #7a4f2a; box-shadow:0 0 0 2px #5a3820,inset 0 0 28px rgba(0,0,0,.3); }
+  .pmt { position:relative; width:100%; max-width:340px; aspect-ratio:340/185; background:#1a5c35; border-radius:100px; border:5px solid #7a4f2a; box-shadow:0 0 0 2px #5a3820,inset 0 0 28px rgba(0,0,0,.3); }
   [data-theme="dark"] .pmt { background:#0e2a18; border-color:#1e1e2e; box-shadow:0 0 0 2px #0a0a0f,inset 0 0 28px rgba(0,0,0,.5); }
-  .pmt-seat { position:absolute; width:36px; height:36px; border-radius:50%; display:flex; flex-direction:column; align-items:center; justify-content:center; font-family:'Barlow Condensed',sans-serif; font-size:8px; font-weight:700; letter-spacing:.02em; line-height:1.2; text-align:center; border:2px solid rgba(255,255,255,.2); }
+  .pmt-seat { position:absolute; width:36px; height:36px; border-radius:50%; display:flex; flex-direction:column; align-items:center; justify-content:center; font-family:'Barlow Condensed',sans-serif; font-size:8px; font-weight:700; letter-spacing:.02em; line-height:1.2; text-align:center; border:2px solid rgba(255,255,255,.2); transform:translate(-50%,-50%); }
   .pmt-seat.hero { border-color:#e8ff00; box-shadow:0 0 0 3px rgba(232,255,0,.35); background-color: inherit; }
   .pmt-seat span { font-size:10px; font-weight:900; display:block; }
-  .pmt-dl { position:absolute; width:16px; height:16px; border-radius:50%; background:#f0f0f0; border:1px solid #ccc; font-family:'Barlow Condensed',sans-serif; font-size:7px; font-weight:900; color:#222; display:flex; align-items:center; justify-content:center; }
+  .pmt-dl { position:absolute; width:16px; height:16px; border-radius:50%; background:#f0f0f0; border:1px solid #ccc; font-family:'Barlow Condensed',sans-serif; font-size:7px; font-weight:900; color:#222; display:flex; align-items:center; justify-content:center; transform:translate(-50%,-50%); }
   .prac-form { background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:18px; margin-bottom:14px; }
   .prac-q { margin-bottom:18px; }
   .prac-q:last-child { margin-bottom:0; }
@@ -313,6 +372,7 @@
     <button onclick="show('equity',this)">Hole Cards</button>
     <button onclick="show('strategy',this)">Strategy</button>
     <button onclick="show('practice',this)">Practice</button>
+    <button onclick="show('charts',this)">GTO Charts</button>
     <button onclick="show('terms',this)">Terminology</button>
   </nav>
 </header>
@@ -804,17 +864,18 @@
 
   <div class="prac-scenario" id="pracScenario">
 
-    <div class="prac-cards-row">
-      <div>
-        <div class="prac-label">Your Hole Cards</div>
+    <div class="prac-hero-row">
+      <!-- LEFT: hole cards + meta -->
+      <div class="prac-hero-left">
+        <div class="prac-label">Hole Cards</div>
         <div class="prac-hole" id="pracHole"></div>
+        <div class="prac-meta" id="pracMeta"></div>
       </div>
-    </div>
-
-    <div class="prac-meta" id="pracMeta"></div>
-
-    <div class="prac-table-mini">
-      <div class="pmt" id="pmtEl"></div>
+      <!-- RIGHT: mini table -->
+      <div class="prac-hero-right">
+        <div class="prac-label">Table</div>
+        <div class="pmt" id="pmtEl"></div>
+      </div>
     </div>
 
     <div class="prac-form">
@@ -975,6 +1036,29 @@
     </div>
 
   </div>
+</div>
+
+<!-- ════════════════ GTO CHARTS ════════════════ -->
+<div id="charts" class="section">
+  <div class="sec-label">GTO Pre-Flop Range Charts &mdash; 6-Max</div>
+
+  <div class="charts-controls" id="chartPosRow"></div>
+  <div class="chart-scenario-row" id="chartScenRow"></div>
+
+  <div class="chart-legend">
+    <div class="chart-leg-item"><div class="chart-leg-dot act-R"></div>Raise / Open</div>
+    <div class="chart-leg-item"><div class="chart-leg-dot act-R3" style="border-color:rgba(26,122,64,.4);"></div>Raise 3x (EP)</div>
+    <div class="chart-leg-item"><div class="chart-leg-dot act-C"></div>Call</div>
+    <div class="chart-leg-item"><div class="chart-leg-dot act-4B"></div>4-Bet</div>
+    <div class="chart-leg-item"><div class="chart-leg-dot act-MX"></div>Mixed</div>
+    <div class="chart-leg-item"><div class="chart-leg-dot act-F"></div>Fold</div>
+  </div>
+
+  <div class="chart-wrap">
+    <div class="gto-grid" id="gtoGrid"></div>
+  </div>
+
+  <div class="chart-note" id="chartNote"></div>
 </div>
 
 <!-- ════════════════ TERMINOLOGIES ════════════════ -->
@@ -1184,15 +1268,16 @@ const HAND_DB = [
 ];
 
 const POS_LIST = ['UTG','MP','CO','BTN','SB','BB'];
+// Positions as % of table width/height (340x185 base)
 const POS_COORDS = {
-  UTG:{top:68, left:28}, MP:{top:28,left:88}, CO:{top:28,left:196},
-  BTN:{top:68,left:252}, SB:{top:120,left:210}, BB:{top:120,left:74}
+  UTG:{top:68/185, left:28/340}, MP:{top:28/185,left:88/340}, CO:{top:28/185,left:196/340},
+  BTN:{top:68/185,left:252/340}, SB:{top:120/185,left:210/340}, BB:{top:120/185,left:74/340}
 };
 const POS_COLORS = {UTG:'#444455',MP:'#5a3a6e',CO:'#1a7a40',BTN:'#b58900',SB:'#1e6ab0',BB:'#cc0000'};
 const POS_TEXT   = {UTG:'#e8e8f0',MP:'#e8e8f0',CO:'#fff',BTN:'#0a0a0f',SB:'#fff',BB:'#fff'};
 const POS_DEALER = {
-  UTG:{top:56,left:196}, MP:{top:26,left:160}, CO:{top:26,left:210},
-  BTN:{top:62,left:248}, SB:{top:112,left:236}, BB:{top:112,left:74}
+  UTG:{top:56/185,left:196/340}, MP:{top:26/185,left:160/340}, CO:{top:26/185,left:210/340},
+  BTN:{top:62/185,left:248/340}, SB:{top:112/185,left:236/340}, BB:{top:112/185,left:74/340}
 };
 
 function stackBucket(bb) {
@@ -1250,26 +1335,26 @@ function dealScenario() {
 
   // Meta
   document.getElementById('pracMeta').innerHTML = `
-    <div class="prac-chip"><div class="pv">${chips.toLocaleString()}</div><div class="pl">Chip Stack</div></div>
+    <div class="prac-chip"><div class="pv">${chips.toLocaleString()}</div><div class="pl">Chips</div></div>
     <div class="prac-chip"><div class="pv">$${bbAmt*2}</div><div class="pl">Big Blind</div></div>
-    <div class="prac-chip"><div class="pv">~${bb} BB</div><div class="pl">Eff. Stack</div></div>
+    <div class="prac-chip"><div class="pv">~${bb} BB</div><div class="pl">Stack</div></div>
   `;
 
   // Mini table — rebuild seats
   const pmt = document.getElementById('pmtEl');
   pmt.innerHTML = '';
-  // Dealer chip
+  // Dealer chip — percentage based
   const dc = POS_DEALER[pos];
   const dlEl = document.createElement('div');
   dlEl.className='pmt-dl'; dlEl.textContent='D';
-  dlEl.style.top=dc.top+'px'; dlEl.style.left=dc.left+'px';
+  dlEl.style.top=(dc.top*100)+'%'; dlEl.style.left=(dc.left*100)+'%';
   pmt.appendChild(dlEl);
   // Seats
   POS_LIST.forEach(p=>{
     const c=POS_COORDS[p], isHero=(p===pos);
     const el=document.createElement('div');
     el.className='pmt-seat'+(isHero?' hero':'');
-    el.style.top=c.top+'px'; el.style.left=c.left+'px';
+    el.style.top=(c.top*100)+'%'; el.style.left=(c.left*100)+'%';
     el.style.background=POS_COLORS[p]; el.style.color=POS_TEXT[p];
     el.innerHTML=`<span>${p}</span>${isHero?'YOU':''}`;
     pmt.appendChild(el);
@@ -1420,6 +1505,414 @@ function betSizeReason(action, pos, fullBB, chips) {
     : `2.5x from ${pos} is the GTO standard for in-position opens — small enough to keep the pot manageable, large enough to deny free looks.`;
   return `Formula: $${fullBB} BB × ${mult} = <strong>$${chips.toLocaleString()}</strong>. ${why}`;
 }
+
+// ══════════════════════════════════════════════
+// GTO CHARTS MODULE
+// ══════════════════════════════════════════════
+
+// 13 ranks in standard grid order (pairs on diagonal, suited top-right, offsuit bottom-left)
+const RANKS = ['A','K','Q','J','T','9','8','7','6','5','4','3','2'];
+
+// Action codes: R=Raise2.5x, R3=Raise3x, F=Fold, C=Call, 4B=4-Bet, MX=Mixed
+// Grid is 13x13: [row][col], row=first card rank, col=second card rank
+// Above diagonal = suited (s), below = offsuit (o), diagonal = pairs
+
+// ── RFI CHARTS per position ──
+// Row = first rank, Col = second rank (RANKS order: A K Q J T 9 8 7 6 5 4 3 2)
+// Above diagonal = suited, below = offsuit, diagonal = pairs
+// A=Raise2.5x, B=Raise3x, C=Call, D=Fold, E=4Bet, F=Fold(explicit)
+const RFI = {
+  //          A    K    Q    J    T    9    8    7    6    5    4    3    2
+  UTG: [
+    'BBBBBFDDDDDDD', // A_ (suited above diag, pairs on diag, offsuit below)
+    'BBBBBFDDDDDDD', // K_
+    'FFBBBFDDDDDDD', // Q_
+    'FFFBBFDDDDDDD', // J_
+    'FFFFBFDDDDDDD', // T_
+    'FFFFFBDDDDDDD', // 9_
+    'FFFFFFBDDDDDD', // 8_
+    'FFFFFFFDDDDDD', // 7_
+    'FFFFFFFFDDDDD', // 6_
+    'FFFFFFFFFDDDD', // 5_
+    'FFFFFFFFFFDDDD', // 4_  (13 chars)
+    'FFFFFFFFFFFDDDD', // 3_ padded, trim to 13
+    'FFFFFFFFFFFDDDD', // 2_
+  ],
+  MP: [
+    'AAAAAFDDDDDDDD',
+    'AAAAAFDDDDDDDD',
+    'FAAAAFDDDDDDD',
+    'FFAAAFDDDDDDD',
+    'FFFAAFDDDDDDD',
+    'FFFFAFDDDDDDD',
+    'FFFFFADDDDDDDD',
+    'FFFFFFDDDDDDDD',
+    'FFFFFFFDDDDDD',
+    'FFFFFFFFDDDDD',
+    'FFFFFFFFFDDDD',
+    'FFFFFFFFFFDDDD',
+    'FFFFFFFFFFFDDDD',
+  ],
+  CO: [
+    'AAAAAADDDDDDD',
+    'AAAAAADDDDDDD',
+    'FAAAAAAADDDDD',
+    'FFAAAAADDDDD',
+    'FFFAAAA DDDDDD',
+    'FFFFAAADDDDDDD',
+    'FFFFFAAADDDDDDD',
+    'FFFFFFAADDDDDD',
+    'FFFFFFFAADDDDD',
+    'FFFFFFFFADDDDD',
+    'FFFFFFFFFDDDD',
+    'FFFFFFFFFFDDDD',
+    'FFFFFFFFFFFDDDD',
+  ],
+  BTN: [
+    'AAAAAAAAADDDDD',
+    'AAAAAAAAADDDDD',
+    'FAAAAAAAAADDDD',
+    'FFAAAAAAAADDDD',
+    'FFFAAAAAADDDDD',
+    'FFFFAAAAADDDDD',
+    'FFFFFAAAADDDDD',
+    'FFFFFFAAAADDDDD',
+    'FFFFFFFAAADDDD',
+    'FFFFFFFFAAADDD',
+    'FFFFFFFFFAADDD',
+    'FFFFFFFFFFADDD',
+    'FFFFFFFFFFFADD',
+  ],
+  SB: [
+    'AAAAAAAAADDDDD',
+    'AAAAAAAAADDDDD',
+    'FAAAAAAAAADDDD',
+    'FFAAAAAAADDDDD',
+    'FFFAAAAAADDDDD',
+    'FFFFAAAADDDDDDD',
+    'FFFFFAAADDDDDDD',
+    'FFFFFFAADDDDDD',
+    'FFFFFFFADDDDDD',
+    'FFFFFFFFADDDDD',
+    'FFFFFFFFFADDDD',
+    'FFFFFFFFFFADDD',
+    'FFFFFFFFFFFADD',
+  ],
+  BB: [
+    'AAAAAAAAADDDDD',
+    'AAAAAAAAADDDDD',
+    'FAAAAAAAAADDDD',
+    'FFAAAAAAADDDDD',
+    'FFFAAAAAADDDDD',
+    'FFFFAAAADDDDDDD',
+    'FFFFFAAADDDDDDD',
+    'FFFFFFAADDDDDD',
+    'FFFFFFFADDDDDD',
+    'FFFFFFFFADDDDD',
+    'FFFFFFFFFADDDD',
+    'FFFFFFFFFFADDD',
+    'FFFFFFFFFFFADD',
+  ],
+};
+
+// ── VS 3-BET charts (facing a 3-bet after you opened) ──
+const VS3BET = {
+  UTG: [
+    'EEEEFFDDDDDDD',
+    'FEEEFFDDDDDDD',
+    'FFEEFDDDDDDD',
+    'FFFCFFDDDDDDD',
+    'FFFFCFDDDDDDD',
+    'FFFFFFDDDDDDD',
+    'FFFFFFDDDDDDD',
+    'FFFFFFFDDDDDD',
+    'FFFFFFFFDDDDD',
+    'FFFFFFFFFDDDD',
+    'FFFFFFFFFF ddd',
+    'FFFFFFFFFFFDDD',
+    'FFFFFFFFFFFFDD',
+  ],
+  MP: [
+    'EEEEFFDDDDDDD',
+    'FEEEFFDDDDDDD',
+    'FFEEFDDDDDDD',
+    'FFFCFFDDDDDDD',
+    'FFFFCFDDDDDDD',
+    'FFFFFFDDDDDDD',
+    'FFFFFFDDDDDDD',
+    'FFFFFFFDDDDDD',
+    'FFFFFFFFDDDDD',
+    'FFFFFFFFFDDDD',
+    'FFFFFFFFFFDDDD',
+    'FFFFFFFFFFFDDD',
+    'FFFFFFFFFFFFDD',
+  ],
+  CO: [
+    'EEEECFDDDDDDD',
+    'FEEEEFDDDDDDDD',
+    'FFECEFDDDDDDDD',
+    'FFFCFFDDDDDDDD',
+    'FFFFCFDDDDDDDD',
+    'FFFFFCFDDDDDDD',
+    'FFFFFFFDDDDDDD',
+    'FFFFFFFDDDDDD',
+    'FFFFFFFFDDDDD',
+    'FFFFFFFFFDDDD',
+    'FFFFFFFFFFDDDD',
+    'FFFFFFFFFFFDDD',
+    'FFFFFFFFFFFFDD',
+  ],
+  BTN: [
+    'EEEECFDDDDDDDD',
+    'FEEEEFDDDDDDDD',
+    'FFECEFDDDDDDDD',
+    'FFFCFFDDDDDDDD',
+    'FFFFCFDDDDDDDD',
+    'FFFFFCFDDDDDDD',
+    'FFFFFFCFDDDDDDD',
+    'FFFFFFFCDDDDDD',
+    'FFFFFFFFDDDDD',
+    'FFFFFFFFFDDDD',
+    'FFFFFFFFFFDDDD',
+    'FFFFFFFFFFFDDD',
+    'FFFFFFFFFFFFDD',
+  ],
+  SB: [
+    'EEEECFDDDDDDDD',
+    'FEEEEFDDDDDDDD',
+    'FFECEFDDDDDDDD',
+    'FFFCFFDDDDDDDD',
+    'FFFFCFDDDDDDDD',
+    'FFFFFCFDDDDDDD',
+    'FFFFFFFDDDDDDD',
+    'FFFFFFFDDDDDD',
+    'FFFFFFFFDDDDD',
+    'FFFFFFFFFDDDD',
+    'FFFFFFFFFFDDDD',
+    'FFFFFFFFFFFDDD',
+    'FFFFFFFFFFFFDD',
+  ],
+  BB: [
+    'EEEECFDDDDDDDD',
+    'FEEEEFDDDDDDDD',
+    'FFECEFDDDDDDDD',
+    'FFFCFFDDDDDDDD',
+    'FFFFCFDDDDDDDD',
+    'FFFFFCFDDDDDDD',
+    'FFFFFFFDDDDDDD',
+    'FFFFFFFDDDDDD',
+    'FFFFFFFFDDDDD',
+    'FFFFFFFFFDDDD',
+    'FFFFFFFFFFDDDD',
+    'FFFFFFFFFFFDDD',
+    'FFFFFFFFFFFFDD',
+  ],
+};
+
+// ── BB DEFENSE (vs open from each position) ──
+// BB calling / 3-betting / folding vs a raise
+const BB_DEF = {
+  UTG: [
+    'DDDCCFDDDDDDDD',
+    'FDDDCFDDDDDDDD',
+    'FFDCCFDDDDDDDD',
+    'FFFDCFDDDDDDDD',
+    'FFFFDFDDDDDDD',
+    'FFFFCFDDDDDDDD',
+    'FFFFFCDDDDDDDD',
+    'FFFFFFDDDDDDD',
+    'FFFFFFFDDDDDD',
+    'FFFFFFFFDDDDD',
+    'FFFFFFFFFDDDD',
+    'FFFFFFFFFFDDDD',
+    'FFFFFFFFFFFFDD',
+  ],
+  MP: [
+    'DDDCCFDDDDDDDD',
+    'ADDDCFDDDDDDDD',
+    'FADCCFDDDDDDDD',
+    'FFADCFDDDDDDDD',
+    'FFFAFDDDDDDDD',
+    'FFFFCFDDDDDDDD',
+    'FFFFFCDDDDDDDD',
+    'FFFFFFCDDDDDD',
+    'FFFFFFFDDDDDD',
+    'FFFFFFFFDDDDD',
+    'FFFFFFFFFDDDD',
+    'FFFFFFFFFFDDDD',
+    'FFFFFFFFFFFFDD',
+  ],
+  CO: [
+    'AAACCFDDDDDDDD',
+    'AAACCFDDDDDDDD',
+    'FAACCFDDDDDDDD',
+    'FFACCFDDDDDDDD',
+    'FFFACFDDDDDDD',
+    'FFFFCFDDDDDDDD',
+    'FFFFFCDDDDDDDD',
+    'FFFFFFCDDDDDD',
+    'FFFFFFFCDDDDDD',
+    'FFFFFFFFCDDDD',
+    'FFFFFFFFFDDDD',
+    'FFFFFFFFFFDDDD',
+    'FFFFFFFFFFFFDD',
+  ],
+  BTN: [
+    'AAACCFDDDDDDDD',
+    'AAACCFDDDDDDDD',
+    'FAACCFDDDDDDDD',
+    'FFACCFDDDDDDDD',
+    'FFFACFDDDDDDDD',
+    'FFFFCCDDDDDDDD',
+    'FFFFFCDDDDDDDD',
+    'FFFFFFCDDDDDDDD',
+    'FFFFFFFCDDDDDD',
+    'FFFFFFFFCDDDD',
+    'FFFFFFFFFCDDDD',
+    'FFFFFFFFFFCDDD',
+    'FFFFFFFFFFFF dd',
+  ],
+  SB: [
+    'AAACCFDDDDDDDD',
+    'AAACCFDDDDDDDD',
+    'FAACCFDDDDDDDD',
+    'FFACCFDDDDDDDD',
+    'FFFACFDDDDDDDD',
+    'FFFFCCDDDDDDDD',
+    'FFFFFCDDDDDDDD',
+    'FFFFFFCDDDDDDDD',
+    'FFFFFFFCDDDDDD',
+    'FFFFFFFFCDDDD',
+    'FFFFFFFFFCDDDD',
+    'FFFFFFFFFFCDDD',
+    'FFFFFFFFFFFFDD',
+  ],
+};
+
+// Map char codes to action classes and labels
+const ACT_MAP = {
+  'A': {cls:'act-R',  label:'R'},
+  'B': {cls:'act-R3', label:'R3'},
+  'C': {cls:'act-C',  label:'C'},
+  'D': {cls:'act-F',  label:'F'},
+  'E': {cls:'act-4B', label:'4B'},
+  'F': {cls:'act-F',  label:'F'},
+  ' ': {cls:'act-F',  label:'F'},
+};
+
+const POS_BTN_COLORS = {UTG:'#444455',MP:'#5a3a6e',CO:'#1a7a40',BTN:'#b58900',SB:'#1e6ab0',BB:'#cc0000'};
+const SCENARIOS = ['RFI','vs 3-Bet','BB Defense'];
+const SCEN_NOTES = {
+  RFI: 'Open-raise (RFI) ranges. <strong>R</strong> = Raise 2.5x · <strong>R3</strong> = Raise 3x (early position) · <strong>F</strong> = Fold. Assumes action folded to Hero.',
+  'vs 3-Bet': 'Facing a 3-bet after your open. <strong>4B</strong> = 4-Bet · <strong>C</strong> = Call · <strong>F</strong> = Fold. Ranges tighten significantly vs early-position 3-bets.',
+  'BB Defense': 'Big Blind defense vs an open from the selected position. <strong>A / R</strong> = 3-Bet · <strong>C</strong> = Call · <strong>F</strong> = Fold. BB gets the best odds so defends widest.',
+};
+
+let chartPos = 'BTN', chartScen = 'RFI';
+
+function buildChartControls() {
+  const posRow  = document.getElementById('chartPosRow');
+  const scenRow = document.getElementById('chartScenRow');
+  posRow.innerHTML  = '';
+  scenRow.innerHTML = '';
+
+  ['UTG','MP','CO','BTN','SB','BB'].forEach(p => {
+    const b = document.createElement('button');
+    b.className = 'chart-pos-btn' + (p===chartPos?' on':'');
+    b.textContent = p;
+    if (p===chartPos) b.style.background = POS_BTN_COLORS[p];
+    b.onclick = () => { chartPos=p; buildChartControls(); buildChart(); };
+    posRow.appendChild(b);
+  });
+
+  SCENARIOS.forEach(s => {
+    // BB Defense only makes sense for non-BB positions as aggressor
+    if (s==='BB Defense' && chartPos==='BB') return;
+    const b = document.createElement('button');
+    b.className = 'chart-scen-btn' + (s===chartScen?' on':'');
+    b.textContent = s;
+    b.onclick = () => { chartScen=s; buildChartControls(); buildChart(); };
+    scenRow.appendChild(b);
+  });
+
+  // Reset scenario if now invalid
+  if (chartScen==='BB Defense' && chartPos==='BB') {
+    chartScen='RFI';
+    buildChartControls();
+  }
+}
+
+function getChartData() {
+  if (chartScen==='RFI')          return RFI[chartPos]      || RFI.BTN;
+  if (chartScen==='vs 3-Bet')     return VS3BET[chartPos]   || VS3BET.BTN;
+  if (chartScen==='BB Defense')   return BB_DEF[chartPos]   || BB_DEF.BTN;
+  return RFI.BTN;
+}
+
+function buildChart() {
+  const grid = document.getElementById('gtoGrid');
+  const note = document.getElementById('chartNote');
+  const data = getChartData();
+  grid.innerHTML = '';
+
+  // Corner cell
+  const corner = document.createElement('div');
+  corner.className='gto-header'; corner.textContent='';
+  grid.appendChild(corner);
+
+  // Column headers
+  RANKS.forEach(r => {
+    const h = document.createElement('div');
+    h.className='gto-header'; h.textContent=r;
+    grid.appendChild(h);
+  });
+
+  // Rows
+  RANKS.forEach((rowRank, ri) => {
+    const rl = document.createElement('div');
+    rl.className='gto-row-label'; rl.textContent=rowRank;
+    grid.appendChild(rl);
+
+    RANKS.forEach((colRank, ci) => {
+      const cell = document.createElement('div');
+
+      // Determine hand name and which string index to use
+      // Convention: suited = row < col (upper triangle), offsuit = row > col, pair = row === col
+      let handName, code;
+      const rowStr = ((data[ri]||'') + 'FFFFFFFFFFFFF').replace(/ /g,'F').slice(0,13);
+
+      if (ri === ci) {
+        // Pair — on diagonal
+        handName = rowRank + rowRank;
+        code = rowStr[ci] || 'F';
+      } else if (ri < ci) {
+        // Suited — upper triangle
+        handName = rowRank + colRank + 's';
+        code = rowStr[ci] || 'F';
+      } else {
+        // Offsuit — lower triangle (mirror: use the other row's col index)
+        handName = colRank + rowRank + 'o';
+        const mirrorRow = ((data[ci]||'') + 'FFFFFFFFFFFFF').replace(/ /g,'F').slice(0,13);
+        code = mirrorRow[ri] || 'F';
+        // Offsuit generally folds more — downgrade A→F for most offsuit non-premiums
+        if (code==='A' && (ri-ci) > 2) code='F';
+        if (code==='B' && (ri-ci) > 1) code='F';
+      }
+
+      const act = ACT_MAP[code] || ACT_MAP['F'];
+      cell.className = `gto-cell ${act.cls}`;
+      cell.textContent = act.label;
+      cell.title = handName;
+      grid.appendChild(cell);
+    });
+  });
+
+  note.innerHTML = SCEN_NOTES[chartScen] || '';
+}
+
+// Init charts
+buildChartControls();
+buildChart();
 
 // ── TERMINOLOGIES ──
 const terms = [

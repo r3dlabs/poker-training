@@ -312,6 +312,10 @@
   .opt-btn { font-family:'Barlow Condensed',sans-serif; font-size:12px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; padding:7px 14px; border-radius:4px; border:1px solid var(--border); background:transparent; color:var(--muted); cursor:pointer; transition:all .15s; }
   .opt-btn:hover { border-color:var(--muted); color:var(--text); }
   .opt-btn.sel { border-color:var(--accent); color:var(--accent); background:rgba(204,0,0,.07); }
+  .eq-tier-btn { display:flex; flex-direction:column; align-items:center; gap:2px; padding:8px 12px; min-width:90px; }
+  .eq-pct-range { font-family:'Barlow Condensed',sans-serif; font-size:15px; font-weight:900; letter-spacing:.02em; line-height:1; color:inherit; }
+  .eq-tier-name { font-family:'Barlow',sans-serif; font-size:10px; font-weight:400; letter-spacing:.01em; text-transform:none; color:var(--muted); line-height:1; }
+  .eq-tier-btn.sel .eq-tier-name { color:var(--accent); opacity:.8; }
   .prac-slider-wrap { display:flex; align-items:center; gap:12px; }
   .prac-slider { flex:1; accent-color:var(--accent); }
   .prac-slider-val { font-family:'Barlow Condensed',sans-serif; font-size:18px; font-weight:900; color:var(--text); min-width:42px; }
@@ -963,9 +967,31 @@
             Any hand is a 50/50 vs random at baseline. <strong>Pairs, high cards, and suitedness all add equity above 50%.</strong>
           </div>
         </div>
-        <div class="prac-slider-wrap">
-          <input type="range" class="prac-slider" id="equitySlider" min="30" max="90" value="55" step="1" oninput="document.getElementById('equityVal').textContent=this.value+'%'">
-          <span class="prac-slider-val" id="equityVal">55%</span>
+        <div class="opt-row" id="q3opts">
+          <button class="opt-btn eq-tier-btn" onclick="selOpt('q3','80-85')">
+            <span class="eq-pct-range">80–85%</span>
+            <span class="eq-tier-name">Premium pairs</span>
+          </button>
+          <button class="opt-btn eq-tier-btn" onclick="selOpt('q3','72-77')">
+            <span class="eq-pct-range">72–77%</span>
+            <span class="eq-tier-name">Medium pairs</span>
+          </button>
+          <button class="opt-btn eq-tier-btn" onclick="selOpt('q3','64-67')">
+            <span class="eq-pct-range">64–67%</span>
+            <span class="eq-tier-name">Strong broadways</span>
+          </button>
+          <button class="opt-btn eq-tier-btn" onclick="selOpt('q3','57-63')">
+            <span class="eq-pct-range">57–63%</span>
+            <span class="eq-tier-name">Medium suited</span>
+          </button>
+          <button class="opt-btn eq-tier-btn" onclick="selOpt('q3','51-60')">
+            <span class="eq-pct-range">51–60%</span>
+            <span class="eq-tier-name">Small pairs</span>
+          </button>
+          <button class="opt-btn eq-tier-btn" onclick="selOpt('q3','32-47')">
+            <span class="eq-pct-range">32–47%</span>
+            <span class="eq-tier-name">Trash offsuit</span>
+          </button>
         </div>
       </div>
 
@@ -1317,14 +1343,12 @@ function parseHand(label) {
 }
 
 let pracState = {};
-const pracAnswers = {q1:null, q2:null, q4:null, q5:null};
+const pracAnswers = {q1:null, q2:null, q3:null, q4:null, q5:null};
 
 function dealScenario() {
-  pracAnswers.q1=null; pracAnswers.q2=null; pracAnswers.q4=null; pracAnswers.q5=null;
+  pracAnswers.q1=null; pracAnswers.q2=null; pracAnswers.q3=null; pracAnswers.q4=null; pracAnswers.q5=null;
   document.querySelectorAll('.opt-btn').forEach(b=>b.classList.remove('sel'));
   document.getElementById('pracResult').className='prac-result';
-  document.getElementById('equitySlider').value=55;
-  document.getElementById('equityVal').textContent='55%';
   const calcEl = document.getElementById('q5calc');
   if (calcEl) calcEl.style.display='none';
 
@@ -1395,7 +1419,7 @@ function selOpt(q, val) {
 }
 
 function submitPrac() {
-  if (!pracAnswers.q1||!pracAnswers.q2||!pracAnswers.q4||!pracAnswers.q5) {
+  if (!pracAnswers.q1||!pracAnswers.q2||!pracAnswers.q3||!pracAnswers.q4||!pracAnswers.q5) {
     alert('Please answer all 5 questions first.'); return;
   }
   const {hand,pos,bb,bbAmt} = pracState;
@@ -1403,15 +1427,31 @@ function submitPrac() {
   const correctPos    = pos;
   const correctBucket = stackBucket(bb);
   const correctAction = hand.gto[pos];
-  const eqGuess       = parseInt(document.getElementById('equitySlider').value);
-  const eqDiff        = Math.abs(eqGuess - hand.eq);
 
   const normBucket = s => s.replace(/&lt;/g,'<').replace(/&gt;/g,'>');
   const userBucket = normBucket(pracAnswers.q2);
   const stackOk    = userBucket === correctBucket;
   const posOk      = pracAnswers.q1 === correctPos;
-  const equityOk   = eqDiff <= 8;
   const actionOk   = pracAnswers.q4 === correctAction;
+
+  // Q3: equity bucket grading
+  // Map each tier key to its [min,max] range
+  const TIER_RANGES = {
+    '80-85':[80,85], '72-77':[72,77], '64-67':[64,67],
+    '57-63':[57,63], '51-60':[51,60], '32-47':[32,47]
+  };
+  const TIER_LABELS = {
+    '80-85':'80–85% — Premium pairs',
+    '72-77':'72–77% — Medium pairs',
+    '64-67':'64–67% — Strong broadways',
+    '57-63':'57–63% — Medium suited',
+    '51-60':'51–60% — Small pairs',
+    '32-47':'32–47% — Trash offsuit'
+  };
+  // Find which bucket the hand's actual equity falls into
+  const correctTier = Object.entries(TIER_RANGES).find(([,r]) => hand.eq >= r[0] && hand.eq <= r[1]);
+  const correctQ3   = correctTier ? correctTier[0] : '51-60';
+  const equityOk    = pracAnswers.q3 === correctQ3;
 
   // Q5 correctness
   const multMap = {'2bb':2,'2.5bb':2.5,'3bb':3,'4bb':4};
@@ -1442,10 +1482,10 @@ function submitPrac() {
       explain: stackOk
         ? `Right — ${bb} BB falls in the ${correctBucket} range.`
         : `Stack is <strong>${bb} BB = ${correctBucket}</strong>. Divide chips by BB. Short (&lt;20BB) = push/fold; 20–40BB = limited; 40–80BB = standard; 80BB+ = full GTO.` },
-    { ok:equityOk, label:'Equity Estimate', user:eqGuess+'%', correct:hand.eq+'%',
+    { ok:equityOk, label:'Equity Tier', user:TIER_LABELS[pracAnswers.q3]||pracAnswers.q3, correct:TIER_LABELS[correctQ3],
       explain: equityOk
-        ? `Good estimate — ${hand.label} is ~${hand.eq}% vs random. Off by only ${eqDiff}%.`
-        : `${hand.label} has <strong>~${hand.eq}%</strong> equity vs random (you said ${eqGuess}%, off by ${eqDiff}%). ${hand.tier<=2?'Premiums run 65–85%.':hand.tier===3?'Medium hands sit 57–66%.':'Spec/trash: 32–60%.'}` },
+        ? `Correct — ${hand.label} is ~${hand.eq}% vs random, which falls in the ${TIER_LABELS[correctQ3]} tier.`
+        : `${hand.label} has <strong>~${hand.eq}%</strong> equity vs random — that's the <strong>${TIER_LABELS[correctQ3]}</strong> tier. ${hand.tier<=2?'Pairs AA–TT and strong broadways (AK/AQ) are the top two tiers.':hand.tier===3?'Medium suited connectors and broadway hands sit in the middle tiers.':'Small pairs and suited connectors are speculative; unconnected offsuit hands are trash.'}` },
     { ok:actionOk, label:'GTO Action', user:pracAnswers.q4, correct:correctAction,
       explain: actionOk
         ? `Correct from ${pos}. ${gtoReason(hand,pos,correctAction)}`

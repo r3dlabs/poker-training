@@ -13,6 +13,8 @@
     --win:     #1a7a40; --win-bg:  #e8f5ee; --blue:    #1e6ab0;
     --shadow:  0 2px 12px rgba(0,0,0,0.08);
     --shadow-c:0 1px 4px rgba(0,0,0,0.15);
+    --hero-ring:      #d4a000;
+    --hero-ring-glow: rgba(180,130,0,.3);
   }
   [data-theme="dark"] {
     --bg:      #0a0a0f; --surface: #13131a; --border:  #1e1e2e;
@@ -21,6 +23,8 @@
     --win:     #3ecf7a; --win-bg:  #0f2a1a; --blue:    #3a8fd4;
     --shadow:  0 2px 16px rgba(0,0,0,0.5);
     --shadow-c:0 2px 8px rgba(0,0,0,0.6);
+    --hero-ring:      #e8ff00;
+    --hero-ring-glow: rgba(232,255,0,.35);
   }
   * { box-sizing:border-box; margin:0; padding:0; }
   body { background:var(--bg); color:var(--text); font-family:'Barlow',sans-serif; min-height:100vh; transition:background .25s,color .25s; }
@@ -267,7 +271,7 @@
   .streak-sticky { position:sticky; top:57px; z-index:90; background:var(--bg); padding:8px 0 10px; margin-bottom:8px; border-bottom:1px solid var(--border); transition:background .25s, border-color .25s; }
 
   /* ── STREAK TRACKER ── */
-  .streak-board { display:grid; grid-template-columns:repeat(5,1fr); gap:6px; }
+  .streak-board { display:grid; grid-template-columns:repeat(4,1fr); gap:6px; }
   .streak-tile { background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:10px 8px 9px; text-align:center; transition:border-color .2s, background .2s; position:relative; overflow:hidden; }
   .streak-tile.hot-3  { border-color:rgba(30,106,176,.5);  background:rgba(30,106,176,.06); }
   .streak-tile.hot-5  { border-color:rgba(232,184,0,.6);   background:rgba(232,184,0,.07); }
@@ -327,7 +331,7 @@
   .pmt { position:relative; width:100%; max-width:340px; aspect-ratio:340/185; background:#1a5c35; border-radius:100px; border:5px solid #7a4f2a; box-shadow:0 0 0 2px #5a3820,inset 0 0 28px rgba(0,0,0,.3); }
   [data-theme="dark"] .pmt { background:#0e2a18; border-color:#1e1e2e; box-shadow:0 0 0 2px #0a0a0f,inset 0 0 28px rgba(0,0,0,.5); }
   .pmt-seat { position:absolute; width:36px; height:36px; border-radius:50%; display:flex; flex-direction:column; align-items:center; justify-content:center; font-family:'Barlow Condensed',sans-serif; font-size:8px; font-weight:700; letter-spacing:.02em; line-height:1.2; text-align:center; border:2px solid rgba(255,255,255,.2); transform:translate(-50%,-50%); }
-  .pmt-seat.hero { border-color:#e8ff00; box-shadow:0 0 0 3px rgba(232,255,0,.35); background-color: inherit; }
+  .pmt-seat.hero { border-color:var(--hero-ring); box-shadow:0 0 0 3px var(--hero-ring-glow); background-color: inherit; }
   .pmt-seat span { font-size:10px; font-weight:900; display:block; }
   .pmt-dl { position:absolute; width:16px; height:16px; border-radius:50%; background:#f0f0f0; border:1px solid #ccc; font-family:'Barlow Condensed',sans-serif; font-size:7px; font-weight:900; color:#222; display:flex; align-items:center; justify-content:center; transform:translate(-50%,-50%); }
   .prac-form { background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:18px; margin-bottom:14px; }
@@ -924,12 +928,6 @@
         <div class="streak-num" id="sn-3">0</div>
         <div class="streak-acc" id="sa-3">0 / 0</div>
       </div>
-      <div class="streak-tile" id="st-4">
-        <div class="streak-tile-name">Sizing</div>
-        <div class="streak-fire" id="sf-4"></div>
-        <div class="streak-num" id="sn-4">0</div>
-        <div class="streak-acc" id="sa-4">0 / 0</div>
-      </div>
     </div>
   </div>
 
@@ -978,7 +976,7 @@
               <div class="hp-step"><span class="sn">5</span>Next = <strong>MP</strong> (Middle Position)</div>
               <div class="hp-step"><span class="sn">6</span>Next = <strong>CO</strong> (Cutoff — one before the button)</div>
             </div>
-            Find the <strong style="color:#e8ff00;">yellow-ringed seat</strong> marked YOU on the table above — that's Hero.
+            Find the <strong style="color:var(--hero-ring);">highlighted seat</strong> marked YOU on the table above — that's Hero.
           </div>
         </div>
         <div class="opt-row" id="q1opts">
@@ -1124,38 +1122,6 @@
             <span class="btn-main">Raise</span>
             <span class="btn-sub">Open with aggression</span>
           </button>
-        </div>
-      </div>
-
-      <div class="prac-q">
-        <div class="q-label-row">
-          <label>5 &mdash; If raising, what is the correct bet size in chips?</label>
-          <button class="help-btn" onclick="toggleHelp('h5',this)" title="How to calculate bet size">?</button>
-        </div>
-        <div class="help-panel" id="h5">
-          <div class="hp-title">How to calculate the open-raise size</div>
-          <div class="hp-body">
-            The raise multiplier (2.5x or 3x) applies to the <strong>big blind amount</strong> — not your stack.
-            <div class="hp-steps">
-              <div class="hp-step"><span class="sn">1</span>Find the <strong>Big Blind</strong> value in the info strip above the table</div>
-              <div class="hp-step"><span class="sn">2</span>Multiply by your raise size: <strong>BB × 2.5</strong> or <strong>BB × 3</strong></div>
-              <div class="hp-step"><span class="sn">3</span>Example: BB = $50, raise 2.5x → open to <strong>$125</strong></div>
-              <div class="hp-step"><span class="sn">4</span>Example: BB = $100, raise 3x → open to <strong>$300</strong></div>
-              <div class="hp-step"><span class="sn">5</span>If the correct GTO action is <strong>Fold</strong>, select "N/A — Folding"</div>
-            </div>
-            This is the total amount you put in, not a raise on top of an existing bet. Pre-flop open = your chips go in from zero.
-          </div>
-        </div>
-        <div class="opt-row" id="q5opts">
-          <button class="opt-btn" onclick="selOpt('q5','na')">N/A — Folding</button>
-          <button class="opt-btn" onclick="selOpt('q5','2bb')">BB × 2</button>
-          <button class="opt-btn" onclick="selOpt('q5','2.5bb')">BB × 2.5</button>
-          <button class="opt-btn" onclick="selOpt('q5','3bb')">BB × 3</button>
-          <button class="opt-btn" onclick="selOpt('q5','4bb')">BB × 4+</button>
-        </div>
-        <div id="q5calc" style="margin-top:10px;display:none;">
-          <div style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:5px;">Calculated raise amount</div>
-          <div id="q5calcVal" style="font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:900;color:var(--text);"></div>
         </div>
       </div>
 
@@ -1539,7 +1505,7 @@ function parseHand(hand) {
 
 
 let pracState = {};
-const pracAnswers = {q1:null, q2:null, q3:null, q4:null, q5:null};
+const pracAnswers = {q1:null, q2:null, q3:null, q4:null};
 
 // ── STREAK STATE ──
 const streakState = [
@@ -1547,7 +1513,6 @@ const streakState = [
   {streak:0, correct:0, total:0}, // Q2 Stack
   {streak:0, correct:0, total:0}, // Q3 Equity
   {streak:0, correct:0, total:0}, // Q4 Action
-  {streak:0, correct:0, total:0}, // Q5 Sizing
 ];
 
 function updateStreak(idx, isCorrect) {
@@ -1588,20 +1553,16 @@ function clearSession() {
     tile.classList.remove('hot-3','hot-5','hot-10');
   });
   // Also reset the current hand state
-  pracAnswers.q1=null; pracAnswers.q2=null; pracAnswers.q3=null; pracAnswers.q4=null; pracAnswers.q5=null;
+  pracAnswers.q1=null; pracAnswers.q2=null; pracAnswers.q3=null; pracAnswers.q4=null;
   document.querySelectorAll('.opt-btn').forEach(b=>b.classList.remove('sel'));
   document.getElementById('pracResult').className='prac-result';
   document.getElementById('pracScenario').classList.remove('show');
-  const calcEl = document.getElementById('q5calc');
-  if (calcEl) calcEl.style.display='none';
 }
 
 function dealScenario() {
-  pracAnswers.q1=null; pracAnswers.q2=null; pracAnswers.q3=null; pracAnswers.q4=null; pracAnswers.q5=null;
+  pracAnswers.q1=null; pracAnswers.q2=null; pracAnswers.q3=null; pracAnswers.q4=null;
   document.querySelectorAll('.opt-btn').forEach(b=>b.classList.remove('sel'));
   document.getElementById('pracResult').className='prac-result';
-  const calcEl = document.getElementById('q5calc');
-  if (calcEl) calcEl.style.display='none';
 
   const hand = HAND_DB[Math.floor(Math.random()*HAND_DB.length)];
   const pos  = POS_LIST[Math.floor(Math.random()*POS_LIST.length)];
@@ -1651,27 +1612,11 @@ function selOpt(q, val) {
   document.getElementById(q+'opts').querySelectorAll('.opt-btn').forEach(b=>{
     b.classList.toggle('sel', b.textContent.trim()===val || (b.getAttribute('onclick')||'').includes(`'${val}'`));
   });
-  // Live calc for Q5
-  if (q==='q5') {
-    const calcEl  = document.getElementById('q5calc');
-    const calcVal = document.getElementById('q5calcVal');
-    const bbAmt   = pracState.bbAmt || 0;
-    const multMap = {'2bb':2,'2.5bb':2.5,'3bb':3,'4bb':4};
-    if (val==='na') {
-      calcEl.style.display='block';
-      calcVal.innerHTML='<span style="color:var(--muted);">No raise — folding</span>';
-    } else if (multMap[val]) {
-      const mult   = multMap[val];
-      const amount = Math.round(bbAmt * mult);
-      calcEl.style.display='block';
-      calcVal.innerHTML=`$${amount.toLocaleString()} <span style="font-size:13px;color:var(--muted);font-weight:400;">(${mult}× the $${bbAmt} BB)</span>`;
-    }
-  }
 }
 
 function submitPrac() {
-  if (!pracAnswers.q1||!pracAnswers.q2||!pracAnswers.q3||!pracAnswers.q4||!pracAnswers.q5) {
-    alert('Please answer all 5 questions first.'); return;
+  if (!pracAnswers.q1||!pracAnswers.q2||!pracAnswers.q3||!pracAnswers.q4) {
+    alert('Please answer all 4 questions first.'); return;
   }
   const {hand,pos,bb,bbAmt} = pracState;
   const fullBB        = bbAmt;
@@ -1689,7 +1634,6 @@ function submitPrac() {
   const actionOk   = pracAnswers.q4 === correctQ4;
 
   // Q3: equity bucket grading
-  // Map each tier key to its [min,max] range
   const TIER_RANGES = {
     '80-85':[80,85], '72-77':[72,77], '64-67':[64,67],
     '57-63':[57,63], '51-60':[51,60], '32-47':[32,47]
@@ -1702,40 +1646,21 @@ function submitPrac() {
     '51-60':'51–60% — Small pairs',
     '32-47':'32–47% — Trash offsuit'
   };
-  // Find which bucket the hand's actual equity falls into
   const correctTier = Object.entries(TIER_RANGES).find(([,r]) => hand.eq >= r[0] && hand.eq <= r[1]);
   const correctQ3   = correctTier ? correctTier[0] : '51-60';
   const equityOk    = pracAnswers.q3 === correctQ3;
 
-  // Q5 correctness — sizing still derived from full correctAction (Raise 2.5x / Raise 3x)
-  const multMap = {'2bb':2,'2.5bb':2.5,'3bb':3,'4bb':4};
-  let correctQ5, correctQ5Label, correctChips;
-  if (!correctAction.startsWith('Raise')) {
-    correctQ5='na'; correctQ5Label='N/A — Folding'; correctChips=null;
-  } else if (correctAction==='Raise 2.5x') {
-    correctQ5='2.5bb'; correctChips=Math.round(fullBB*2.5);
-    correctQ5Label=`BB × 2.5 = $${correctChips.toLocaleString()}`;
-  } else if (correctAction==='Raise 3x') {
-    correctQ5='3bb'; correctChips=Math.round(fullBB*3);
-    correctQ5Label=`BB × 3 = $${correctChips.toLocaleString()}`;
-  }
-  const betOk = pracAnswers.q5===correctQ5;
-  const userChips = pracAnswers.q5==='na' ? null : Math.round(fullBB*(multMap[pracAnswers.q5]||0));
-  const userQ5Label = pracAnswers.q5==='na'
-    ? 'N/A — Folding'
-    : `BB × ${multMap[pracAnswers.q5]} = $${(userChips||0).toLocaleString()}`;
-
-  const score = [posOk,stackOk,equityOk,actionOk,betOk].filter(Boolean).length;
+  const score = [posOk,stackOk,equityOk,actionOk].filter(Boolean).length;
 
   const rows = [
     { ok:posOk, label:'Position', user:pracAnswers.q1, correct:correctPos,
       explain: posOk
         ? 'Correct — you read the table accurately.'
-        : `Hero is in <strong>${correctPos}</strong>. The yellow neon ring marks your seat. Count clockwise from D: BTN → SB → BB → UTG → MP → CO.` },
+        : `Hero is in <strong>${correctPos}</strong>. The highlighted ring marks your seat. Count clockwise from D: BTN → SB → BB → UTG → MP → CO.` },
     { ok:stackOk, label:'Stack Depth', user:userBucket, correct:correctBucket,
       explain: stackOk
         ? `Right — ${bb} BB falls in the ${correctBucket} range.`
-        : `Stack is <strong>${bb} BB = ${correctBucket}</strong>. Divide chips by BB. Short (&lt;20BB) = push/fold; 20–40BB = limited; 40–80BB = standard; 80BB+ = full GTO.` },
+        : `Stack is <strong>${bb} BB = ${correctBucket}</strong>. Divide chips by BB. &lt;20BB = push/fold; 20–40BB = limited; 40–80BB = standard; 80BB+ = full GTO.` },
     { ok:equityOk, label:'Equity Tier', user:TIER_LABELS[pracAnswers.q3]||pracAnswers.q3, correct:TIER_LABELS[correctQ3],
       explain: equityOk
         ? `Correct — ${hand.label} is ~${hand.eq}% vs random, which falls in the ${TIER_LABELS[correctQ3]} tier.`
@@ -1744,23 +1669,15 @@ function submitPrac() {
       explain: actionOk
         ? `Correct — ${correctQ4} is the right move from ${pos} with ${hand.label}. ${gtoReason(hand,pos,correctAction)}`
         : `GTO says <strong>${correctQ4}</strong> from ${pos} with ${hand.label}. ${gtoReason(hand,pos,correctAction)}` },
-    { ok:betOk, label:'Bet Sizing', user:userQ5Label, correct:correctQ5Label,
-      explain: betOk
-        ? (correctChips
-            ? `Correct — raise to <strong>$${correctChips.toLocaleString()}</strong>. That's ${correctAction.replace('Raise ','')} × the $${fullBB} BB.`
-            : `Correct — no chips in when folding.`)
-        : (correctChips
-            ? `Correct raise is <strong>$${correctChips.toLocaleString()}</strong> (${correctAction.replace('Raise ','')} × $${fullBB} BB). ${betSizeReason(correctAction,pos,fullBB,correctChips)}`
-            : `GTO action is ${correctAction} — no bet goes in.`) },
   ];
 
   // Update streaks
-  [posOk, stackOk, equityOk, actionOk, betOk].forEach((ok, i) => updateStreak(i, ok));
+  [posOk, stackOk, equityOk, actionOk].forEach((ok, i) => updateStreak(i, ok));
 
   let grade, icon, title;
-  if (score===5)      { grade='pass';    icon='✅'; title='Perfect — 5/5 Correct'; }
-  else if (score>=3)  { grade='partial'; icon='🟡'; title=`${score}/5 — Partial Credit`; }
-  else                { grade='fail';    icon='❌'; title=`${score}/5 — Study These Spots`; }
+  if (score===4)      { grade='pass';    icon='✅'; title='Perfect — 4/4 Correct'; }
+  else if (score>=2)  { grade='partial'; icon='🟡'; title=`${score}/4 — Partial Credit`; }
+  else                { grade='fail';    icon='❌'; title=`${score}/4 — Study These Spots`; }
 
   const resEl = document.getElementById('pracResult');
   resEl.className=`prac-result show ${grade}`;
@@ -1802,13 +1719,6 @@ function gtoReason(hand,pos,action) {
   return '';
 }
 
-function betSizeReason(action, pos, fullBB, chips) {
-  const mult = action==='Raise 3x' ? 3 : 2.5;
-  const why  = mult===3
-    ? `3x from ${pos} (early position) builds a bigger pot and makes it expensive for players behind to call or 3-bet with speculative hands.`
-    : `2.5x from ${pos} is the GTO standard for in-position opens — small enough to keep the pot manageable, large enough to deny free looks.`;
-  return `Formula: $${fullBB} BB × ${mult} = <strong>$${chips.toLocaleString()}</strong>. ${why}`;
-}
 
 // ══════════════════════════════════════════════
 // GTO CHARTS MODULE

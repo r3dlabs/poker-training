@@ -1355,7 +1355,7 @@ function dealScenario() {
   const hand = HAND_DB[Math.floor(Math.random()*HAND_DB.length)];
   const pos  = POS_LIST[Math.floor(Math.random()*POS_LIST.length)];
   const bb   = Math.floor(Math.random()*120)+15;
-  const bbAmt= (Math.floor(Math.random()*4)+1)*25;
+  const bbAmt= (Math.floor(Math.random()*4)+1)*50;  // $50,$100,$150,$200 — this IS the big blind
   const chips= bb * bbAmt;
   pracState  = {hand, pos, bb, chips, bbAmt};
 
@@ -1368,7 +1368,7 @@ function dealScenario() {
   // Meta
   document.getElementById('pracMeta').innerHTML = `
     <div class="prac-chip"><div class="pv">${chips.toLocaleString()}</div><div class="pl">Chips</div></div>
-    <div class="prac-chip"><div class="pv">$${bbAmt*2}</div><div class="pl">Big Blind</div></div>
+    <div class="prac-chip"><div class="pv">$${bbAmt}</div><div class="pl">Big Blind</div></div>
   `;
 
   // Mini table — rebuild seats
@@ -1411,9 +1411,9 @@ function selOpt(q, val) {
       calcVal.innerHTML='<span style="color:var(--muted);">No raise — folding</span>';
     } else if (multMap[val]) {
       const mult   = multMap[val];
-      const amount = Math.round(bbAmt * 2 * mult); // bbAmt is half-BB, so *2 = full BB, then *mult
+      const amount = Math.round(bbAmt * mult);
       calcEl.style.display='block';
-      calcVal.innerHTML=`$${amount.toLocaleString()} <span style="font-size:13px;color:var(--muted);font-weight:400;">(${mult}× the $${bbAmt*2} BB)</span>`;
+      calcVal.innerHTML=`$${amount.toLocaleString()} <span style="font-size:13px;color:var(--muted);font-weight:400;">(${mult}× the $${bbAmt} BB)</span>`;
     }
   }
 }
@@ -1423,7 +1423,7 @@ function submitPrac() {
     alert('Please answer all 5 questions first.'); return;
   }
   const {hand,pos,bb,bbAmt} = pracState;
-  const fullBB        = bbAmt * 2;
+  const fullBB        = bbAmt;
   const correctPos    = pos;
   const correctBucket = stackBucket(bb);
   const correctAction = hand.gto[pos];

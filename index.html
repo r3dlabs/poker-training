@@ -332,6 +332,7 @@
   [data-theme="dark"] .pmt { background:#0e2a18; border-color:#1e1e2e; box-shadow:0 0 0 2px #0a0a0f,inset 0 0 28px rgba(0,0,0,.5); }
   .pmt-seat { position:absolute; width:36px; height:36px; border-radius:50%; display:flex; flex-direction:column; align-items:center; justify-content:center; font-family:'Barlow Condensed',sans-serif; font-size:8px; font-weight:700; letter-spacing:.02em; line-height:1.2; text-align:center; border:2px solid rgba(255,255,255,.2); transform:translate(-50%,-50%); }
   .pmt-seat.hero { border-color:var(--hero-ring); box-shadow:0 0 0 3px var(--hero-ring-glow); background-color: inherit; }
+  .pmt-seat.raiser { border-color:#fff; box-shadow:0 0 0 2px rgba(255,255,255,.5); }
   .pmt-seat span { font-size:10px; font-weight:900; display:block; }
   .pmt-dl { position:absolute; width:16px; height:16px; border-radius:50%; background:#f0f0f0; border:1px solid #ccc; font-family:'Barlow Condensed',sans-serif; font-size:7px; font-weight:900; color:#222; display:flex; align-items:center; justify-content:center; transform:translate(-50%,-50%); }
   .prac-form { background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:18px; margin-bottom:14px; }
@@ -1094,35 +1095,13 @@
 
       <div class="prac-q">
         <div class="q-label-row">
-          <label>4 &mdash; GTO action if folded to Hero pre-flop?</label>
+          <label id="q4label">4 &mdash; GTO action if folded to Hero pre-flop?</label>
           <button class="help-btn" onclick="toggleHelp('h4',this)" title="How to decide the GTO action">?</button>
         </div>
         <div class="help-panel" id="h4">
-          <div class="hp-title">How to decide the GTO action</div>
-          <div class="hp-body">
-            GTO says: raise a certain % of hands from each position, fold the rest. <strong>Limp is almost never correct.</strong>
-            <div class="hp-steps">
-              <div class="hp-step"><span class="sn">1</span>Ask: <strong>is this hand strong enough for this position?</strong> Early positions require tighter ranges.</div>
-              <div class="hp-step"><span class="sn">2</span>Position thresholds (approx % of all hands to open-raise):<br><strong>UTG ~15% · MP ~20% · CO ~27% · BTN ~45% · SB ~40%</strong></div>
-              <div class="hp-step"><span class="sn">3</span>Sizing: use <strong>3x from UTG/MP</strong> (early position, build pot, fewer callers) · <strong>2.5x from CO/BTN/blinds</strong> (in position, smaller open)</div>
-              <div class="hp-step"><span class="sn">4</span>If the hand is in range → raise the correct size. If not → fold. Never limp open.</div>
-            </div>
-          </div>
+          <div id="q4hint"></div>
         </div>
-        <div class="opt-row" id="q4opts">
-          <button class="opt-btn two-line-btn" onclick="selOpt('q4','Fold')">
-            <span class="btn-main">Fold</span>
-            <span class="btn-sub">Give up the hand</span>
-          </button>
-          <button class="opt-btn two-line-btn" onclick="selOpt('q4','Limp')">
-            <span class="btn-main">Limp</span>
-            <span class="btn-sub">Call the BB (weak)</span>
-          </button>
-          <button class="opt-btn two-line-btn" onclick="selOpt('q4','Raise')">
-            <span class="btn-main">Raise</span>
-            <span class="btn-sub">Open with aggression</span>
-          </button>
-        </div>
+        <div class="opt-row" id="q4opts"></div>
       </div>
 
     </div>
@@ -1557,6 +1536,8 @@ function clearSession() {
   document.querySelectorAll('.opt-btn').forEach(b=>b.classList.remove('sel'));
   document.getElementById('pracResult').className='prac-result';
   document.getElementById('pracScenario').classList.remove('show');
+  document.getElementById('q4label').textContent='4 — GTO action pre-flop?';
+  document.getElementById('q4opts').innerHTML='';
 }
 
 function dealScenario() {
@@ -1567,9 +1548,39 @@ function dealScenario() {
   const hand = HAND_DB[Math.floor(Math.random()*HAND_DB.length)];
   const pos  = POS_LIST[Math.floor(Math.random()*POS_LIST.length)];
   const bb   = Math.floor(Math.random()*120)+15;
-  const bbAmt= (Math.floor(Math.random()*4)+1)*50;  // $50,$100,$150,$200 — this IS the big blind
+  const bbAmt= (Math.floor(Math.random()*4)+1)*50;
   const chips= bb * bbAmt;
-  pracState  = {hand, pos, bb, chips, bbAmt};
+
+  // ── Random scenario ──
+  // 'rfi' = folded to hero | 'vs_raise' = facing an open raise
+  const scenarioType = Math.random() < 0.5 ? 'rfi' : 'vs_raise';
+
+  // For vs_raise: pick a random raiser position that acts before hero
+  // Position order: UTG MP CO BTN SB BB (pre-flop action order)
+  const posOrder = ['UTG','MP','CO','BTN','SB','BB'];
+  const heroIdx  = posOrder.indexOf(pos);
+  // Eligible raisers: positions that act before hero pre-flop
+  // Pre-flop: UTG→MP→CO→BTN→SB→BB. Hero can face a raise from anyone who acts before them.
+  // Exception: BB acts last pre-flop so can face raises from all others
+  const eligibleRaisers = posOrder.filter((_,i) => {
+    if (pos === 'BB') return i < 5; // BB faces UTG/MP/CO/BTN/SB
+    if (pos === 'SB') return i < 4; // SB faces UTG/MP/CO/BTN
+    return i < heroIdx;             // others face earlier positions
+  });
+
+  let scenario;
+  if (scenarioType === 'vs_raise' && eligibleRaisers.length > 0) {
+    const raiserPos = eligibleRaisers[Math.floor(Math.random()*eligibleRaisers.length)];
+    // Random raise size: 2x, 2.5x, 3x
+    const raiseSizes = [2, 2.5, 3];
+    const raiseMultiple = raiseSizes[Math.floor(Math.random()*raiseSizes.length)];
+    const raiseAmount = Math.round(bbAmt * raiseMultiple);
+    scenario = {type:'vs_raise', raiserPos, raiseMultiple, raiseAmount};
+  } else {
+    scenario = {type:'rfi'};
+  }
+
+  pracState = {hand, pos, bb, chips, bbAmt, scenario};
 
   // Hole cards
   const cardData = parseHand(hand);
@@ -1586,25 +1597,93 @@ function dealScenario() {
   // Mini table — rebuild seats
   const pmt = document.getElementById('pmtEl');
   pmt.innerHTML = '';
-  // Dealer chip — percentage based
   const dc = POS_DEALER[pos];
   const dlEl = document.createElement('div');
   dlEl.className='pmt-dl'; dlEl.textContent='D';
   dlEl.style.top=(dc.top*100)+'%'; dlEl.style.left=(dc.left*100)+'%';
   pmt.appendChild(dlEl);
-  // Seats
   POS_LIST.forEach(p=>{
     const c=POS_COORDS[p], isHero=(p===pos);
+    const isRaiser = scenario.type==='vs_raise' && p===scenario.raiserPos;
     const el=document.createElement('div');
-    el.className='pmt-seat'+(isHero?' hero':'');
+    el.className='pmt-seat'+(isHero?' hero':'')+(isRaiser?' raiser':'');
     el.style.top=(c.top*100)+'%'; el.style.left=(c.left*100)+'%';
     el.style.background=POS_COLORS[p]; el.style.color=POS_TEXT[p];
-    el.innerHTML=`<span>${p}</span>${isHero?'YOU':''}`;
+    el.innerHTML=`<span>${p}</span>${isHero?'YOU':isRaiser?'RAISE':''}`;
     pmt.appendChild(el);
   });
 
+  // Update Q4 label and buttons dynamically
+  updateQ4UI(scenario, pos);
+
   document.getElementById('pracScenario').classList.add('show');
   document.getElementById('pracScenario').scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+function updateQ4UI(scenario, pos) {
+  const labelEl = document.getElementById('q4label');
+  const hintEl  = document.getElementById('q4hint');
+  const optsEl  = document.getElementById('q4opts');
+
+  if (scenario.type === 'rfi') {
+    labelEl.textContent = '4 — Action folded to Hero pre-flop (RFI)?';
+    hintEl.innerHTML = `
+      <div class="hp-title">How to decide the GTO action (RFI)</div>
+      <div class="hp-body">
+        GTO says: raise a certain % of hands from each position, fold the rest. <strong>Limp is almost never correct.</strong>
+        <div class="hp-steps">
+          <div class="hp-step"><span class="sn">1</span>Is this hand strong enough for ${pos}? Early positions require tighter ranges.</div>
+          <div class="hp-step"><span class="sn">2</span>Open % by position: <strong>UTG ~15% · MP ~20% · CO ~27% · BTN ~45% · SB ~40%</strong></div>
+          <div class="hp-step"><span class="sn">3</span>If in range → Raise. If not → Fold. Never limp open.</div>
+        </div>
+      </div>`;
+    optsEl.innerHTML = `
+      <button class="opt-btn two-line-btn" onclick="selOpt('q4','Fold')">
+        <span class="btn-main">Fold</span><span class="btn-sub">Give up the hand</span>
+      </button>
+      <button class="opt-btn two-line-btn" onclick="selOpt('q4','Limp')">
+        <span class="btn-main">Limp</span><span class="btn-sub">Call the BB (weak)</span>
+      </button>
+      <button class="opt-btn two-line-btn" onclick="selOpt('q4','Raise')">
+        <span class="btn-main">Raise</span><span class="btn-sub">Open with aggression</span>
+      </button>`;
+  } else {
+    const {raiserPos, raiseMultiple, raiseAmount} = scenario;
+    labelEl.textContent = `4 — ${raiserPos} raises ${raiseMultiple}x ($${raiseAmount.toLocaleString()}). Hero's action?`;
+    hintEl.innerHTML = `
+      <div class="hp-title">How to decide vs a raise (facing ${raiserPos})</div>
+      <div class="hp-body">
+        You're facing a ${raiseMultiple}x open from <strong>${raiserPos}</strong>. Three options: 3-Bet, Call, or Fold.
+        <div class="hp-steps">
+          <div class="hp-step"><span class="sn">1</span><strong>3-Bet</strong> with premiums (AA–QQ, AK) and some bluffs (low suited Axs). Re-raise to ~3× their raise.</div>
+          <div class="hp-step"><span class="sn">2</span><strong>Call</strong> with medium-strength hands that play well in position (pocket pairs for sets, suited connectors).</div>
+          <div class="hp-step"><span class="sn">3</span><strong>Fold</strong> when your hand doesn't have enough equity or playability vs ${raiserPos}'s range. The tighter ${raiserPos}'s range, the more you fold.</div>
+          <div class="hp-step"><span class="sn">4</span>${raiserPos} range hint: <strong>${posRangeHint(raiserPos)}</strong></div>
+        </div>
+      </div>`;
+    optsEl.innerHTML = `
+      <button class="opt-btn two-line-btn" onclick="selOpt('q4','Fold')">
+        <span class="btn-main">Fold</span><span class="btn-sub">Give up the hand</span>
+      </button>
+      <button class="opt-btn two-line-btn" onclick="selOpt('q4','Call')">
+        <span class="btn-main">Call</span><span class="btn-sub">See a flop</span>
+      </button>
+      <button class="opt-btn two-line-btn" onclick="selOpt('q4','3-Bet')">
+        <span class="btn-main">3-Bet</span><span class="btn-sub">Re-raise for value/bluff</span>
+      </button>`;
+  }
+}
+
+function posRangeHint(pos) {
+  const hints = {
+    UTG:'Very tight ~15% — expect strong hands only',
+    MP: 'Tight ~20% — mostly strong broadways and pairs',
+    CO: 'Medium ~27% — solid hands plus some speculative',
+    BTN:'Wide ~45% — lots of hands, many marginal',
+    SB: 'Medium ~40% — wide but out of position post-flop',
+    BB: 'Wide — BB defends ~47%, expect many hands',
+  };
+  return hints[pos] || '';
 }
 
 function selOpt(q, val) {
@@ -1618,20 +1697,32 @@ function submitPrac() {
   if (!pracAnswers.q1||!pracAnswers.q2||!pracAnswers.q3||!pracAnswers.q4) {
     alert('Please answer all 4 questions first.'); return;
   }
-  const {hand,pos,bb,bbAmt} = pracState;
+  const {hand,pos,bb,bbAmt,scenario} = pracState;
   const fullBB        = bbAmt;
   const correctPos    = pos;
   const correctBucket = stackBucket(bb);
-  const correctAction = hand.gto[pos];
+  const correctAction = hand.gto[pos]; // still the RFI action for reference
 
   const normBucket = s => s.replace(/&lt;/g,'<').replace(/&gt;/g,'>');
   const userBucket = normBucket(pracAnswers.q2);
   const stackOk    = userBucket === correctBucket;
   const posOk      = pracAnswers.q1 === correctPos;
 
-  // Q4: correct answer is 'Raise' for any raise, 'Fold' for fold
-  const correctQ4  = correctAction.startsWith('Raise') ? 'Raise' : correctAction;
-  const actionOk   = pracAnswers.q4 === correctQ4;
+  // Q4 correct answer depends on scenario
+  let correctQ4, q4Explain;
+  if (scenario.type === 'rfi') {
+    correctQ4 = correctAction.startsWith('Raise') ? 'Raise' : correctAction;
+    q4Explain = (ok) => ok
+      ? `Correct — ${correctQ4} is the right RFI move from ${pos} with ${hand.label}. ${gtoReason(hand, pos, correctAction)}`
+      : `GTO RFI says <strong>${correctQ4}</strong> from ${pos} with ${hand.label}. ${gtoReason(hand, pos, correctAction)}`;
+  } else {
+    const {raiserPos, raiseMultiple} = scenario;
+    correctQ4 = calcVsRaiseAction(hand, pos, raiserPos);
+    q4Explain = (ok) => ok
+      ? `Correct — <strong>${correctQ4}</strong> vs ${raiserPos}'s ${raiseMultiple}x raise with ${hand.label}. ${vsRaiseReason(hand, pos, raiserPos, correctQ4)}`
+      : `GTO says <strong>${correctQ4}</strong> vs ${raiserPos}'s ${raiseMultiple}x raise with ${hand.label}. ${vsRaiseReason(hand, pos, raiserPos, correctQ4)}`;
+  }
+  const actionOk = pracAnswers.q4 === correctQ4;
 
   // Q3: equity bucket grading
   const TIER_RANGES = {
@@ -1666,9 +1757,7 @@ function submitPrac() {
         ? `Correct — ${hand.label} is ~${hand.eq}% vs random, which falls in the ${TIER_LABELS[correctQ3]} tier.`
         : `${hand.label} has <strong>~${hand.eq}%</strong> equity vs random — that's the <strong>${TIER_LABELS[correctQ3]}</strong> tier. ${hand.eq>=72?'Pairs AA–TT and strong broadways (AK/AQ) are the top two tiers.':hand.eq>=57?'Medium suited connectors and broadway hands sit in the middle tiers.':'Small pairs and suited connectors are speculative; unconnected offsuit hands are trash.'}` },
     { ok:actionOk, label:'GTO Action', user:pracAnswers.q4, correct:correctQ4,
-      explain: actionOk
-        ? `Correct — ${correctQ4} is the right move from ${pos} with ${hand.label}. ${gtoReason(hand,pos,correctAction)}`
-        : `GTO says <strong>${correctQ4}</strong> from ${pos} with ${hand.label}. ${gtoReason(hand,pos,correctAction)}` },
+      explain: q4Explain(actionOk) },
   ];
 
   // Update streaks
@@ -1713,10 +1802,59 @@ function gtoReason(hand,pos,action) {
     return `Even from ${pos}, ${hand.label} is below the GTO opening threshold. Folding keeps you from leaking chips in marginal spots.`;
   }
   if (action==='Raise 3x')
-    return `3x sizing from ${pos} is standard for early-position opens — it builds a larger pot, deters multiway callers, and your hand (${hand.label}) is strong enough to play for value.`;
+    return `3x sizing from ${pos} is standard for early-position opens — it builds a larger pot, deters multiway callers, and ${hand.label} is strong enough to play for value.`;
   if (action==='Raise 2.5x')
     return `2.5x is the standard late/mid-position open size. ${hand.label} is in the GTO raising range from ${pos} — smaller sizing exploits your positional advantage.`;
   return '';
+}
+
+// ── vs Raise action engine ──
+// Determines correct response to a raise: 3-Bet / Call / Fold
+function calcVsRaiseAction(hand, heroPos, raiserPos) {
+  const RANK_VAL_L = {A:14,K:13,Q:12,J:11,T:10,9:9,8:8,7:7,6:6,5:5,4:4,3:3,2:2};
+  const v1 = RANK_VAL_L[hand.r1], v2 = RANK_VAL_L[hand.r2];
+  const hi = Math.max(v1,v2), lo = Math.min(v1,v2);
+  const isPair = hi===lo, suited = hand.suited;
+  const gap = isPair ? 0 : hi-lo-1;
+
+  // Hand score (same as RFI engine)
+  let score;
+  if (isPair) { score = 50+(hi-2)*3.5; }
+  else {
+    const aceSuit=suited&&hi===14?2:0;
+    score=(hi*1.8+lo*0.9)+(suited?6:0)+Math.max(0,(4-gap)*1.5)-(lo<=5?(6-lo)*0.5:0)-(gap>4?(gap-4)*2:0)+aceSuit;
+  }
+
+  // Raiser range tightness — tighter raiser = we need stronger hand to continue
+  const raiserTightness = {UTG:1.4, MP:1.25, CO:1.1, BTN:0.9, SB:1.0, BB:0.85};
+  const tight = raiserTightness[raiserPos] || 1.0;
+
+  // Position bonus — in position vs raiser means we can continue wider
+  const posOrder = ['UTG','MP','CO','BTN','SB','BB'];
+  const inPosition = posOrder.indexOf(heroPos) > posOrder.indexOf(raiserPos)
+                     || heroPos==='BB'; // BB acts last pre-flop
+  const posBonus = inPosition ? 4 : 0;
+
+  const adjScore = score + posBonus;
+
+  // Thresholds scaled by raiser tightness
+  const threeBetThresh = 60 * tight;  // 3-bet: AA/KK/QQ/AKs always, plus some bluffs
+  const callThresh     = 44 * tight;  // call: pairs, suited connectors, broadways
+  // Below callThresh = fold
+
+  if (adjScore >= threeBetThresh) return '3-Bet';
+  if (adjScore >= callThresh)     return 'Call';
+  return 'Fold';
+}
+
+function vsRaiseReason(hand, heroPos, raiserPos, action) {
+  const tight = {UTG:'very tight (top 15%)',MP:'tight (top 20%)',CO:'medium (top 27%)',BTN:'wide (top 45%)',SB:'medium-wide (top 40%)',BB:'wide'};
+  const raiserDesc = tight[raiserPos] || 'medium';
+  if (action==='3-Bet')
+    return `${hand.label} is strong enough to re-raise — you polarise your range and build a pot in a spot where you have significant equity. ${raiserPos} is ${raiserDesc}, so they'll often fold or get it in bad.`;
+  if (action==='Call')
+    return `${hand.label} has enough equity and playability to see a flop, but not enough to re-raise profitably against ${raiserPos}'s ${raiserDesc} range. Calling keeps the pot manageable.`;
+  return `${hand.label} doesn't have enough equity or playability against ${raiserPos}'s ${raiserDesc} range. Folding avoids building a large pot as a significant underdog.`;
 }
 
 

@@ -1053,41 +1053,41 @@
         <div class="help-panel" id="h3">
           <div class="hp-title">How to estimate pre-flop equity</div>
           <div class="hp-body">
-            Equity = your % chance of winning at showdown vs a random 2-card hand. Use these mental anchors:
+            Equity = your % chance of winning at showdown vs a random 2-card hand. Use these tiers:
             <div class="hp-steps">
-              <div class="hp-step"><span class="sn">▲</span><strong>Premium pairs (AA–QQ):</strong> 80–85% — massive favourite</div>
-              <div class="hp-step"><span class="sn">▲</span><strong>Medium pairs (99–JJ):</strong> 72–77%</div>
-              <div class="hp-step"><span class="sn">▲</span><strong>Strong broadways (AK, AQ):</strong> 64–67%</div>
-              <div class="hp-step"><span class="sn">▲</span><strong>Medium suited hands (KQs, JTs):</strong> 57–63%</div>
-              <div class="hp-step"><span class="sn">▲</span><strong>Small pairs (22–55):</strong> 51–60%</div>
-              <div class="hp-step"><span class="sn">▼</span><strong>Trash offsuit hands:</strong> 32–47% — slight underdog</div>
+              <div class="hp-step"><span class="sn">▲</span><strong>78–85% — Premium pairs:</strong> AA, KK, QQ</div>
+              <div class="hp-step"><span class="sn">▲</span><strong>68–77% — Strong pairs:</strong> JJ, TT, 99, 88</div>
+              <div class="hp-step"><span class="sn">▲</span><strong>60–67% — Broadways &amp; big Ax:</strong> AKs/o, AQs/o, AJs, KQs</div>
+              <div class="hp-step"><span class="sn">▲</span><strong>52–59% — Suited connectors:</strong> JTs, T9s, medium pairs (77–55)</div>
+              <div class="hp-step"><span class="sn">▼</span><strong>43–51% — Weak suited / small pairs:</strong> 87s, 76s, 22–44, weak Axs</div>
+              <div class="hp-step"><span class="sn">▼</span><strong>32–42% — Trash offsuit:</strong> unconnected offsuit rags</div>
             </div>
-            Any hand is a 50/50 vs random at baseline. <strong>Pairs, high cards, and suitedness all add equity above 50%.</strong>
+            <strong>Key anchors:</strong> AA=85%, AKs≈67%, JTs≈57%, 72o=32%.
           </div>
         </div>
         <div class="opt-row" id="q3opts">
-          <button class="opt-btn eq-tier-btn" onclick="selOpt('q3','80-85')">
-            <span class="eq-pct-range">80–85%</span>
+          <button class="opt-btn eq-tier-btn" onclick="selOpt('q3','A')">
+            <span class="eq-pct-range">78–85%</span>
             <span class="eq-tier-name">Premium pairs</span>
           </button>
-          <button class="opt-btn eq-tier-btn" onclick="selOpt('q3','72-77')">
-            <span class="eq-pct-range">72–77%</span>
-            <span class="eq-tier-name">Medium pairs</span>
+          <button class="opt-btn eq-tier-btn" onclick="selOpt('q3','B')">
+            <span class="eq-pct-range">68–77%</span>
+            <span class="eq-tier-name">Strong pairs</span>
           </button>
-          <button class="opt-btn eq-tier-btn" onclick="selOpt('q3','64-67')">
-            <span class="eq-pct-range">64–67%</span>
-            <span class="eq-tier-name">Strong broadways</span>
+          <button class="opt-btn eq-tier-btn" onclick="selOpt('q3','C')">
+            <span class="eq-pct-range">60–67%</span>
+            <span class="eq-tier-name">Broadways &amp; big Ax</span>
           </button>
-          <button class="opt-btn eq-tier-btn" onclick="selOpt('q3','57-63')">
-            <span class="eq-pct-range">57–63%</span>
-            <span class="eq-tier-name">Medium suited</span>
+          <button class="opt-btn eq-tier-btn" onclick="selOpt('q3','D')">
+            <span class="eq-pct-range">52–59%</span>
+            <span class="eq-tier-name">Suited connectors</span>
           </button>
-          <button class="opt-btn eq-tier-btn" onclick="selOpt('q3','51-60')">
-            <span class="eq-pct-range">51–60%</span>
-            <span class="eq-tier-name">Small pairs</span>
+          <button class="opt-btn eq-tier-btn" onclick="selOpt('q3','E')">
+            <span class="eq-pct-range">43–51%</span>
+            <span class="eq-tier-name">Weak suited / small pairs</span>
           </button>
-          <button class="opt-btn eq-tier-btn" onclick="selOpt('q3','32-47')">
-            <span class="eq-pct-range">32–47%</span>
+          <button class="opt-btn eq-tier-btn" onclick="selOpt('q3','F')">
+            <span class="eq-pct-range">32–42%</span>
             <span class="eq-tier-name">Trash offsuit</span>
           </button>
         </div>
@@ -1396,12 +1396,12 @@ function calcGTO(r1, r2, suited) {
 
 // ── Equity tier bucket ──
 function equityTier(eq) {
-  if (eq >= 80) return '80-85';
-  if (eq >= 72) return '72-77';
-  if (eq >= 64) return '64-67';
-  if (eq >= 57) return '57-63';
-  if (eq >= 51) return '51-60';
-  return '32-47';
+  if (eq >= 78) return 'A';   // 78–85  Premium pairs (AA–QQ)
+  if (eq >= 68) return 'B';   // 68–77  Strong pairs (99–JJ + TT)
+  if (eq >= 60) return 'C';   // 60–67  Broadway hands + big Ax
+  if (eq >= 52) return 'D';   // 52–59  Suited connectors + small pairs
+  if (eq >= 43) return 'E';   // 43–51  Weak suited / small offsuit
+  return 'F';                 // 32–42  Trash offsuit
 }
 
 // ── Build the full 169-hand database dynamically ──
@@ -1726,20 +1726,18 @@ function submitPrac() {
 
   // Q3: equity bucket grading
   const TIER_RANGES = {
-    '80-85':[80,85], '72-77':[72,77], '64-67':[64,67],
-    '57-63':[57,63], '51-60':[51,60], '32-47':[32,47]
+    'A':[78,99], 'B':[68,77], 'C':[60,67], 'D':[52,59], 'E':[43,51], 'F':[0,42]
   };
   const TIER_LABELS = {
-    '80-85':'80–85% — Premium pairs',
-    '72-77':'72–77% — Medium pairs',
-    '64-67':'64–67% — Strong broadways',
-    '57-63':'57–63% — Medium suited',
-    '51-60':'51–60% — Small pairs',
-    '32-47':'32–47% — Trash offsuit'
+    'A':'78–85% — Premium pairs',
+    'B':'68–77% — Strong pairs',
+    'C':'60–67% — Broadways & big Ax',
+    'D':'52–59% — Suited connectors',
+    'E':'43–51% — Weak suited / small pairs',
+    'F':'32–42% — Trash offsuit'
   };
-  const correctTier = Object.entries(TIER_RANGES).find(([,r]) => hand.eq >= r[0] && hand.eq <= r[1]);
-  const correctQ3   = correctTier ? correctTier[0] : '51-60';
-  const equityOk    = pracAnswers.q3 === correctQ3;
+  const correctQ3 = equityTier(hand.eq);
+  const equityOk  = pracAnswers.q3 === correctQ3;
 
   const score = [posOk,stackOk,equityOk,actionOk].filter(Boolean).length;
 
@@ -1754,8 +1752,8 @@ function submitPrac() {
         : `Stack is <strong>${bb} BB = ${correctBucket}</strong>. Divide chips by BB. &lt;20BB = push/fold; 20–40BB = limited; 40–80BB = standard; 80BB+ = full GTO.` },
     { ok:equityOk, label:'Equity Tier', user:TIER_LABELS[pracAnswers.q3]||pracAnswers.q3, correct:TIER_LABELS[correctQ3],
       explain: equityOk
-        ? `Correct — ${hand.label} is ~${hand.eq}% vs random, which falls in the ${TIER_LABELS[correctQ3]} tier.`
-        : `${hand.label} has <strong>~${hand.eq}%</strong> equity vs random — that's the <strong>${TIER_LABELS[correctQ3]}</strong> tier. ${hand.eq>=72?'Pairs AA–TT and strong broadways (AK/AQ) are the top two tiers.':hand.eq>=57?'Medium suited connectors and broadway hands sit in the middle tiers.':'Small pairs and suited connectors are speculative; unconnected offsuit hands are trash.'}` },
+        ? `Correct — ${hand.label} is ~${hand.eq}% vs random, which fits the ${TIER_LABELS[correctQ3]} tier.`
+        : `${hand.label} has <strong>~${hand.eq}%</strong> equity vs random — that puts it in the <strong>${TIER_LABELS[correctQ3]}</strong> tier. ${hand.eq>=68?'Premium/strong pairs dominate vs random hands.':hand.eq>=60?'Broadway hands and Ax suited have solid high-card equity.':hand.eq>=52?'Suited connectors and mid pairs have moderate equity with strong implied odds.':hand.eq>=43?'These hands are slight underdogs vs random — rely on playability, not raw equity.':'Unconnected offsuit trash — very low equity vs any hand.'}` },
     { ok:actionOk, label:'GTO Action', user:pracAnswers.q4, correct:correctQ4,
       explain: q4Explain(actionOk) },
   ];

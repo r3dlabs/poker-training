@@ -259,6 +259,26 @@
   .prac-setup { background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:20px; margin-bottom:16px; }
   .prac-deal-btn { width:100%; padding:13px; background:var(--accent); color:#fff; border:none; border-radius:6px; font-family:'Barlow Condensed',sans-serif; font-size:16px; font-weight:900; letter-spacing:.1em; text-transform:uppercase; cursor:pointer; transition:opacity .2s; }
   .prac-deal-btn:hover { opacity:.88; }
+
+  /* ── STREAK TRACKER ── */
+  .streak-board { display:grid; grid-template-columns:repeat(5,1fr); gap:6px; margin-bottom:16px; }
+  .streak-tile { background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:10px 8px 9px; text-align:center; transition:border-color .2s, background .2s; position:relative; overflow:hidden; }
+  .streak-tile.hot-3  { border-color:rgba(30,106,176,.5);  background:rgba(30,106,176,.06); }
+  .streak-tile.hot-5  { border-color:rgba(232,184,0,.6);   background:rgba(232,184,0,.07); }
+  .streak-tile.hot-10 { border-color:rgba(26,122,64,.6);   background:rgba(26,122,64,.08); }
+  [data-theme="dark"] .streak-tile.hot-3  { background:rgba(58,143,212,.08); }
+  [data-theme="dark"] .streak-tile.hot-5  { background:rgba(232,184,0,.07); }
+  [data-theme="dark"] .streak-tile.hot-10 { background:rgba(62,207,122,.08); }
+  .streak-tile-name { font-family:'Barlow Condensed',sans-serif; font-size:9px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); margin-bottom:6px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .streak-num { font-family:'Barlow Condensed',sans-serif; font-size:22px; font-weight:900; line-height:1; color:var(--text); margin-bottom:3px; transition:color .2s; }
+  .streak-tile.hot-3  .streak-num { color:var(--blue); }
+  .streak-tile.hot-5  .streak-num { color:var(--gold); }
+  .streak-tile.hot-10 .streak-num { color:var(--win); }
+  .streak-fire { font-size:11px; line-height:1; margin-bottom:3px; min-height:14px; }
+  .streak-acc { font-family:'Barlow Condensed',sans-serif; font-size:10px; color:var(--muted); letter-spacing:.04em; }
+  .streak-acc span { color:var(--text); font-weight:700; }
+  .streak-flash { animation: streakFlash .4s ease-out; }
+  @keyframes streakFlash { 0%{transform:scale(1.18)} 100%{transform:scale(1)} }
   .prac-scenario { display:none; }
   .prac-scenario.show { display:block; }
 
@@ -867,6 +887,40 @@
 <div id="practice" class="section">
   <div class="sec-label">GTO Pre-Flop Practice &mdash; Train Your Awareness</div>
 
+  <!-- Streak board -->
+  <div class="streak-board" id="streakBoard">
+    <div class="streak-tile" id="st-0">
+      <div class="streak-tile-name">Position</div>
+      <div class="streak-fire" id="sf-0"></div>
+      <div class="streak-num" id="sn-0">0</div>
+      <div class="streak-acc" id="sa-0">0 / 0</div>
+    </div>
+    <div class="streak-tile" id="st-1">
+      <div class="streak-tile-name">Stack</div>
+      <div class="streak-fire" id="sf-1"></div>
+      <div class="streak-num" id="sn-1">0</div>
+      <div class="streak-acc" id="sa-1">0 / 0</div>
+    </div>
+    <div class="streak-tile" id="st-2">
+      <div class="streak-tile-name">Equity</div>
+      <div class="streak-fire" id="sf-2"></div>
+      <div class="streak-num" id="sn-2">0</div>
+      <div class="streak-acc" id="sa-2">0 / 0</div>
+    </div>
+    <div class="streak-tile" id="st-3">
+      <div class="streak-tile-name">Action</div>
+      <div class="streak-fire" id="sf-3"></div>
+      <div class="streak-num" id="sn-3">0</div>
+      <div class="streak-acc" id="sa-3">0 / 0</div>
+    </div>
+    <div class="streak-tile" id="st-4">
+      <div class="streak-tile-name">Sizing</div>
+      <div class="streak-fire" id="sf-4"></div>
+      <div class="streak-num" id="sn-4">0</div>
+      <div class="streak-acc" id="sa-4">0 / 0</div>
+    </div>
+  </div>
+
   <div class="prac-setup">
     <p style="font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:14px;">
       You'll be dealt random hole cards and placed in a random seat. Identify your position, stack depth, equity estimate, and the GTO-correct action. Instant feedback after each hand.
@@ -1345,6 +1399,45 @@ function parseHand(label) {
 let pracState = {};
 const pracAnswers = {q1:null, q2:null, q3:null, q4:null, q5:null};
 
+// ── STREAK STATE ──
+const streakState = [
+  {streak:0, correct:0, total:0}, // Q1 Position
+  {streak:0, correct:0, total:0}, // Q2 Stack
+  {streak:0, correct:0, total:0}, // Q3 Equity
+  {streak:0, correct:0, total:0}, // Q4 Action
+  {streak:0, correct:0, total:0}, // Q5 Sizing
+];
+
+function updateStreak(idx, isCorrect) {
+  const s = streakState[idx];
+  s.total++;
+  if (isCorrect) { s.correct++; s.streak++; }
+  else           { s.streak = 0; }
+
+  const tile = document.getElementById('st-'+idx);
+  const numEl = document.getElementById('sn-'+idx);
+  const accEl = document.getElementById('sa-'+idx);
+  const fireEl= document.getElementById('sf-'+idx);
+
+  numEl.textContent = s.streak;
+  const pct = s.total ? Math.round(s.correct/s.total*100) : 0;
+  accEl.innerHTML = `<span>${s.correct}</span>/${s.total} &nbsp;${pct}%`;
+
+  // Heat classes
+  tile.classList.remove('hot-3','hot-5','hot-10');
+  if      (s.streak >= 10) { tile.classList.add('hot-10'); fireEl.textContent='🔥🔥🔥'; }
+  else if (s.streak >= 5)  { tile.classList.add('hot-5');  fireEl.textContent='🔥🔥'; }
+  else if (s.streak >= 3)  { tile.classList.add('hot-3');  fireEl.textContent='🔥'; }
+  else                     { fireEl.textContent=''; }
+
+  // Flash animation on correct
+  if (isCorrect) {
+    numEl.classList.remove('streak-flash');
+    void numEl.offsetWidth; // reflow to restart animation
+    numEl.classList.add('streak-flash');
+  }
+}
+
 function dealScenario() {
   pracAnswers.q1=null; pracAnswers.q2=null; pracAnswers.q3=null; pracAnswers.q4=null; pracAnswers.q5=null;
   document.querySelectorAll('.opt-btn').forEach(b=>b.classList.remove('sel'));
@@ -1499,6 +1592,9 @@ function submitPrac() {
             ? `Correct raise is <strong>$${correctChips.toLocaleString()}</strong> (${correctAction.replace('Raise ','')} × $${fullBB} BB). ${betSizeReason(correctAction,pos,fullBB,correctChips)}`
             : `GTO action is ${correctAction} — no bet goes in.`) },
   ];
+
+  // Update streaks
+  [posOk, stackOk, equityOk, actionOk, betOk].forEach((ok, i) => updateStreak(i, ok));
 
   let grade, icon, title;
   if (score===5)      { grade='pass';    icon='✅'; title='Perfect — 5/5 Correct'; }

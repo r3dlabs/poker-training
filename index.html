@@ -257,11 +257,17 @@
 
   /* ── PRACTICE ── */
   .prac-setup { background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:20px; margin-bottom:16px; }
-  .prac-deal-btn { width:100%; padding:13px; background:var(--accent); color:#fff; border:none; border-radius:6px; font-family:'Barlow Condensed',sans-serif; font-size:16px; font-weight:900; letter-spacing:.1em; text-transform:uppercase; cursor:pointer; transition:opacity .2s; }
+  .prac-btn-row { display:flex; gap:8px; }
+  .prac-deal-btn { flex:1; padding:13px; background:var(--accent); color:#fff; border:none; border-radius:6px; font-family:'Barlow Condensed',sans-serif; font-size:16px; font-weight:900; letter-spacing:.1em; text-transform:uppercase; cursor:pointer; transition:opacity .2s; }
   .prac-deal-btn:hover { opacity:.88; }
+  .prac-clear-btn { padding:13px 16px; background:transparent; color:var(--muted); border:1px solid var(--border); border-radius:6px; font-family:'Barlow Condensed',sans-serif; font-size:13px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; cursor:pointer; transition:all .2s; white-space:nowrap; }
+  .prac-clear-btn:hover { border-color:var(--muted); color:var(--text); }
+
+  /* Sticky streak bar */
+  .streak-sticky { position:sticky; top:57px; z-index:90; background:var(--bg); padding:8px 0 10px; margin-bottom:8px; border-bottom:1px solid var(--border); transition:background .25s, border-color .25s; }
 
   /* ── STREAK TRACKER ── */
-  .streak-board { display:grid; grid-template-columns:repeat(5,1fr); gap:6px; margin-bottom:16px; }
+  .streak-board { display:grid; grid-template-columns:repeat(5,1fr); gap:6px; }
   .streak-tile { background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:10px 8px 9px; text-align:center; transition:border-color .2s, background .2s; position:relative; overflow:hidden; }
   .streak-tile.hot-3  { border-color:rgba(30,106,176,.5);  background:rgba(30,106,176,.06); }
   .streak-tile.hot-5  { border-color:rgba(232,184,0,.6);   background:rgba(232,184,0,.07); }
@@ -887,37 +893,39 @@
 <div id="practice" class="section">
   <div class="sec-label">GTO Pre-Flop Practice &mdash; Train Your Awareness</div>
 
-  <!-- Streak board -->
-  <div class="streak-board" id="streakBoard">
-    <div class="streak-tile" id="st-0">
-      <div class="streak-tile-name">Position</div>
-      <div class="streak-fire" id="sf-0"></div>
-      <div class="streak-num" id="sn-0">0</div>
-      <div class="streak-acc" id="sa-0">0 / 0</div>
-    </div>
-    <div class="streak-tile" id="st-1">
-      <div class="streak-tile-name">Stack</div>
-      <div class="streak-fire" id="sf-1"></div>
-      <div class="streak-num" id="sn-1">0</div>
-      <div class="streak-acc" id="sa-1">0 / 0</div>
-    </div>
-    <div class="streak-tile" id="st-2">
-      <div class="streak-tile-name">Equity</div>
-      <div class="streak-fire" id="sf-2"></div>
-      <div class="streak-num" id="sn-2">0</div>
-      <div class="streak-acc" id="sa-2">0 / 0</div>
-    </div>
-    <div class="streak-tile" id="st-3">
-      <div class="streak-tile-name">Action</div>
-      <div class="streak-fire" id="sf-3"></div>
-      <div class="streak-num" id="sn-3">0</div>
-      <div class="streak-acc" id="sa-3">0 / 0</div>
-    </div>
-    <div class="streak-tile" id="st-4">
-      <div class="streak-tile-name">Sizing</div>
-      <div class="streak-fire" id="sf-4"></div>
-      <div class="streak-num" id="sn-4">0</div>
-      <div class="streak-acc" id="sa-4">0 / 0</div>
+  <!-- Sticky streak bar -->
+  <div class="streak-sticky" id="streakSticky">
+    <div class="streak-board" id="streakBoard">
+      <div class="streak-tile" id="st-0">
+        <div class="streak-tile-name">Position</div>
+        <div class="streak-fire" id="sf-0"></div>
+        <div class="streak-num" id="sn-0">0</div>
+        <div class="streak-acc" id="sa-0">0 / 0</div>
+      </div>
+      <div class="streak-tile" id="st-1">
+        <div class="streak-tile-name">Stack</div>
+        <div class="streak-fire" id="sf-1"></div>
+        <div class="streak-num" id="sn-1">0</div>
+        <div class="streak-acc" id="sa-1">0 / 0</div>
+      </div>
+      <div class="streak-tile" id="st-2">
+        <div class="streak-tile-name">Equity</div>
+        <div class="streak-fire" id="sf-2"></div>
+        <div class="streak-num" id="sn-2">0</div>
+        <div class="streak-acc" id="sa-2">0 / 0</div>
+      </div>
+      <div class="streak-tile" id="st-3">
+        <div class="streak-tile-name">Action</div>
+        <div class="streak-fire" id="sf-3"></div>
+        <div class="streak-num" id="sn-3">0</div>
+        <div class="streak-acc" id="sa-3">0 / 0</div>
+      </div>
+      <div class="streak-tile" id="st-4">
+        <div class="streak-tile-name">Sizing</div>
+        <div class="streak-fire" id="sf-4"></div>
+        <div class="streak-num" id="sn-4">0</div>
+        <div class="streak-acc" id="sa-4">0 / 0</div>
+      </div>
     </div>
   </div>
 
@@ -925,7 +933,10 @@
     <p style="font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:14px;">
       You'll be dealt random hole cards and placed in a random seat. Identify your position, stack depth, equity estimate, and the GTO-correct action. Instant feedback after each hand.
     </p>
-    <button class="prac-deal-btn" onclick="dealScenario()">&#9824; Deal Me In</button>
+    <div class="prac-btn-row">
+      <button class="prac-deal-btn" onclick="dealScenario()">&#9824; Deal Me In</button>
+      <button class="prac-clear-btn" onclick="clearSession()">&#8635; New Session</button>
+    </div>
   </div>
 
   <div class="prac-scenario" id="pracScenario">
@@ -1423,19 +1434,35 @@ function updateStreak(idx, isCorrect) {
   const pct = s.total ? Math.round(s.correct/s.total*100) : 0;
   accEl.innerHTML = `<span>${s.correct}</span>/${s.total} &nbsp;${pct}%`;
 
-  // Heat classes
   tile.classList.remove('hot-3','hot-5','hot-10');
   if      (s.streak >= 10) { tile.classList.add('hot-10'); fireEl.textContent='🔥🔥🔥'; }
   else if (s.streak >= 5)  { tile.classList.add('hot-5');  fireEl.textContent='🔥🔥'; }
   else if (s.streak >= 3)  { tile.classList.add('hot-3');  fireEl.textContent='🔥'; }
   else                     { fireEl.textContent=''; }
 
-  // Flash animation on correct
   if (isCorrect) {
     numEl.classList.remove('streak-flash');
-    void numEl.offsetWidth; // reflow to restart animation
+    void numEl.offsetWidth;
     numEl.classList.add('streak-flash');
   }
+}
+
+function clearSession() {
+  streakState.forEach((s,i) => {
+    s.streak=0; s.correct=0; s.total=0;
+    document.getElementById('sn-'+i).textContent = '0';
+    document.getElementById('sa-'+i).innerHTML   = '0 / 0';
+    document.getElementById('sf-'+i).textContent = '';
+    const tile = document.getElementById('st-'+i);
+    tile.classList.remove('hot-3','hot-5','hot-10');
+  });
+  // Also reset the current hand state
+  pracAnswers.q1=null; pracAnswers.q2=null; pracAnswers.q3=null; pracAnswers.q4=null; pracAnswers.q5=null;
+  document.querySelectorAll('.opt-btn').forEach(b=>b.classList.remove('sel'));
+  document.getElementById('pracResult').className='prac-result';
+  document.getElementById('pracScenario').classList.remove('show');
+  const calcEl = document.getElementById('q5calc');
+  if (calcEl) calcEl.style.display='none';
 }
 
 function dealScenario() {
